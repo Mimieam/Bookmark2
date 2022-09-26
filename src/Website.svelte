@@ -23,13 +23,12 @@
       border-radius: 2px;
       margin-left: 20px;
       @apply text-cyan-700;
-      border-bottom: 2px solid inherit;
       /* padding: 4px; */
   }
   span:hover {
     border-bottom: 2px solid var(--main-color);
-    border-bottom-right-radius: 1px;
-    border-bottom-left-radius: 1px;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
 }
 
 </style>

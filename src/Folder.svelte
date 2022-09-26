@@ -104,7 +104,7 @@
 <ul
   bind:this={el}
   data-id={id}
-  class={`${expanded? 'show': 'hide'} w-full no-drag`}
+  class={`${expanded? 'show': 'hide'} w-full`}
 >
   {#each files as file}
     <li draggable="true" class="tab" data-id={file.id}>
@@ -114,9 +114,9 @@
           <Website {...file} name={`${file.name} (Level-${depth})`}/>
       {/if}
     </li>
-    <!-- {#if file.files}
+    {#if file.files}
     <div class="divider"></div>
-    {/if} -->
+    {/if}
     {/each}
   </ul>
   <div class="divider"></div>
@@ -124,18 +124,18 @@
 
 <style>
   .tab {
-  user-select: "none";
-  padding: 4px;
-  margin: 0 0 1px 0;
-  font: 1em;
-  background:var(--accent);
-  color:var(--accent-content);
-  border-radius: 2px;
-  display: block;
-}
-.tab.isDragging {
-  background: var(--main-color);
-}
+    user-select: "none";
+    padding: 4px;
+    margin: 0 0 1px 0;
+    font: 1em;
+    background:var(--accent);
+    color:var(--accent-content);
+    border-radius: 2px;
+    display: block;
+  }
+  .tab.isDragging {
+    background: var(--main-color);
+  }
 
     span {
         padding: 0 0 0 0.11em;

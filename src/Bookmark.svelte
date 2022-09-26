@@ -1,5 +1,11 @@
 <script>
   import Folder from './Folder.svelte';
+  import { onMount } from 'svelte'
+
+  import { Racine } from './nodes'
+//   onMount(() => {
+      new Racine()
+//   })
 
   let root = [
       {
@@ -41,7 +47,8 @@
       { name: 'tabsorter2.com', id: 'n16' }
   ];
 
+    const tree = new Racine(root)
 </script>
 
 
-<Folder name="Bookmarks" files={root} id='root'  expanded/>
+<Folder name="Bookmarks" files={tree.root} id='root'  expanded/>

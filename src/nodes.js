@@ -36,7 +36,7 @@ let root = [
 
 
 
-class Racine {
+export class Racine {
   constructor(root){
     this.root = root
     this.total_nodes = 0
