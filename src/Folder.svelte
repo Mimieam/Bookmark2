@@ -5,6 +5,12 @@
   import { onMount } from "svelte";
   import { recursiveCount } from "./utils"
 
+  // import { treeState } from './components/store/index'
+  // treeState.subscribe(value => { tree = value })
+
+
+
+
   let el;
   onMount(
     async function () {
@@ -44,13 +50,18 @@
           console.log(evt.item.dataset.id, 'datasetID'); // element's new index within parent
           console.log(evt.to.dataset.id, 'evt.to'); // element's new index within parent
 
-          var itemEl = evt.item;  // dragged HTMLElement
-          console.log(evt.to)
-          console.log(evt.from)
-          console.log(evt.oldIndex)
-          console.log(evt.newIndex)
-          console.log(evt.clone)
-          console.log(evt.pullMode)
+          let itemEl = evt.item;  // dragged HTMLElement
+          // console.log(evt.to)
+          // console.log(evt.from)
+          // console.log(evt.oldIndex)
+          // console.log(evt.newIndex)
+          // console.log(evt.clone)
+          // console.log(evt.pullMode)
+          const src_el = evt.item.getAttribute('data-id')
+          const to =  evt.to.getAttribute('data-id')
+
+          console.log("tree", tree)
+          tree.move(src_el, to)
 
 
           // var order = sortable.toArray();
@@ -77,50 +88,62 @@
 
   export let expanded = false;
   export let name=null;
-  export let files;
+  export let children;
+  export let tree;
   export let id;
-  export let depth=0;
+  export let depth;
+
+  $: depth=depth || 0 ;
 
   function toggle() {
       expanded = !expanded;
   }
   $: arrowDown = expanded
 
+  export let level = 0;
+  export let maxLevel;
+
+
+// $: dropFromOthersDisabled = level + $depthOfDragged >= maxLevel;
+
+function calcInnerDepth(item, iteration = 0) {
+	if (!item.children.length) return iteration;
+	iteration++;
+	return Math.max(...item.children.map(i => calcInnerDepth(i, iteration)));
+}
+
 
 </script>
+
+<!-- ERROR - ul and Li are getting the same data-id... -->
+<!-- {@debug tree, el} -->
 
 
 <span class:expanded on:click={toggle}>
   <span class="arrow" class:arrowDown>&#x25b6</span>
   {name}
 </span>
-<!-- <button/>
-<button/>
-<button/> -->
 
 
-<!-- {#if expanded} -->
-<!-- data-id={`UL_${name}_${window.crypto.randomUUID()}`} -->
 <ul
   bind:this={el}
   data-id={id}
   class={`${expanded? 'show': 'hide'} w-full`}
 >
-  {#each files as file}
-    <li draggable="true" class="tab" data-id={file.id}>
-      {#if file.files}
-          <svelte:self {...file} name={`${file.name} (Level-${depth}) (${recursiveCount(file.files)})`} depth={depth+1}/>
+  {#each children as node}
+    <li draggable="true" class="tab" data-id={node.id}>
+      {#if node.children}
+          <svelte:self {...node} name={`${node.name}  [${node.id}]  (Level-${depth}) (${recursiveCount(node.children)})`} depth={depth+1} tree={tree}/>
       {:else}
-          <Website {...file} name={`${file.name} (Level-${depth})`}/>
+          <Website {...node} name={`${node.name}  [${node.id}]  (Level-${depth})`} tree={tree}/>
       {/if}
     </li>
-    {#if file.files}
+    <!-- {#if node.children}
     <div class="divider"></div>
-    {/if}
+    {/if} -->
     {/each}
   </ul>
-  <div class="divider"></div>
-<!-- {/if} -->
+  <!-- <div class="divider"></div> -->
 
 <style>
   .tab {
@@ -144,7 +167,6 @@
         font-weight: bold;
         cursor: pointer;
         /* padding: 4px; */
-
     }
 
     .expanded {

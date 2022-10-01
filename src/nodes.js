@@ -1,7 +1,7 @@
 let root = [
   {
       name: 'News',
-      items: [
+      children: [
           { name: 'https://cnn.com' },
           { name: 'https://msnbc.com' },
           { name: 'https://DW.com' }
@@ -9,10 +9,10 @@ let root = [
   },
   {
       name: 'Folder 2',
-      items: [
+      children: [
           {
               name: 'Folder 2.1',
-              items: [
+              children: [
                   { name: 'https://google.com' },
                   { name: 'https://yahoo.com' },
                   { name: 'https://bing.com' },
@@ -21,7 +21,7 @@ let root = [
           },
           {
               name: 'Folder 2.2',
-              items: [
+              children: [
                   { name: 'apple.com' },
                   { name: 'amazon.com' }
               ]
@@ -37,26 +37,28 @@ let root = [
 
 
 export class Racine {
-  constructor(root){
+  constructor(root, id_prefix='node'){
     this.root = root
+    this.id_prefix = id_prefix
     this.total_nodes = 0
     this.nodes = {
-      node0: {id: 'node0'},
+      [`${this.id_prefix}0`]: {id:`${this.id_prefix}0`},
     }
     this.mapping = {}
   }
 
   build = (root, parent_id = 0) => {
+    console.log(root, parent_id)
     // ok ok... this will need to be revised in a future version
     return root.map(n => {
-      this.mapping = {...this.mapping, ...{[`node${ this.total_nodes }`]: n.name}}
+      // this.mapping = {...this.mapping, ...{[`node${ this.total_nodes }`]: n.name}}
       this.total_nodes = this.total_nodes + 1
       const res = {
-        [`node${ this.total_nodes }`]: {
-          parent_id: `node${parent_id }`,
-          id:`node${this.total_nodes }`,
-          children: (n && n.items) ? this.build(n.items, this.total_nodes) : [],
-          // name: n.name,
+        [`${this.id_prefix}${ this.total_nodes }`]: {
+          parent_id: `${this.id_prefix}${parent_id }`,
+          id:`${this.id_prefix}${this.total_nodes }`,
+          children: (n && n.children) ? this.build(n.children, this.total_nodes) : [],
+          name: n.name,
         }
       }
       this.nodes = {...this.nodes, ...res}
@@ -66,9 +68,16 @@ export class Racine {
 
   move = (sourceNodeID, destinationNodeID) => {
     let _parent = this.nodes[this.nodes[sourceNodeID].parent_id]
-    _parent.children = _parent.children?.filter(c => !(sourceNodeID in c))
-    this.nodes[sourceNodeID].parent_id = destinationNodeID
+    if (_parent) {
+      _parent.children = _parent.children?.filter(c => !(sourceNodeID in c))
+      this.nodes[sourceNodeID].parent_id = destinationNodeID
+    }
     return this.nodes
+  }
+
+  get_root = (name_only = true) => {
+    let root_name = `${this.id_prefix}0`
+    return name_only? root_name: this.nodes[root_name]
   }
 
   get_children = (node) => {
@@ -76,7 +85,13 @@ export class Racine {
   }
 
   save = () => {
-    return JSON.stringify(r.nodes)
+    return JSON.stringify(this.root)
+  }
+
+  get_depth(item, iteration = 0) {
+    if (!item.children.length) return iteration;
+    iteration++;
+    return Math.max(...item.children.map(i => this.get_depth(i, iteration)));
   }
 
   print = (n) => {
