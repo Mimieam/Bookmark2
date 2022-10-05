@@ -23,30 +23,32 @@
           name: 'Folder 2',
           children: [
               {
-                  id: 'n17',
+                  id: 'n6',
                   name: 'Folder 2.1',
                   children: [
-                      { name: 'https://google.com', id:'n6' },
-                      { name: 'https://yahoo.com', id:'n7' },
-                      { name: 'https://bing.com', id:'n8' },
-                      { name: 'https://msn.com', id:'n9' },
+                      { name: 'https://google.com', id:'n7' },
+                      { name: 'https://yahoo.com', id:'n8' },
+                      { name: 'https://bing.com', id:'n9' },
+                      { name: 'https://msn.com', id:'n10' },
                   ]
               },
               {
-                  id:'n10',
+                  id:'n11',
                   name: 'Folder 2.2',
                   children: [
-                      { name: 'apple.com', id: 'n11' },
-                      { name: 'amazon.com', id: 'n12' }
+                      { name: 'apple.com', id: 'n12' },
+                      { name: 'amazon.com', id: 'n13' }
                   ]
               },
-              { name: 'zillow.com', id: 'n13' },
-              { name: 'alsjdf.com', id: 'n14' },
-              { name: 'somerandomwebsite.com', id: 'n15' },
+              { name: 'zillow.com', id: 'n14' },
+              { name: 'alsjdf.com', id: 'n15' },
+              { name: 'somerandomwebsite.com', id: 'n16' },
           ]
       },
-      { name: 'tabsorter2.com', id: 'n16' }
+      { name: 'tabsorter2.com', id: 'n17' }
   ];
+
+    // root = localStorage.getItem('bookmark_racine') || root
 
     const tree = new Racine(root, 'n')
     // treeState.subscribe(value => { tree = value })

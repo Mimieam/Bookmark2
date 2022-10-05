@@ -2,13 +2,16 @@
   export let name=null;
   export let url=null;
   export let id=null;
+  export let depth=null;
+  // export let tree=null;
+
   url = url || name
-  // export let title=null;
-  // export let icon=null;
-  $: type = url.slice(url.lastIndexOf('.') + 1);
+  // $: type = 'favicon' || url.slice(url.lastIndexOf('.') + 1);
+
 </script>
 
-<span id={id} style="background-image: url(assets/icons/{type}.svg)">{url}</span>
+<span id={id}>{url} {depth}</span>
+<!-- <span id={id} style="background-image: url(assets/icons/{type}.svg)">{url}</span> -->
 
 <style>
   span {

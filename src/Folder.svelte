@@ -10,7 +10,7 @@
 
 
 
-
+  let this_node = [1,2,3];
   let el;
   onMount(
     async function () {
@@ -32,7 +32,7 @@
            */
           get: function (sortable) {
             var order = localStorage.getItem(sortable.options.group.name);
-            console.log(order)
+            console.log("order ==>", order)
             return order ? order.split('|') : [];
           },
 
@@ -59,9 +59,13 @@
           // console.log(evt.pullMode)
           const src_el = evt.item.getAttribute('data-id')
           const to =  evt.to.getAttribute('data-id')
+          console.log(src_el, to)
 
           console.log("tree", tree)
-          tree.move(src_el, to)
+          console.log("this_node", this_node)
+          tree.move(src_el, to, evt.newIndex)
+          console.log(src_el, tree.nodes[src_el])
+          localStorage.setItem('bookmark_racine', tree.root)
 
 
           // var order = sortable.toArray();
@@ -82,7 +86,6 @@
         //   console.log(itemEl, 'onSort');
         // },
       });
-      console.log('OnMount Called')
     }
   );
 
@@ -100,8 +103,8 @@
   }
   $: arrowDown = expanded
 
-  export let level = 0;
-  export let maxLevel;
+  // export let level = 0;
+  // export let maxLevel;
 
 
 // $: dropFromOthersDisabled = level + $depthOfDragged >= maxLevel;
@@ -112,6 +115,9 @@ function calcInnerDepth(item, iteration = 0) {
 	return Math.max(...item.children.map(i => calcInnerDepth(i, iteration)));
 }
 
+const get_depth = () => {
+  tree.get_depth()
+}
 
 </script>
 
@@ -135,7 +141,7 @@ function calcInnerDepth(item, iteration = 0) {
       {#if node.children}
           <svelte:self {...node} name={`${node.name}  [${node.id}]  (Level-${depth}) (${recursiveCount(node.children)})`} depth={depth+1} tree={tree}/>
       {:else}
-          <Website {...node} name={`${node.name}  [${node.id}]  (Level-${depth})`} tree={tree}/>
+          <Website {...node} name={`${node.name}  [${node.id}]  (Level-${depth})`} depth={depth}/>
       {/if}
     </li>
     <!-- {#if node.children}
@@ -162,7 +168,7 @@ function calcInnerDepth(item, iteration = 0) {
 
     span {
         padding: 0 0 0 0.11em;
-        background: url(/assets/icons/folder.svg) 0 0.1em no-repeat;
+        /* background: url(/assets/icons/folder.svg) 0 0.1em no-repeat; */
         background-size: 1em 1em;
         font-weight: bold;
         cursor: pointer;
@@ -170,7 +176,7 @@ function calcInnerDepth(item, iteration = 0) {
     }
 
     .expanded {
-        background-image: url(/assets/icons/folder-open.svg);
+        /* background-image: url(/assets/icons/folder-open.svg); */
         @apply border-slate-500
     }
 
