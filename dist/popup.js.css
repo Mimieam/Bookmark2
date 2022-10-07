@@ -1,0 +1,284 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	color: #333;
+	margin: 0;
+	padding: 8px;
+	box-sizing: border-box;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+a {
+	color: rgb(0,100,200);
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:visited {
+	color: rgb(0,80,160);
+}
+
+label {
+	display: block;
+}
+
+input, button, select, textarea {
+	font-family: inherit;
+	font-size: inherit;
+	-webkit-padding: 0.4em 0;
+	padding: 0.4em;
+	margin: 0 0 0.5em 0;
+	box-sizing: border-box;
+	border: 1px solid #ccc;
+	border-radius: 2px;
+}
+
+input:disabled {
+	color: #ccc;
+}
+
+button {
+	color: #333;
+	background-color: #f4f4f4;
+	outline: none;
+}
+
+button:disabled {
+	color: #999;
+}
+
+button:not(:disabled):active {
+	background-color: #ddd;
+}
+
+button:focus {
+	border-color: #666;
+}
+/*
+@tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
+/* @import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities"; */
+
+/*
+popup body is regulated by this css body...
+anything above 800px and 600px width is ignored...
+*/
+
+
+
+/***************************************************************
+**************************** Theme *****************************
+****************************************************************/
+:root {
+  --main-color: #a5ffd6;
+  --accent-color: #6d6875;
+  --text-color: #ecf0f1;
+  --alternative-text-color: #a0aec0;
+  --background-color: #4a4e69;
+  --text-size: 15px;
+  --icon-size: 27px;
+  --button-height:35px;
+  --button-radius: 15px;
+}
+
+/* html { overflow-y: scroll } */
+
+/* .lightTheme,
+.lightTheme .ts_theme {
+  --main-color: #95a5a6;
+  --accent-color: #7f8c8d;
+  --text-color: #ecf0f1;
+  --background-color: #FFF;
+  --background-color: aliceblue;
+  --text-size: 15px;
+  --icon-size: 27px;
+  --button-height:35px;
+}
+
+.darkTheme,
+.darkTheme .ts_theme {
+  --main-color: #566B7A;
+  --accent-color: #3B4A54;
+  --text-color: #A1B1B3;
+  --background-color: #4D606C;
+  --text-size: 15px;
+  --icon-size: 27px;
+  --button-height: 40px;
+} */
+
+html, body {
+  background: var(--background-color);
+  font-size: var(--text-size);
+  height: 100%;
+  @apply bg-gray-900;
+}
+
+
+body {
+  /* align-items: center; */
+  /* display: flex; */
+  /* flex-grow: 2; */
+  /* flex-basis: 0%; */
+  /* color: #f8edeb; */
+  /* padding: 0 5px; */
+  font-size: 30px;
+  /* color: tomato; */
+  font: 20px "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+html {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar {
+  display: none;
+}
+
+#app{
+  width: 100vw;
+  max-width: 100%;
+}
+
+.card {
+  overflow: scroll;
+  width: -webkit-fill-available;
+  max-width: -webkit-fill-available;
+  height: -webkit-fill-available;
+  max-height: -webkit-fill-available;
+}
+
+.windowColumn{
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2.8em;
+}
+
+.windowTitle {
+  align-self: flex-end;
+  font-size: small;
+  margin-bottom: -10px;
+  margin-right: 5px;
+  background: var(--background-color);
+  padding: 1px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+}
+
+.resizeThis {
+  resize: both;
+  max-height: 400px;
+  margin-right: 10px;
+  overflow:scroll;
+}
+
+.tab {
+  user-select: "none";
+  /* padding: 4px; */
+  margin: 0 0 1px 0;
+  font: 1em;
+  background:var(--accent-color);
+  border-radius: 2px;
+}
+.tab div {
+  background: var(--accent-color)
+}
+
+.tab.isDragging {
+  background: var(--main-color);
+}
+
+.wrapper{
+  /* @apply border-solid border-l-4 rounded-lg my-2; */
+  padding: 2px;
+  width: 100%;
+  margin-bottom: 5px;
+  background:var(--background-color);
+  border-bottom-right-radius: 4px;
+  border-top-right-radius: 4px;
+  border-color: var(--main-color);
+  border-radius: 0.15em;
+}
+
+.wrapper.isDragging {
+  background: var(--main-color);
+}
+
+.appHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    justify-items: baseline;
+    align-items: baseline;
+
+    position: fixed;
+    /* background: var(--background-color); */
+    width: 100%;
+}
+
+.appWrapper {
+  display: flex;
+  flex-direction: column;
+}
+:root{
+    --primary: #556273;           /* Primary color */
+    --primary-focus: #69788C;     /* Primary color - focused */
+    --primary-content: #ffffff;   /* Foreground content color to use on primary color */
+
+    --secondary: #f3cc30;         /* Secondary color */
+    --secondary-focus: #A68811;   /* Secondary color - focused */
+    --secondary-content: #ffffff; /* Foreground content color to use on secondary color */
+
+    --accent: #37cdbe;            /* Accent color */
+    --accent-focus: #2aa79b;      /* Accent color - focused */
+    --accent-content: #434343;    /* Foreground content color to use on accent color */
+
+    --neutral: #3d4451;           /* Neutral color */
+    --neutral-focus: #2a2e37;     /* Neutral color - focused */
+    --neutral-content: #ffffff;   /* Foreground content color to use on neutral color */
+
+    --base-100: #ffffff;          /* Base color of page, used for blank backgrounds */
+    --base-200: #f9fafb;          /* Base color, a little darker */
+    --base-300: #d1d5db;          /* Base color, even more darker */
+    --base-content: #1f2937;      /* Foreground content color to use on base color */
+
+    /* --base-color-hs: 153, 100%;
+    --base-color: hsl(var(--base-color-hs), 50%);
+    --base-color-light: hsl(var(--base-color-hs), 85%);
+    --base-color-dark: hsl(var(--base-color-hs), 20%);
+    --base-color-translucent: hsla(var(--base-color-hs), 50%, .5); */
+
+    --info: #2094f3;              /* Info */
+    --success: #009485;           /* Success */
+    --warning: #ff9900;           /* Warning */
+    --error: #ff5724;             /* Error */
+
+    --rounded-box: 1rem;        /* border-radius for cards and other big elements */
+    --rounded-btn: 0.20rem;      /* border-radius for buttons and similar elements */
+    --rounded-badge: 1.9rem;    /* border-radius for badge and other small elements */
+    --animation-btn: 0.25s;     /* bounce animation time for button */
+    --animation-input: .2s;     /* bounce animation time for checkbox, toggle, etc */
+    --padding-card: 2rem;       /* default card-body padding */
+    --btn-text-case: uppercase; /* default text case for buttons */
+    --navbar-padding: .5rem;    /* default padding for navbar */
+    --border-btn: 1px;          /* default border size for button */
+    --focus-ring: 2px;          /* focus ring size for button and inputs */
+    --focus-ring-offset: 2px;   /* focus ring offset size for button and inputs */
+}
+
+/*# sourceMappingURL=popup.js.css.map*/

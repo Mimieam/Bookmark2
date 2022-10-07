@@ -1,0 +1,32 @@
+{
+  "name": "__MSG_appName__",
+  "version": "0.0.1",
+  "manifest_version": 3,
+  "description": "__MSG_appDescription__",
+  "offline_enabled": true,
+  "icons": {
+    "16": "assets/icon-16.png",
+    "128": "assets/icon-128.png"
+  },
+  "default_locale": "en",
+  "permissions": [
+    "bookmarks",
+    "storage",
+    "tabs"
+  ],
+  "optional_permissions": [
+    "downloads",
+    "system.display"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "action": {
+    "default_icon": {
+      "19": "assets/icon-19.png",
+      "38": "assets/icon-38.png"
+    },
+    "default_title": "Bookmark2",
+    "default_popup": "popup.html"
+  }
+}
