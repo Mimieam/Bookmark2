@@ -20,15 +20,21 @@
   "homepage": "https://github.com/Mimieam/Bookmark2#readme",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack",
-    "dev": "webpack serve --content-base public",
+    "dev": " webpack serve --content-base dist --progress --stats-error-details --stats-children",
     "start": "npm run dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.12",
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^11.0.0",
     "cross-env": "^7.0.3",
     "css-loader": "^5.0.1",
     "daisyui": "^2.31.0",
+    "esbuild-loader": "^2.20.0",
+    "file-loader": "^6.2.0",
+    "html-loader": "^4.2.0",
+    "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^1.3.4",
     "postcss": "^8.4.16",
     "postcss-load-config": "^4.0.1",
@@ -41,6 +47,7 @@
     "theme-change": "^2.2.0",
     "webextension-polyfill": "^0.10.0",
     "webpack": "^5.16.0",
+    "webpack-bundle-analyzer": "^4.6.1",
     "webpack-cli": "^4.4.0",
     "webpack-dev-server": "^3.11.2"
   }

@@ -17,7 +17,7 @@ module.exports = {
     ],
     "rules": {
       // Indent with 4 spaces
-      // "indent": ["error", 4],
+      "indent": ["error", 4],
        "no-unused-expressions": ["error", { "allowShortCircuit": true }],
       "comma-dangle": ["error", "never"],
       camelcase:0,
