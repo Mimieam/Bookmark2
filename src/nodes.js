@@ -52,10 +52,8 @@ export class Racine {
   }
   // dfs
   build = (root, parent_id = 0) => {
-    console.log(root, parent_id)
     // ok ok... this will need to be revised in a future version
     return root.map(n => {
-      // this.mapping = {...this.mapping, ...{[`node${ this.total_nodes }`]: n.name}}
       this.total_nodes = this.total_nodes + 1
       const res = {
         [`${this.id_prefix}${ this.total_nodes }`]: {
@@ -72,9 +70,10 @@ export class Racine {
       if (this.nodes[full_parent_id] && this.nodes[full_parent_id].children) {
         this.nodes[full_parent_id].children = [...this.nodes[full_parent_id].children, ...Object.values(res)]
         console.log(Object.values(this.nodes[full_parent_id].children))
+        console.log(Object.values(res))
       }
-      return res
-    })
+      return Object.values(res)
+    }).flatMap(x=>x) // fix children being nested arrays of single values... ugh
   }
   // bfs  .. sorta
   undo = (nodes) => {
@@ -121,10 +120,7 @@ export class Racine {
       // update new parent
       let new_parent = this.nodes[destinationNodeID]
       new_parent.children = new_parent.children.filter(c => c.id != sourceNodeID)
-      console.log(sourceNodeID, new_parent.children)
       new_parent.children.splice(idx, 0, this.nodes[sourceNodeID])
-      console.log(sourceNodeID, new_parent.children)
-      console.log(Object.values(this.nodes).map((item) => item))
     }
     return this.nodes
   }
