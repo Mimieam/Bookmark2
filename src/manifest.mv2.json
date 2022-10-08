@@ -8,6 +8,11 @@
     "128": "assets/icon-128.png"
   },
   "default_locale": "en",
+  "background": {
+    "scripts": [
+      "bg.js"
+    ]
+  },
   "permissions": [
     "bookmarks",
     "storage",
@@ -16,12 +21,15 @@
   "optional_permissions": [
     "downloads"
   ],
+  "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self';",
   "browser_action": {
     "default_icon": {
       "19": "assets/icon-19.png",
       "38": "assets/icon-38.png"
     },
-    "default_title": "Bookmark2",
-    "default_popup": "popup.html"
-  }
+    "default_title": "Bookmark2"
+  },
+  "web_accessible_resources": [
+    "bg.js"
+  ]
 }

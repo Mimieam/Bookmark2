@@ -56,7 +56,7 @@
     // treeState.subscribe(value => { tree = value })
     tree.build(root)
     globalThis.tree = tree
-
+    globalThis.browser = browser
 </script>
 
 

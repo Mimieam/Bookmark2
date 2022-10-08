@@ -6,6 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const preprocess = require('svelte-preprocess');
 const webpack = require('webpack')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const { FixSWChunks } = require('./webpack.fixswchunk.plugin');
 const path = require('path');
 
 
@@ -27,7 +28,7 @@ const PATHS = {
 module.exports = {
 	entry: {
 		'popup.js': './src/popup/index.js',
-		// 'bg-sw.js': ['./src/scripts/background.modular.js'],
+		'bg.js': ['./src/bg/index.js'],
 	},
 	output: {
 		path: PATHS.dist,
@@ -45,8 +46,8 @@ module.exports = {
 	},
 
 	optimization: {
-		minimize: true,
-		concatenateModules: false,  // THIS CRAP MAKES PROD BUILD FAILED WHEN CHUNKING
+		minimize: prod,
+		concatenateModules: !prod,  // THIS CRAP MAKES PROD BUILD FAILED WHEN CHUNKING
 		minimizer: [
 			new ESBuildMinifyPlugin({
 				target: "es2015",
@@ -175,7 +176,11 @@ module.exports = {
 			]
 		}),
 
-		// new FixSWChunks(),
+			new FixSWChunks({
+				serviceWorker: 'bg.js',
+				vendor:'vendors.js',
+				manifest_version: manifest_version,
+			}),
 		new BundleAnalyzerPlugin()
 	],
 	devtool: prod ? false : 'source-map',

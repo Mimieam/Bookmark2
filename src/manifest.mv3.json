@@ -9,14 +9,17 @@
     "128": "assets/icon-128.png"
   },
   "default_locale": "en",
+  "background": {
+    "service_worker": "bg.js"
+  },
   "permissions": [
     "bookmarks",
     "storage",
+    "system.display",
     "tabs"
   ],
   "optional_permissions": [
-    "downloads",
-    "system.display"
+    "downloads"
   ],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
@@ -26,7 +29,16 @@
       "19": "assets/icon-19.png",
       "38": "assets/icon-38.png"
     },
-    "default_title": "Bookmark2",
-    "default_popup": "popup.html"
-  }
+    "default_title": "Bookmark2"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "bg.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
 }
