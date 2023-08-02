@@ -44,7 +44,9 @@ module.exports = {
 		extensions: ['.mjs', '.js', '.svelte'],
 		mainFields: ['svelte', 'browser', 'module', 'main']
 	},
-
+	experiments: {
+		topLevelAwait: true
+	},
 	optimization: {
 		minimize: prod,
 		concatenateModules: !prod,  // THIS CRAP MAKES PROD BUILD FAILED WHEN CHUNKING
@@ -79,11 +81,11 @@ module.exports = {
 						compilerOptions: {
 							dev: !prod
 						},
-						emitCss: prod,
+						emitCss: true, // if you don't emit it, your plugin will not pick up any imported style.
 						preprocess: preprocess({
 							postcss: true,
 						}),
-						hotReload: !prod
+						hotReload: true
 					}
 				}
 			},
@@ -111,7 +113,7 @@ module.exports = {
 					loader: 'esbuild-loader',
 
 					options: {
-						target: 'es2021',
+						target: 'es2022',
 					},
 				},
 			},
@@ -191,5 +193,9 @@ module.exports = {
 		hot: true,
 		disableHostCheck: true,
 		writeToDisk: true
-	}
+	},
+	watch: !prod,
+	watchOptions: {
+		ignored: "/node_modules/",
+	},
 };

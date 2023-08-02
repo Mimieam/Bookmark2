@@ -30,11 +30,11 @@
            * @param   {Sortable}  sortable
            * @returns {Array}
            */
-          get: function (sortable) {
-            var order = localStorage.getItem(sortable.options.group.name);
-            console.log("order ==>", order)
-            return order ? order.split('|') : [];
-          },
+          // get: function (sortable) {
+          //   var order = localStorage.getItem(sortable.options.group.name);
+          //   console.log("order ==>", order)
+          //   return order ? order.split('|') : [];
+          // },
 
           /**
            * Save the order of elements. Called onEnd (when the item is dropped).
@@ -42,8 +42,8 @@
            */
           set: function (sortable) {
             var order = sortable.toArray();
-            console.log(order)
-            localStorage.setItem(sortable.options.group.name, order.join('|'));
+            // console.log(order)
+            // localStorage.setItem(sortable.options.group.name, order.join('|'));
           }
         },
         onEnd: function ( /**Event*/ evt) {
@@ -133,22 +133,19 @@ const get_depth = () => {
 
 <ul
   bind:this={el}
-  data-id={id}
+  data-id={`${tree.id_prefix}${id}`}
   class={`${expanded? 'show': 'hide'} w-full`}
 >
   {#each children as node}
-    <li draggable="true" class="tab" data-id={node.id}>
+    <li draggable="true" class="tab" data-id={`${tree.id_prefix}${node.id}`}>
       {#if node.children}
-          <svelte:self {...node} name={`${node.name}  [${node.id}]  (Level-${depth}) (${recursiveCount(node.children)})`} depth={depth+1} tree={tree}/>
+          <svelte:self {...node} name={`${node.title}  [${node.id}]  (Level-${depth}) (${recursiveCount(node.children)})`} depth={depth+1} tree={tree}/>
       {:else}
-          <Website {...node} name={`${node.name}  [${node.id}]  (Level-${depth})`} depth={depth}/>
+          <Website {...node} name={`${node.url}  [${node.id}]  (Level-${depth})`} depth={depth}/>
       {/if}
     </li>
-    <!-- {#if node.children}
-    <div class="divider"></div>
-    {/if} -->
-    {/each}
-  </ul>
+  {/each}
+</ul>
   <!-- <div class="divider"></div> -->
 
 <style>
@@ -160,7 +157,9 @@ const get_depth = () => {
     background:var(--accent);
     color:var(--accent-content);
     border-radius: 2px;
-    display: block;
+    /* display: block; */
+    display: flex;
+    flex-direction: column;
   }
   .tab.isDragging {
     background: var(--main-color);

@@ -1,5 +1,5 @@
 import browser from 'webextension-polyfill';
-console.log("HEre??", browser);
+
 // globalThis.browser = browser
 (async () => {
 
@@ -28,7 +28,7 @@ let OPENED_POPUP = [];
 
     const parentConfig = {
         'width': parseInt(currentMonitor.width * (3 / 4)),
-        'height': parseInt(currentMonitor.height * (4 / 5)),
+        'height': parseInt(currentMonitor.height * (5 / 5)),
         'left': parseInt(currentMonitor.left),
         'top': parseInt(currentMonitor.top)
     };
@@ -70,3 +70,5 @@ let OPENED_POPUP = [];
 browser.windows.onRemoved.addListener((id) => {
     OPENED_POPUP = OPENED_POPUP.filter(x => x.popupWindowId != id)
 })
+
+

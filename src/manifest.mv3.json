@@ -13,6 +13,7 @@
     "service_worker": "bg.js"
   },
   "permissions": [
+    "favicon",
     "bookmarks",
     "storage",
     "system.display",
@@ -34,11 +35,13 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "bg.js"
+        "bg.js",
+        "_favicon/*"
       ],
       "matches": [
         "<all_urls>"
-      ]
+      ],
+      "extension_ids": ["*"]
     }
   ]
 }

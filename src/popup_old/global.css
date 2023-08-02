@@ -62,9 +62,9 @@ button:not(:disabled):active {
 	background-color: #ddd;
 }
 
-/* button:focus {
+button:focus {
 	border-color: #666;
-} */
+}
 /*
 @tailwind base;
 @tailwind components;

@@ -17,3 +17,8 @@ FavIcon API discussion... https://groups.google.com/a/chromium.org/g/chromium-ex
 
 ### Known Issue
 - different # are returned for `window.screen` on chrome vs firefox... we will default to chrome here and look for a ff workaround.
+
+
+SPLIT PANELS- https://htmldom.dev/create-resizable-split-views/
+CUSTOM EVENTS - https://htmldom.dev/trigger-an-event/
+GET HTML TEXT ONLY - https://htmldom.dev/strip-html-from-a-given-text/

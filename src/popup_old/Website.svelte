@@ -22,7 +22,12 @@
 
       background: rgba(0,0,0,.08);
       border: 1px solid rgba(0,0,0,.1);
-      display: flex;
+      /* display: flex; */
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+
+
       border-radius: 2px;
       margin-left: 20px;
       @apply text-cyan-700;

@@ -1,41 +1,3 @@
-let root = [
-  {
-      name: 'News',
-      children: [
-          { name: 'https://cnn.com' },
-          { name: 'https://msnbc.com' },
-          { name: 'https://DW.com' }
-      ]
-  },
-  {
-      name: 'Folder 2',
-      children: [
-          {
-              name: 'Folder 2.1',
-              children: [
-                  { name: 'https://google.com' },
-                  { name: 'https://yahoo.com' },
-                  { name: 'https://bing.com' },
-                  { name: 'https://msn.com' },
-              ]
-          },
-          {
-              name: 'Folder 2.2',
-              children: [
-                  { name: 'apple.com' },
-                  { name: 'amazon.com' }
-              ]
-          },
-          { name: 'zillow.com' },
-          { name: 'alsjdf.com' },
-          { name: 'somerandomwebsite.com' }
-      ]
-  },
-  { name: 'tabsorter2.com' }
-];
-
-
-
 export class Racine {
   constructor(root, id_prefix='node'){
     this.root = root
@@ -55,12 +17,15 @@ export class Racine {
     // ok ok... this will need to be revised in a future version
     return root.map(n => {
       this.total_nodes = this.total_nodes + 1
+      console.log(n, this.total_nodes)
       const res = {
         [`${this.id_prefix}${ this.total_nodes }`]: {
           id:`${this.id_prefix}${this.total_nodes }`,
           parent_id: `${this.id_prefix}${parent_id }`,
           children: (n && n.children) ? this.build(n.children, this.total_nodes) : [],
-          name: n.name,
+          // name: n.name,
+          title: n.title,
+          url: n.url,
         }
       }
 
@@ -69,8 +34,8 @@ export class Racine {
 
       if (this.nodes[full_parent_id] && this.nodes[full_parent_id].children) {
         this.nodes[full_parent_id].children = [...this.nodes[full_parent_id].children, ...Object.values(res)]
-        console.log(Object.values(this.nodes[full_parent_id].children))
-        console.log(Object.values(res))
+        // console.log(Object.values(this.nodes[full_parent_id].children))
+        // console.log(Object.values(res))
       }
       return Object.values(res)
     }).flatMap(x=>x) // fix children being nested arrays of single values... ugh
@@ -126,7 +91,7 @@ export class Racine {
   }
 
   get_root = (name_only = true) => {
-    let root_name = `${this.id_prefix}0`
+    let root_name = `0`
     return name_only? root_name: this.nodes[root_name]
   }
 
@@ -154,6 +119,46 @@ export class Racine {
     }
   }
 }
+
+
+
+
+// let root = [
+//   {
+//       name: 'News',
+//       children: [
+//           { name: 'https://cnn.com' },
+//           { name: 'https://msnbc.com' },
+//           { name: 'https://DW.com' }
+//       ]
+//   },
+//   {
+//       name: 'Folder 2',
+//       children: [
+//           {
+//               name: 'Folder 2.1',
+//               children: [
+//                   { name: 'https://google.com' },
+//                   { name: 'https://yahoo.com' },
+//                   { name: 'https://bing.com' },
+//                   { name: 'https://msn.com' },
+//               ]
+//           },
+//           {
+//               name: 'Folder 2.2',
+//               children: [
+//                   { name: 'apple.com' },
+//                   { name: 'amazon.com' }
+//               ]
+//           },
+//           { name: 'zillow.com' },
+//           { name: 'alsjdf.com' },
+//           { name: 'somerandomwebsite.com' }
+//       ]
+//   },
+//   { name: 'tabsorter2.com' }
+// ];
+
 
 
 // r = new Racine(root)
