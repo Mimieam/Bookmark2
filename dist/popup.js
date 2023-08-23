@@ -9,6 +9,7 @@
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Forest": () => (/* binding */ Forest),
 /* harmony export */   "bookmarksLoaded": () => (/* binding */ bookmarksLoaded),
 /* harmony export */   "loadedTrees": () => (/* binding */ loadedTrees),
 /* harmony export */   "refresh_ui": () => (/* binding */ refresh_ui),
@@ -23,6 +24,7 @@
 const refresh_ui = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.writable)(true);
 const loadedTrees = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.writable)(0);
 const Trees = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.writable)([]);
+const Forest = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.writable)([]);
 const bookmarksLoaded = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.writable)(false);
 const isSyncingTrees = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.writable)(false);
 const source = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.writable)([]);
@@ -78,12 +80,23 @@ function createEmptyStack(limit = 10) {
     peek: () => (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.get)(stack),
     find: () => {
     },
-    print: () => {
-      const arr = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.get)(stack);
-      arr.map((s, idx) => {
-        console.log(`pos ${idx}:`);
-        console.log((0,_utils__WEBPACK_IMPORTED_MODULE_1__.displayTree)(s, (n) => n.title));
+    printAll: (cb = (n) => `${n.title} ${n?.children?.length || ""}`) => {
+      const myStack = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.get)(stack);
+      myStack.map((state, idx) => {
+        const [treeRoot] = state;
+        console.groupCollapsed("Tree #", idx);
+        console.info((0,_utils__WEBPACK_IMPORTED_MODULE_1__.displayTree)(treeRoot, cb));
+        console.groupEnd();
       });
+    },
+    print: (idx, expanded = false, cb = (n) => n.title) => {
+      const myStack = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.get)(stack);
+      idx = idx && 0 < idx && idx < myStack.length ? idx : myStack.length - 1;
+      const state = myStack[idx];
+      const [treeRoot] = state;
+      expanded ? console.group("Tree #", idx) : console.groupCollapsed("Tree #", idx);
+      console.info((0,_utils__WEBPACK_IMPORTED_MODULE_1__.displayTree)(treeRoot, cb));
+      console.groupEnd();
     },
     updateButKeepExpanded: () => {
     },
@@ -139,7 +152,6 @@ const addParentToEachNode = (node, parent = null) => {
 };
 const flat_node_map = (node) => {
   let children = node.children ? node.children.map((cn) => flat_node_map(cn)) : [];
-  console.log(children);
   let res = {
     ...Object.assign({}, ...children),
     [node.id]: node
@@ -147,40 +159,49 @@ const flat_node_map = (node) => {
   return res;
 };
 globalThis.flat_node_map = flat_node_map;
+const myDynamicSymbolIterator = function* () {
+  const cl = this.children;
+  if (cl) {
+    for (let i = 0, l = cl.length; i < l; i++) {
+      const n = cl[i];
+      if (!n[Symbol.iterator]) {
+        n[Symbol.iterator] = myDynamicSymbolIterator;
+      }
+      yield n;
+      if (n.children) {
+        yield* n;
+      }
+    }
+  }
+};
 function* format_iter(_this, name_cb, connectors, fm) {
   connectors !== null && connectors !== void 0 ? connectors : connectors = ["    ", " |  ", " \u2570\u2500 ", " \u251C\u2500 "];
   name_cb !== null && name_cb !== void 0 ? name_cb : name_cb = (node) => "" + node;
   function _is_last(node) {
-    if (node.parentId) {
-      const ca = fm[node.parentId].children;
-      return node === ca[ca.length - 1];
-    } else {
-      return true;
-    }
+    const ca = node.parent.children;
+    return node === ca[ca.length - 1];
   }
   const _format_line = (node) => {
     const parts = [name_cb(node)];
     parts.unshift(connectors[_is_last(node) ? 2 : 3]);
-    let p = fm[node.parentId];
-    while (p && p !== _this) {
+    let p = node.parent;
+    while (p && p.id !== "0") {
       parts.unshift(connectors[_is_last(p) ? 0 : 1]);
-      p = fm[p.parentId];
+      p = p.parent;
     }
     return parts.join("");
   };
   yield name_cb(_this);
+  _this[Symbol.iterator] = myDynamicSymbolIterator;
   for (let node of _this) {
     yield _format_line(node);
   }
 }
 function displayTree(_this, name_cb, connectors) {
-  let [root] = _this;
-  root = structuredClone(root);
-  _this = addParentToEachNode(root, root);
-  console.log({ root });
-  const fm = flat_node_map(root);
+  _this = addParentToEachNode(_this, _this);
+  const fm = flat_node_map(_this);
   const a = [];
-  for (let line of format_iter([_this], name_cb, connectors, fm)) {
+  for (let line of format_iter(_this, name_cb, connectors, fm)) {
     a.push(line);
   }
   return a.join("\n");
@@ -188,6 +209,223 @@ function displayTree(_this, name_cb, connectors) {
 const styleToString = (style) => {
   return Object.keys(style).reduce((acc, key) => acc + key.split(/(?=[A-Z])/).join("-").toLowerCase() + ":" + style[key] + ";", "");
 };
+
+
+/***/ }),
+
+/***/ "./src/shared/eventBus.js":
+/*!********************************!*\
+  !*** ./src/shared/eventBus.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "EventBusTool": () => (/* binding */ EventBusTool),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "eventBus": () => (/* binding */ eventBus)
+/* harmony export */ });
+/* unused harmony export EventBus */
+/* harmony import */ var _eventHandlers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./eventHandlers */ "./src/shared/eventHandlers.js");
+
+class EventBus {
+  constructor() {
+    this.events = {};
+    this.eventLog = [];
+    this.subscribers = {};
+  }
+  _subscribe(eventName, callback) {
+    if (!this.events[eventName]) {
+      this.events[eventName] = [];
+    }
+    this.events[eventName].push(callback);
+  }
+  subscribe(topic, listener, cb) {
+    this.subscribers[listener] = { ...this.subscribers[listener] || [], ...{ [topic]: cb } };
+    let reversed = Object.fromEntries(Object.entries(_eventHandlers__WEBPACK_IMPORTED_MODULE_0__.EventEnum).map(([key, value]) => [value, key]));
+    console.log(`listener (${listener}) is subscribed to topics:`, this.subscribers[listener]);
+    console.log(`listener (${listener}) is subscribed to topics:`, Object.getOwnPropertySymbols(this.subscribers[listener]).map((s) => reversed[s]));
+    if (!this.events[topic]) {
+      this.events[topic] = [];
+    }
+    this.events[topic] = { ...this.events[topic] || [], ...{ [listener]: cb } };
+  }
+  subscribeToAll(callback) {
+    for (const eventName in this.events) {
+      this.subscribe(eventName, callback);
+    }
+  }
+  _publish(eventName, data, src) {
+    if (!this.events[eventName])
+      return;
+    this.eventLog.push({ eventName, data });
+    this.events[eventName].filter().forEach((callback) => callback(data));
+  }
+  publish(eventName, data, srcName, srcOjb) {
+    if (!this.events[eventName])
+      return;
+    this.eventLog.push({ eventName, data, srcName });
+    Object.entries(this.events[eventName]).map(([listener, callback]) => {
+      console.log(listener, srcName, listener == srcName);
+      if (listener != srcName) {
+        callback(srcOjb, data);
+      }
+    });
+  }
+  _emit(eventName, data, srcName, srcOjb) {
+    console.log(`EVENT::${String(eventName)}`, data);
+    return this.publish(eventName, data, srcName, srcOjb);
+  }
+  emit({ event, source }) {
+    this._emit(event, {}, source?.tree?.id, source);
+  }
+  replayEvents(componentName) {
+    const componentEvents = this.eventLog.filter((event) => event.component === componentName);
+    componentEvents.forEach(({ eventName, data }) => {
+      this.events[eventName].forEach((callback) => callback(data));
+    });
+  }
+  squashEventsToState(componentName) {
+    const componentEvents = this.eventLog.filter((event) => event.component === componentName);
+    let currentState = {};
+    componentEvents.forEach(({ eventName, data }) => {
+      switch (eventName) {
+        case "updateData":
+          currentState = { ...currentState, ...data };
+          break;
+        case "removeData":
+          const newData = { ...currentState };
+          delete newData[data];
+          currentState = newData;
+          break;
+      }
+    });
+    return currentState;
+  }
+}
+class EventBusTool {
+  static _eventBus = null;
+  constructor() {
+  }
+  static getEventBus() {
+    if (this._eventBus == null) {
+      console.log("event but init");
+      this._eventBus = new EventBus();
+    }
+    return this._eventBus;
+  }
+}
+const eventBus = EventBusTool.getEventBus();
+console.log({ eventBus });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (eventBus);
+
+
+/***/ }),
+
+/***/ "./src/shared/eventHandlers.js":
+/*!*************************************!*\
+  !*** ./src/shared/eventHandlers.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "EventEnum": () => (/* binding */ EventEnum),
+/* harmony export */   "eventEnumHandlers": () => (/* binding */ eventEnumHandlers),
+/* harmony export */   "fnWrap": () => (/* binding */ fnWrap)
+/* harmony export */ });
+/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./events */ "./src/shared/events.js");
+
+const STATUS_ENUM = Object.freeze({
+  COMPLETED: "COMPLETED"
+});
+const EventEnum = Object.freeze({
+  TreeViewLoaded: Symbol(crypto.randomUUID()),
+  TreeViewUpdated: Symbol(crypto.randomUUID()),
+  BookmarkUpdated: Symbol(crypto.randomUUID()),
+  TreeNodeSelected: Symbol(crypto.randomUUID()),
+  Refresh: Symbol(crypto.randomUUID())
+});
+const find_clone = (source, target) => {
+  for (let x of target.keyMap.entries()) {
+    if (JSON.stringify(x[1].data) == JSON.stringify(source.data)) {
+      return x[1];
+    }
+  }
+};
+const eventEnumHandlers = {
+  [EventEnum.TreeViewLoaded]: (event, src, dest) => {
+    console.log(`Rcvd::TreeViewLoaded - ${src}>>>${dest}`, event);
+    return {
+      status: STATUS_ENUM.COMPLETED
+    };
+  },
+  [EventEnum.TreeViewUpdated]: (event, src, dest) => {
+    console.log(`Rcvd::TreeViewUpdated - ${src}>>>${dest}`, event);
+  },
+  [EventEnum.BookmarkUpdated]: (event, src, dest) => {
+    console.log(`Rcvd::BookmarkUpdated - ${src}>>>${dest}`, event);
+  },
+  [EventEnum.Refresh]: (event, src, dest) => {
+    console.log(`Rcvd::Refresh - ${src}>>>${dest}`, event);
+  },
+  [EventEnum.TreeNodeSelected]: async ({ event, source, target, data }) => {
+    console.log(`Rcvd::TreeNodeSelected - ${source}>>>${target?.key}`, event, data);
+    const targetNode = find_clone(source, target);
+    targetNode.setExpanded(source.expanded);
+    return {
+      source,
+      target,
+      action: _events__WEBPACK_IMPORTED_MODULE_0__.EventEnumReversed[EventEnum.TreeNodeSelected],
+      status: STATUS_ENUM.COMPLETED
+    };
+  }
+};
+let isBusy = false;
+const fnWrap = function fnWrap2(event_name, fn, fnargs = [], plugOpts = {}) {
+  return async () => {
+    try {
+      console.time(`${event_name} fn ${fnargs}`);
+      let fn_res;
+      if (!isBusy) {
+        isBusy = true;
+        try {
+          fn_res = await fn(...fnargs);
+          console.log({ fn_res });
+        } catch (error) {
+          fn_res = Promise.reject(error);
+        }
+        console.log(`%c${event_name} Completed`, "color: green;");
+        isBusy = false;
+      } else {
+        fn_res = Promise.reject(`DeBouncing... [${event_name}]`);
+      }
+      console.timeEnd(`${event_name} fn ${fnargs}`);
+      return fn_res;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+
+/***/ }),
+
+/***/ "./src/shared/events.js":
+/*!******************************!*\
+  !*** ./src/shared/events.js ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "EventEnum": () => (/* reexport safe */ _eventHandlers__WEBPACK_IMPORTED_MODULE_1__.EventEnum),
+/* harmony export */   "EventEnumReversed": () => (/* binding */ EventEnumReversed),
+/* harmony export */   "eventBus": () => (/* reexport safe */ _eventBus__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _eventBus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./eventBus */ "./src/shared/eventBus.js");
+/* harmony import */ var _eventHandlers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./eventHandlers */ "./src/shared/eventHandlers.js");
+
+
+const EventEnumReversed = Object.fromEntries(Object.entries(_eventHandlers__WEBPACK_IMPORTED_MODULE_1__.EventEnum).map(([key, value]) => [value, key]));
+
 
 
 /***/ }),
@@ -226,8 +464,21 @@ var moon_filled_alt_loop = __webpack_require__("./node_modules/.pnpm/@iconify+ic
 var moon_alt_to_sunny_outline_loop_transition = __webpack_require__("./node_modules/.pnpm/@iconify+icons-line-md@1.2.22/node_modules/@iconify/icons-line-md/moon-alt-to-sunny-outline-loop-transition.js");
 // EXTERNAL MODULE: ./src/popup/components/store/index.js
 var store = __webpack_require__("./src/popup/components/store/index.js");
+// EXTERNAL MODULE: ./src/shared/events.js
+var events = __webpack_require__("./src/shared/events.js");
 ;// CONCATENATED MODULE: ./src/popup/popup.js
 
+
+const moveAllBookmark = async (bookmarkIds, parentId) => {
+  const moves = bookmarkIds.map(async (bmId, idx) => {
+    try {
+      return await chrome.bookmarks.move(bmId, { index: idx, parentId });
+    } catch (error) {
+      console.log(`Error moving bookmark ${bmId}`, error);
+    }
+  });
+  return Promise.all(moves);
+};
 async function getBookmarks() {
   const res = await chrome.bookmarks.getTree();
   console.log({ res });
@@ -235,6 +486,37 @@ async function getBookmarks() {
   store.stack.push(res);
   globalThis.stack = store.stack;
   return res;
+}
+async function filterFolders(bookmarkTree) {
+  function __filterFolder(node) {
+    if (!node.children || node.children.length === 0) {
+      return null;
+    }
+    const folderObject = {
+      title: node.title || "",
+      id: node.id,
+      parentId: node.parentId || "",
+      children: []
+    };
+    for (const childNode of node.children) {
+      const childFolder = _filterFolder(childNode);
+      if (childFolder) {
+        folderObject.children.push(childFolder);
+      }
+    }
+    return folderObject;
+  }
+  function _filterFolder(node) {
+    if (!node.children || node.children.length === 0) {
+      return null;
+    }
+    const modifiedChildren = node.children.map((childNode) => _filterFolder(childNode)).filter((childNode) => childNode !== null);
+    return { ...node, children: modifiedChildren };
+  }
+  const [rootBookmarkNode] = bookmarkTree || await chrome.bookmarks.getTree();
+  let folders = _filterFolder(rootBookmarkNode);
+  console.log("ROOt = ", [folders]);
+  return [folders];
 }
 const addParentToEachNode = (node, parent = null) => {
   node.parent = parent;
@@ -267,14 +549,6 @@ chrome.bookmarks.onCreated.addListener(() => {
   console.log("bookmarks.onCreated triggered");
   refreshBookmarksUI();
 });
-chrome.bookmarks.onImportBegan.addListener(() => {
-  console.log("bookmarks.onImportBegan triggered");
-  refreshBookmarksUI();
-});
-chrome.bookmarks.onImportEnded.addListener(() => {
-  console.log("bookmarks.onImportEnded triggered");
-  refreshBookmarksUI();
-});
 chrome.bookmarks.onMoved.addListener(() => {
   console.log("bookmarks.onMoved triggered");
   refreshBookmarksUI();
@@ -283,9 +557,23 @@ chrome.bookmarks.onRemoved.addListener(() => {
   console.log("bookmarks.onRemoved triggered");
   refreshBookmarksUI();
 });
+const me = "popup";
+console.log("ME = ", me, events.EventEnum);
+const ignored_events = [events.EventEnum.TreeNodeSelected];
+for (const event_name in events.EventEnum) {
+  if (!ignored_events.includes(events.EventEnum[event_name])) {
+    events.eventBus.subscribe(events.EventEnum[event_name], "popup", (src, data) => {
+      console.log(`EVENT-[${event_name}] SENT FROM [${src}] TO [${me}] `, data);
+    });
+  }
+}
 
 // EXTERNAL MODULE: ./node_modules/.pnpm/wunderbaum@0.3.5/node_modules/wunderbaum/dist/wunderbaum.esm.js
 var wunderbaum_esm = __webpack_require__("./node_modules/.pnpm/wunderbaum@0.3.5/node_modules/wunderbaum/dist/wunderbaum.esm.js");
+// EXTERNAL MODULE: ./src/shared/eventBus.js
+var eventBus = __webpack_require__("./src/shared/eventBus.js");
+// EXTERNAL MODULE: ./src/shared/eventHandlers.js
+var eventHandlers = __webpack_require__("./src/shared/eventHandlers.js");
 // EXTERNAL MODULE: ./node_modules/.pnpm/svelte-loader@3.1.3_svelte@3.50.1/node_modules/svelte-loader/lib/hot-api.js + 4 modules
 var hot_api = __webpack_require__("./node_modules/.pnpm/svelte-loader@3.1.3_svelte@3.50.1/node_modules/svelte-loader/lib/hot-api.js");
 // EXTERNAL MODULE: ./node_modules/.pnpm/svelte-hmr@0.14.12_svelte@3.50.1/node_modules/svelte-hmr/runtime/proxy-adapter-dom.js + 1 modules
@@ -318,10 +606,12 @@ const { console: console_1 } = internal.globals;
 
 
 
+
+
 const file = "src/popup/App.svelte";
 
 // (1:0) <script>   import "./components/globals/Theme.svelte";   // import "./popup"    import { onMount }
-function create_catch_block(ctx) {
+function create_catch_block_1(ctx) {
 	const block = {
 		c: internal.noop,
 		m: internal.noop,
@@ -333,7 +623,7 @@ function create_catch_block(ctx) {
 
 	(0,internal.dispatch_dev)("SvelteRegisterBlock", {
 		block,
-		id: create_catch_block.name,
+		id: create_catch_block_1.name,
 		type: "catch",
 		source: "(1:0) <script>   import \\\"./components/globals/Theme.svelte\\\";   // import \\\"./popup\\\"    import { onMount }",
 		ctx
@@ -342,14 +632,14 @@ function create_catch_block(ctx) {
 	return block;
 }
 
-// (123:36)      <SplitPanel leftPanelWidth="50%" rightPanelWidth="50%">       <div slot="left">             <!-- <div> -->           <TreeView               treeSource={data}
+// (133:38)      <SplitPanel leftPanelWidth="30%" rightPanelWidth="50%">       <div slot="left">         {#await  filterFolders(data) then filteredData}
 function create_then_block(ctx) {
 	let splitpanel;
 	let current;
 
 	splitpanel = new SplitPanel_svelte["default"]({
 			props: {
-				leftPanelWidth: "50%",
+				leftPanelWidth: "30%",
 				rightPanelWidth: "50%",
 				$$slots: {
 					right: [create_right_slot],
@@ -395,41 +685,56 @@ function create_then_block(ctx) {
 		block,
 		id: create_then_block.name,
 		type: "then",
-		source: "(123:36)      <SplitPanel leftPanelWidth=\\\"50%\\\" rightPanelWidth=\\\"50%\\\">       <div slot=\\\"left\\\">             <!-- <div> -->           <TreeView               treeSource={data}",
+		source: "(133:38)      <SplitPanel leftPanelWidth=\\\"30%\\\" rightPanelWidth=\\\"50%\\\">       <div slot=\\\"left\\\">         {#await  filterFolders(data) then filteredData}",
 		ctx
 	});
 
 	return block;
 }
 
-// (125:6) 
-function create_left_slot(ctx) {
-	let div;
+// (1:0) <script>   import "./components/globals/Theme.svelte";   // import "./popup"    import { onMount }
+function create_catch_block(ctx) {
+	const block = {
+		c: internal.noop,
+		m: internal.noop,
+		p: internal.noop,
+		i: internal.noop,
+		o: internal.noop,
+		d: internal.noop
+	};
+
+	(0,internal.dispatch_dev)("SvelteRegisterBlock", {
+		block,
+		id: create_catch_block.name,
+		type: "catch",
+		source: "(1:0) <script>   import \\\"./components/globals/Theme.svelte\\\";   // import \\\"./popup\\\"    import { onMount }",
+		ctx
+	});
+
+	return block;
+}
+
+// (136:55)            <TreeView               treeSource={filteredData}
+function create_then_block_1(ctx) {
 	let treeview;
 	let current;
 
 	treeview = new TreeView_svelte["default"]({
 			props: {
-				treeSource: /*data*/ ctx[10],
+				treeSource: /*filteredData*/ ctx[10],
 				rootID: "leftTree",
 				treeDOM: "leftTreeDOM",
-				parentDOM: "leftParentDOM",
-				thisTree: store.leftTreeStore,
-				otherTree: store.rightTreeStore
+				parentDOM: "leftParentDOM"
 			},
 			$$inline: true
 		});
 
 	const block = {
 		c: function create() {
-			div = (0,internal.element)("div");
 			(0,internal.create_component)(treeview.$$.fragment);
-			(0,internal.attr_dev)(div, "slot", "left");
-			(0,internal.add_location)(div, file, 124, 6, 3505);
 		},
 		m: function mount(target, anchor) {
-			(0,internal.insert_dev)(target, div, anchor);
-			(0,internal.mount_component)(treeview, div, null);
+			(0,internal.mount_component)(treeview, target, anchor);
 			current = true;
 		},
 		p: internal.noop,
@@ -443,8 +748,99 @@ function create_left_slot(ctx) {
 			current = false;
 		},
 		d: function destroy(detaching) {
+			(0,internal.destroy_component)(treeview, detaching);
+		}
+	};
+
+	(0,internal.dispatch_dev)("SvelteRegisterBlock", {
+		block,
+		id: create_then_block_1.name,
+		type: "then",
+		source: "(136:55)            <TreeView               treeSource={filteredData}",
+		ctx
+	});
+
+	return block;
+}
+
+// (1:0) <script>   import "./components/globals/Theme.svelte";   // import "./popup"    import { onMount }
+function create_pending_block_1(ctx) {
+	const block = {
+		c: internal.noop,
+		m: internal.noop,
+		p: internal.noop,
+		i: internal.noop,
+		o: internal.noop,
+		d: internal.noop
+	};
+
+	(0,internal.dispatch_dev)("SvelteRegisterBlock", {
+		block,
+		id: create_pending_block_1.name,
+		type: "pending",
+		source: "(1:0) <script>   import \\\"./components/globals/Theme.svelte\\\";   // import \\\"./popup\\\"    import { onMount }",
+		ctx
+	});
+
+	return block;
+}
+
+// (135:6) 
+function create_left_slot(ctx) {
+	let div;
+	let promise;
+	let current;
+
+	let info = {
+		ctx,
+		current: null,
+		token: null,
+		hasCatch: false,
+		pending: create_pending_block_1,
+		then: create_then_block_1,
+		catch: create_catch_block,
+		value: 10,
+		blocks: [,,,]
+	};
+
+	(0,internal.handle_promise)(promise = filterFolders(/*data*/ ctx[9]), info);
+
+	const block = {
+		c: function create() {
+			div = (0,internal.element)("div");
+			info.block.c();
+			(0,internal.attr_dev)(div, "slot", "left");
+			(0,internal.add_location)(div, file, 134, 6, 3856);
+		},
+		m: function mount(target, anchor) {
+			(0,internal.insert_dev)(target, div, anchor);
+			info.block.m(div, info.anchor = null);
+			info.mount = () => div;
+			info.anchor = null;
+			current = true;
+		},
+		p: function update(new_ctx, dirty) {
+			ctx = new_ctx;
+			(0,internal.update_await_block_branch)(info, ctx, dirty);
+		},
+		i: function intro(local) {
+			if (current) return;
+			(0,internal.transition_in)(info.block);
+			current = true;
+		},
+		o: function outro(local) {
+			for (let i = 0; i < 3; i += 1) {
+				const block = info.blocks[i];
+				(0,internal.transition_out)(block);
+			}
+
+			current = false;
+		},
+		d: function destroy(detaching) {
 			if (detaching) (0,internal.detach_dev)(div);
-			(0,internal.destroy_component)(treeview);
+			info.block.d();
+			info.token = null;
+			info = null;
 		}
 	};
 
@@ -452,14 +848,14 @@ function create_left_slot(ctx) {
 		block,
 		id: create_left_slot.name,
 		type: "slot",
-		source: "(125:6) ",
+		source: "(135:6) ",
 		ctx
 	});
 
 	return block;
 }
 
-// (137:4) 
+// (145:4) 
 function create_right_slot(ctx) {
 	let div;
 	let treeview;
@@ -467,7 +863,7 @@ function create_right_slot(ctx) {
 
 	treeview = new TreeView_svelte["default"]({
 			props: {
-				treeSource: structuredClone(/*data*/ ctx[10]),
+				treeSource: structuredClone(/*data*/ ctx[9]),
 				rootID: "rightTree",
 				treeDOM: "rightTreeDOM",
 				parentDOM: "rightParentDOM"
@@ -481,7 +877,7 @@ function create_right_slot(ctx) {
 			(0,internal.create_component)(treeview.$$.fragment);
 			(0,internal.attr_dev)(div, "class", "bg-black");
 			(0,internal.attr_dev)(div, "slot", "right");
-			(0,internal.add_location)(div, file, 136, 4, 3842);
+			(0,internal.add_location)(div, file, 144, 4, 4143);
 		},
 		m: function mount(target, anchor) {
 			(0,internal.insert_dev)(target, div, anchor);
@@ -508,7 +904,7 @@ function create_right_slot(ctx) {
 		block,
 		id: create_right_slot.name,
 		type: "slot",
-		source: "(137:4) ",
+		source: "(145:4) ",
 		ctx
 	});
 
@@ -537,96 +933,24 @@ function create_pending_block(ctx) {
 	return block;
 }
 
-// (122:0) {#key refresh}
-function create_key_block(ctx) {
-	let await_block_anchor;
-	let promise;
-	let current;
-
-	let info = {
-		ctx,
-		current: null,
-		token: null,
-		hasCatch: false,
-		pending: create_pending_block,
-		then: create_then_block,
-		catch: create_catch_block,
-		value: 10,
-		blocks: [,,,]
-	};
-
-	(0,internal.handle_promise)(promise = getBookmarks(), info);
-
-	const block = {
-		c: function create() {
-			await_block_anchor = (0,internal.empty)();
-			info.block.c();
-		},
-		m: function mount(target, anchor) {
-			(0,internal.insert_dev)(target, await_block_anchor, anchor);
-			info.block.m(target, info.anchor = anchor);
-			info.mount = () => await_block_anchor.parentNode;
-			info.anchor = await_block_anchor;
-			current = true;
-		},
-		p: function update(new_ctx, dirty) {
-			ctx = new_ctx;
-			(0,internal.update_await_block_branch)(info, ctx, dirty);
-		},
-		i: function intro(local) {
-			if (current) return;
-			(0,internal.transition_in)(info.block);
-			current = true;
-		},
-		o: function outro(local) {
-			for (let i = 0; i < 3; i += 1) {
-				const block = info.blocks[i];
-				(0,internal.transition_out)(block);
-			}
-
-			current = false;
-		},
-		d: function destroy(detaching) {
-			if (detaching) (0,internal.detach_dev)(await_block_anchor);
-			info.block.d(detaching);
-			info.token = null;
-			info = null;
-		}
-	};
-
-	(0,internal.dispatch_dev)("SvelteRegisterBlock", {
-		block,
-		id: create_key_block.name,
-		type: "key",
-		source: "(122:0) {#key refresh}",
-		ctx
-	});
-
-	return block;
-}
-
 function create_fragment(ctx) {
-	let p;
-	let t1;
 	let nav;
 	let h3;
+	let t0;
+	let t1;
+	let t2_value = "{" + "";
 	let t2;
 	let t3;
-	let t4_value = "{+" + "";
+	let t4_value = "}" + "";
 	let t4;
 	let t5;
-	let t6_value = "+}" + "";
-	let t6;
-	let t7;
 	let button;
 	let input;
-	let t8;
+	let t6;
 	let icon;
-	let t9;
-	let div;
-	let t10;
-	let t11;
-	let previous_key = /*refresh*/ ctx[3];
+	let t7;
+	let await_block_anchor;
+	let promise;
 	let current;
 	let mounted;
 	let dispose;
@@ -640,82 +964,85 @@ function create_fragment(ctx) {
 			$$inline: true
 		});
 
-	let key_block = create_key_block(ctx);
+	let info = {
+		ctx,
+		current: null,
+		token: null,
+		hasCatch: false,
+		pending: create_pending_block,
+		then: create_then_block,
+		catch: create_catch_block_1,
+		value: 9,
+		blocks: [,,,]
+	};
+
+	(0,internal.handle_promise)(promise = getBookmarks(), info);
 
 	const block = {
 		c: function create() {
-			p = (0,internal.element)("p");
-			p.textContent = "Happy Bookmarking you wild one, it's gonna be ok!";
-			t1 = (0,internal.space)();
 			nav = (0,internal.element)("nav");
 			h3 = (0,internal.element)("h3");
-			t2 = (0,internal.text)(/*name*/ ctx[0]);
-			t3 = (0,internal.text)(" - ");
+			t0 = (0,internal.text)(/*name*/ ctx[0]);
+			t1 = (0,internal.text)(" - ");
+			t2 = (0,internal.text)(t2_value);
+			t3 = (0,internal.text)(" Live Mode ");
 			t4 = (0,internal.text)(t4_value);
-			t5 = (0,internal.text)(" Live Mode ");
-			t6 = (0,internal.text)(t6_value);
-			t7 = (0,internal.space)();
+			t5 = (0,internal.space)();
 			button = (0,internal.element)("button");
 			input = (0,internal.element)("input");
-			t8 = (0,internal.space)();
+			t6 = (0,internal.space)();
 			(0,internal.create_component)(icon.$$.fragment);
-			t9 = (0,internal.space)();
-			div = (0,internal.element)("div");
-			t10 = (0,internal.text)(/*$loadedTrees*/ ctx[4]);
-			t11 = (0,internal.space)();
-			key_block.c();
-			(0,internal.add_location)(p, file, 92, 0, 2736);
-			(0,internal.add_location)(h3, file, 94, 2, 2839);
+			t7 = (0,internal.space)();
+			await_block_anchor = (0,internal.empty)();
+			info.block.c();
+			(0,internal.add_location)(h3, file, 108, 2, 3239);
 			(0,internal.attr_dev)(input, "type", "checkbox");
 			input.hidden = true;
 			(0,internal.attr_dev)(input, "data-toggle-theme", "dark,light");
 			(0,internal.attr_dev)(input, "data-act-class", "ACTIVECLASS");
-			(0,internal.add_location)(input, file, 101, 4, 2996);
+			(0,internal.add_location)(input, file, 115, 4, 3394);
 			(0,internal.attr_dev)(button, "class", "p-1");
-			(0,internal.add_location)(button, file, 95, 2, 2883);
+			(0,internal.add_location)(button, file, 109, 2, 3281);
 			(0,internal.attr_dev)(nav, "class", "flex row mb-5 justify-between");
-			(0,internal.add_location)(nav, file, 93, 0, 2793);
-			(0,internal.attr_dev)(div, "class", "");
-			(0,internal.add_location)(div, file, 116, 0, 3313);
+			(0,internal.add_location)(nav, file, 107, 0, 3193);
 		},
 		l: function claim(nodes) {
 			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
 		},
 		m: function mount(target, anchor) {
-			(0,internal.insert_dev)(target, p, anchor);
-			(0,internal.insert_dev)(target, t1, anchor);
 			(0,internal.insert_dev)(target, nav, anchor);
 			(0,internal.append_dev)(nav, h3);
+			(0,internal.append_dev)(h3, t0);
+			(0,internal.append_dev)(h3, t1);
 			(0,internal.append_dev)(h3, t2);
 			(0,internal.append_dev)(h3, t3);
 			(0,internal.append_dev)(h3, t4);
-			(0,internal.append_dev)(h3, t5);
-			(0,internal.append_dev)(h3, t6);
-			(0,internal.append_dev)(nav, t7);
+			(0,internal.append_dev)(nav, t5);
 			(0,internal.append_dev)(nav, button);
 			(0,internal.append_dev)(button, input);
 			input.checked = /*isDarkMode*/ ctx[1];
-			/*input_binding*/ ctx[6](input);
-			(0,internal.append_dev)(button, t8);
+			/*input_binding*/ ctx[4](input);
+			(0,internal.append_dev)(button, t6);
 			(0,internal.mount_component)(icon, button, null);
-			(0,internal.insert_dev)(target, t9, anchor);
-			(0,internal.insert_dev)(target, div, anchor);
-			(0,internal.append_dev)(div, t10);
-			(0,internal.append_dev)(div, t11);
-			key_block.m(div, null);
+			(0,internal.insert_dev)(target, t7, anchor);
+			(0,internal.insert_dev)(target, await_block_anchor, anchor);
+			info.block.m(target, info.anchor = anchor);
+			info.mount = () => await_block_anchor.parentNode;
+			info.anchor = await_block_anchor;
 			current = true;
 
 			if (!mounted) {
 				dispose = [
-					(0,internal.listen_dev)(input, "change", /*input_change_handler*/ ctx[5]),
-					(0,internal.listen_dev)(button, "click", /*click_handler*/ ctx[7], false, false, false)
+					(0,internal.listen_dev)(input, "change", /*input_change_handler*/ ctx[3]),
+					(0,internal.listen_dev)(button, "click", /*click_handler*/ ctx[5], false, false, false)
 				];
 
 				mounted = true;
 			}
 		},
-		p: function update(ctx, [dirty]) {
-			if (!current || dirty & /*name*/ 1) (0,internal.set_data_dev)(t2, /*name*/ ctx[0]);
+		p: function update(new_ctx, [dirty]) {
+			ctx = new_ctx;
+			if (!current || dirty & /*name*/ 1) (0,internal.set_data_dev)(t0, /*name*/ ctx[0]);
 
 			if (dirty & /*isDarkMode*/ 2) {
 				input.checked = /*isDarkMode*/ ctx[1];
@@ -728,40 +1055,33 @@ function create_fragment(ctx) {
 			: moon_filled_alt_loop["default"];
 
 			icon.$set(icon_changes);
-			if (!current || dirty & /*$loadedTrees*/ 16) (0,internal.set_data_dev)(t10, /*$loadedTrees*/ ctx[4]);
-
-			if (dirty & /*refresh*/ 8 && (0,internal.safe_not_equal)(previous_key, previous_key = /*refresh*/ ctx[3])) {
-				(0,internal.group_outros)();
-				(0,internal.transition_out)(key_block, 1, 1, internal.noop);
-				(0,internal.check_outros)();
-				key_block = create_key_block(ctx);
-				key_block.c();
-				(0,internal.transition_in)(key_block, 1);
-				key_block.m(div, null);
-			} else {
-				key_block.p(ctx, dirty);
-			}
+			(0,internal.update_await_block_branch)(info, ctx, dirty);
 		},
 		i: function intro(local) {
 			if (current) return;
 			(0,internal.transition_in)(icon.$$.fragment, local);
-			(0,internal.transition_in)(key_block);
+			(0,internal.transition_in)(info.block);
 			current = true;
 		},
 		o: function outro(local) {
 			(0,internal.transition_out)(icon.$$.fragment, local);
-			(0,internal.transition_out)(key_block);
+
+			for (let i = 0; i < 3; i += 1) {
+				const block = info.blocks[i];
+				(0,internal.transition_out)(block);
+			}
+
 			current = false;
 		},
 		d: function destroy(detaching) {
-			if (detaching) (0,internal.detach_dev)(p);
-			if (detaching) (0,internal.detach_dev)(t1);
 			if (detaching) (0,internal.detach_dev)(nav);
-			/*input_binding*/ ctx[6](null);
+			/*input_binding*/ ctx[4](null);
 			(0,internal.destroy_component)(icon);
-			if (detaching) (0,internal.detach_dev)(t9);
-			if (detaching) (0,internal.detach_dev)(div);
-			key_block.d(detaching);
+			if (detaching) (0,internal.detach_dev)(t7);
+			if (detaching) (0,internal.detach_dev)(await_block_anchor);
+			info.block.d(detaching);
+			info.token = null;
+			info = null;
 			mounted = false;
 			(0,internal.run_all)(dispose);
 		}
@@ -779,9 +1099,6 @@ function create_fragment(ctx) {
 }
 
 function instance($$self, $$props, $$invalidate) {
-	let $loadedTrees;
-	(0,internal.validate_store)(store.loadedTrees, 'loadedTrees');
-	(0,internal.component_subscribe)($$self, store.loadedTrees, $$value => $$invalidate(4, $loadedTrees = $$value));
 	let { $$slots: slots = {}, $$scope } = $$props;
 	(0,internal.validate_slots)('App', slots, []);
 	let { name } = $$props;
@@ -802,7 +1119,7 @@ function instance($$self, $$props, $$invalidate) {
 	let refresh;
 
 	store.refresh_ui.subscribe(val => {
-		$$invalidate(3, refresh = val);
+		refresh = val;
 		console.log(`UI refreshing...`, refresh);
 	});
 
@@ -818,11 +1135,23 @@ function instance($$self, $$props, $$invalidate) {
 		console.log("DOMContentLoaded! App");
 
 		wunderbaum_esm.Wunderbaum?.util.onEvent(document, "click", ".wb-row", e => {
-			console.log({ e });
 			const info = wunderbaum_esm.Wunderbaum.getEventInfo(e);
 			const node = info.node;
+			console.log({ e }, info.node.tree.id);
 
 			if (node.isExpandable()) {
+				console.log('Clicked on Folder');
+
+				eventBus["default"].emit({
+					event: eventHandlers.EventEnum.TreeNodeSelected,
+					source: node
+				});
+
+				// eventBus.emit(
+				//   EventEnum.TreeNodeSelected,
+				//   {src:node.tree, node_id: node.key, source_node: node},
+				//   node.tree.id
+				// )
 				// there will be collisions if the folder names are the same...
 				// const hash = await sha256(`${node.title}${node.data.id}`)
 				const totally_not_a_hash = `${node.title}${node.data.id}`;
@@ -875,15 +1204,17 @@ function instance($$self, $$props, $$invalidate) {
 		bookmarksLoaded: store.bookmarksLoaded,
 		refresh_ui: store.refresh_ui,
 		stack: store.stack,
+		filterFolders: filterFolders,
 		getBookmarks: getBookmarks,
 		Wunderbaum: wunderbaum_esm.Wunderbaum,
+		eventBus: eventBus["default"],
+		EventEnum: eventHandlers.EventEnum,
 		name,
 		isDarkMode,
 		themeSwitch,
 		bmarks,
 		refresh,
-		expanded,
-		$loadedTrees
+		expanded
 	});
 
 	$$self.$inject_state = $$props => {
@@ -891,7 +1222,7 @@ function instance($$self, $$props, $$invalidate) {
 		if ('isDarkMode' in $$props) $$invalidate(1, isDarkMode = $$props.isDarkMode);
 		if ('themeSwitch' in $$props) $$invalidate(2, themeSwitch = $$props.themeSwitch);
 		if ('bmarks' in $$props) bmarks = $$props.bmarks;
-		if ('refresh' in $$props) $$invalidate(3, refresh = $$props.refresh);
+		if ('refresh' in $$props) refresh = $$props.refresh;
 		if ('expanded' in $$props) expanded = $$props.expanded;
 	};
 
@@ -903,8 +1234,6 @@ function instance($$self, $$props, $$invalidate) {
 		name,
 		isDarkMode,
 		themeSwitch,
-		refresh,
-		$loadedTrees,
 		input_change_handler,
 		input_binding,
 		click_handler
@@ -1395,8 +1724,10 @@ if (module && module.hot) {}
 /* harmony import */ var wunderbaum__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! wunderbaum */ "./node_modules/.pnpm/wunderbaum@0.3.5/node_modules/wunderbaum/dist/wunderbaum.esm.js");
 /* harmony import */ var _store_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../store/index */ "./src/popup/components/store/index.js");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utils */ "./src/popup/utils.js");
-/* harmony import */ var _Users_miezan_Desktop_Dev_Bookmark2_node_modules_pnpm_svelte_loader_3_1_3_svelte_3_50_1_node_modules_svelte_loader_lib_hot_api_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./node_modules/.pnpm/svelte-loader@3.1.3_svelte@3.50.1/node_modules/svelte-loader/lib/hot-api.js */ "./node_modules/.pnpm/svelte-loader@3.1.3_svelte@3.50.1/node_modules/svelte-loader/lib/hot-api.js");
-/* harmony import */ var _Users_miezan_Desktop_Dev_Bookmark2_node_modules_pnpm_svelte_hmr_0_14_12_svelte_3_50_1_node_modules_svelte_hmr_runtime_proxy_adapter_dom_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./node_modules/.pnpm/svelte-hmr@0.14.12_svelte@3.50.1/node_modules/svelte-hmr/runtime/proxy-adapter-dom.js */ "./node_modules/.pnpm/svelte-hmr@0.14.12_svelte@3.50.1/node_modules/svelte-hmr/runtime/proxy-adapter-dom.js");
+/* harmony import */ var _shared_eventBus_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../shared/eventBus.js */ "./src/shared/eventBus.js");
+/* harmony import */ var _shared_eventHandlers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../shared/eventHandlers */ "./src/shared/eventHandlers.js");
+/* harmony import */ var _Users_miezan_Desktop_Dev_Bookmark2_node_modules_pnpm_svelte_loader_3_1_3_svelte_3_50_1_node_modules_svelte_loader_lib_hot_api_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./node_modules/.pnpm/svelte-loader@3.1.3_svelte@3.50.1/node_modules/svelte-loader/lib/hot-api.js */ "./node_modules/.pnpm/svelte-loader@3.1.3_svelte@3.50.1/node_modules/svelte-loader/lib/hot-api.js");
+/* harmony import */ var _Users_miezan_Desktop_Dev_Bookmark2_node_modules_pnpm_svelte_hmr_0_14_12_svelte_3_50_1_node_modules_svelte_hmr_runtime_proxy_adapter_dom_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./node_modules/.pnpm/svelte-hmr@0.14.12_svelte@3.50.1/node_modules/svelte-hmr/runtime/proxy-adapter-dom.js */ "./node_modules/.pnpm/svelte-hmr@0.14.12_svelte@3.50.1/node_modules/svelte-hmr/runtime/proxy-adapter-dom.js");
 /* module decorator */ module = __webpack_require__.hmd(module);
 /* src/popup/components/fileSystem/TreeView.svelte generated by Svelte v3.50.1 */
 
@@ -1405,6 +1736,12 @@ const { console: console_1, document: document_1 } = svelte_internal__WEBPACK_IM
 
 
 // import { Wunderbaum } from "wunderbaum/dist/wunderbaum.esm.min";
+
+
+
+
+
+// import EventBusTool, {event_bus} from '@shared/event_bus'
 
 
 
@@ -1445,13 +1782,13 @@ function create_fragment(ctx) {
 			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(link1, file, 2, 2, 127);
 			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(output, "id", /*parentDOM*/ ctx[1]);
 			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(output, "class", "");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(output, file, 172, 2, 5291);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(h1, file, 175, 4, 5480);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(p, file, 176, 4, 5502);
+			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(output, file, 228, 2, 7177);
+			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(h1, file, 231, 4, 7366);
+			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(p, file, 232, 4, 7388);
 			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(div0, "id", /*treeDOM*/ ctx[0]);
 			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(div0, "class", "");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(div0, file, 173, 2, 5335);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(div1, file, 170, 0, 5282);
+			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(div0, file, 229, 2, 7221);
+			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(div1, file, 226, 0, 7168);
 		},
 		l: function claim(nodes) {
 			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1509,16 +1846,40 @@ function faviconURL(u) {
 
 function instance($$self, $$props, $$invalidate) {
 	let $loadedTrees;
+	let $Forest;
 	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.validate_store)(_store_index__WEBPACK_IMPORTED_MODULE_3__.loadedTrees, 'loadedTrees');
 	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.component_subscribe)($$self, _store_index__WEBPACK_IMPORTED_MODULE_3__.loadedTrees, $$value => $$invalidate(5, $loadedTrees = $$value));
+	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.validate_store)(_store_index__WEBPACK_IMPORTED_MODULE_3__.Forest, 'Forest');
+	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.component_subscribe)($$self, _store_index__WEBPACK_IMPORTED_MODULE_3__.Forest, $$value => $$invalidate(6, $Forest = $$value));
 	let { $$slots: slots = {}, $$scope } = $$props;
 	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.validate_slots)('TreeView', slots, []);
 	let { treeDOM = 'treeDOM_ID_1' } = $$props;
 	let { parentDOM = 'parentDOM_ID_1' } = $$props;
 	let { rootID } = $$props;
 	let { treeSource } = $$props;
+	let me = rootID;
 	let tree;
-	console.log("loading treeview...", rootID, treeSource);
+
+	// console.log("loading treeview...", rootID, treeSource)
+	// globalThis.eventBus = eventBus
+	// globalThis.EventEnum = EventEnum
+	const handleAllEvents = data => {
+		console.log("handleAllEvents", data, me);
+
+		if (data.event.src !== me) {
+			console.log(`${treeDOM} received LOADED event:`, event);
+		}
+	};
+
+	// eventBus.subscribeToAll(handleAllEvents)
+	_shared_eventBus_js__WEBPACK_IMPORTED_MODULE_5__.eventBus.emit(_shared_eventHandlers__WEBPACK_IMPORTED_MODULE_6__.EventEnum.TreeViewLoaded, { src: treeDOM }, me);
+
+	const addTreeToForest = newTree => {
+		(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.set_store_value)(_store_index__WEBPACK_IMPORTED_MODULE_3__.Forest, $Forest = [...$Forest, newTree], $Forest);
+		console.log($Forest);
+	};
+
+	// const event_bus = EventBusTool.getEventBus();
 	let showUrl = true;
 
 	// _expansionState[label] = !expanded;
@@ -1535,7 +1896,7 @@ function instance($$self, $$props, $$invalidate) {
 				debugLevel: 5,
 				// connectTopBreadcrumb: document.getElementById(parentDOM),
 				source: treeSource,
-				header: "Bookmark",
+				// header: "Bookmark",
 				// headerHeightPx: ROW_HEIGHT,
 				// rowHeightPx: ROW_HEIGHT,
 				columns: null,
@@ -1545,7 +1906,7 @@ function instance($$self, $$props, $$invalidate) {
 				fixedCol: false,
 				showSpinner: false,
 				checkbox: false,
-				minExpandLevel: 0,
+				// minExpandLevel: 3,
 				emptyChildListExpandable: false,
 				updateThrottleWait: 100,
 				skeleton: false,
@@ -1559,9 +1920,7 @@ function instance($$self, $$props, $$invalidate) {
 					if (showUrl) {
 						e.node.setTitle(e.node.data.url || e.node.title);
 					}
-
-					console.log("updating... enhanceTitle", { e });
-				},
+				}, // console.log("updating... enhanceTitle", {e})
 				icon: e => {
 					if (e.node?.data?.url) {
 						const _style = {
@@ -1576,18 +1935,19 @@ function instance($$self, $$props, $$invalidate) {
 				// error: noop,
 				// receive: noop,
 				render(e) {
-					const node = e.node;
-					const util = e.util;
+					const node = e.node; // if (e.node.data?.url){
+					//   const newTitle = `<span class=wb-title><a href="${e.node.data.url}">${e.node.title}</a></span>`
 
-					if (e.node.data?.url) {
-						const newTitle = `<span class=wb-title><a href="${e.node.data.url}">${e.node.title}</a></span>`;
-						const titleSpan = e.node.getColElem(0).querySelector(".wb-title");
-						titleSpan.innerHTML = newTitle;
-					}
-				},
-				load(e) {
-					console.log({ loading: true });
-				},
+					const util = e.util;
+				}, // if (e.node.data?.url){
+				//   const titleSpan = e.node
+				//     .getColElem(0)
+				//     .querySelector(".wb-title");
+				//   titleSpan.innerHTML = newTitle;
+				// }
+				// load: function(e){
+				//   console.log({loading: true})
+				// },
 				edit: {
 					trigger: ["clickActive", "F2", "macEnter"],
 					select: true,
@@ -1615,33 +1975,83 @@ function instance($$self, $$props, $$invalidate) {
 							1000
 						);
 					}
+				},
+				// lazyLoad: (e) => {
+				//   return { url: `https://fakestoreapi.com/products/category/${e.node.refKey}` }
+				// },
+				receive: e => {
+					return e.response.map(elem => {
+						console.log("receive", { elem });
+
+						return {
+							title: elem.title,
+							children: elem.children,
+							refKey: elem.id
+						};
+					});
+				},
+				/** ------- drag and drop --------*/
+				dnd: {
+					dragStart: e => {
+						if (e.node.type === "folder") {
+							return false;
+						}
+
+						e.event.dataTransfer.effectAllowed = "all";
+						return true;
+					},
+					dragEnter: e => {
+						if (e.node.type === "folder") {
+							e.event.dataTransfer.dropEffect = "copy";
+							return "over";
+						}
+
+						return ["before", "after"];
+					},
+					drop: e => {
+						console.log("Drop " + e.sourceNode + " => " + e.region + " " + e.node, e);
+						e.sourceNode.moveTo(e.node, e.defaultDropMode);
+					}
 				}
 			});
 
-		// addToTreeArray(_tree)
+		addTreeToForest(_tree);
 		_store_index__WEBPACK_IMPORTED_MODULE_3__.loadedTrees.set($loadedTrees + 1);
 
 		// globalThis._tree = _tree
+		//  console.info(_tree.format(n=>n.key))
 		tree = _tree;
 
 		return _tree;
 	}; // }
 
 	(0,svelte__WEBPACK_IMPORTED_MODULE_1__.onMount)(() => {
-		init_tree();
+		const myTree = init_tree();
+
+		for (const event_name in _shared_eventHandlers__WEBPACK_IMPORTED_MODULE_6__.EventEnum) {
+			// eventBus.subscribe(EventEnum[event_name], me, (src, data)=>{
+			//   console.log(`EVENT-[${event_name}] SENT FROM [${src}] TO [${me}] `, data)
+			//   const destinationNode = myTree
+			//   fnWrap(event_name, eventEnumHandlers[EventEnum[event_name]], [data, src, destinationNode])()
+			// })
+			_shared_eventBus_js__WEBPACK_IMPORTED_MODULE_5__.eventBus.subscribe(_shared_eventHandlers__WEBPACK_IMPORTED_MODULE_6__.EventEnum[event_name], me, (src, data) => {
+				console.log(`EVENT-[${event_name}] SENT FROM [${src}] TO [${me}] `, data);
+				const destinationNode = myTree;
+
+				(0,_shared_eventHandlers__WEBPACK_IMPORTED_MODULE_6__.fnWrap)(event_name, _shared_eventHandlers__WEBPACK_IMPORTED_MODULE_6__.eventEnumHandlers[_shared_eventHandlers__WEBPACK_IMPORTED_MODULE_6__.EventEnum[event_name]], [
+					{
+						event: event_name,
+						source: src,
+						target: myTree,
+						data
+					}
+				])();
+			});
+		}
 	}); // window.addEventListener('OnMount::DOMContentLoaded')
 	// return () => window.removeEventListener('DOMContentLoaded');
 
-	// let treeSource;
-	// source.subscribe(val => {
-	//   console.log(`[${rootID}]: store updated..`, val)
-	//   if (val){
-	//     treeSource = val
-	//     // init_tree()
-	//   }
-	// })
 	globalThis._init_tree = init_tree;
-
 	const writable_props = ['treeDOM', 'parentDOM', 'rootID', 'treeSource'];
 
 	Object.keys($$props).forEach(key => {
@@ -1661,16 +2071,26 @@ function instance($$self, $$props, $$invalidate) {
 		Wunderbaum: wunderbaum__WEBPACK_IMPORTED_MODULE_2__.Wunderbaum,
 		loadedTrees: _store_index__WEBPACK_IMPORTED_MODULE_3__.loadedTrees,
 		source: _store_index__WEBPACK_IMPORTED_MODULE_3__.source,
+		Forest: _store_index__WEBPACK_IMPORTED_MODULE_3__.Forest,
 		styleToString: _utils__WEBPACK_IMPORTED_MODULE_4__.styleToString,
+		EventBusTool: _shared_eventBus_js__WEBPACK_IMPORTED_MODULE_5__.EventBusTool,
+		eventBus: _shared_eventBus_js__WEBPACK_IMPORTED_MODULE_5__.eventBus,
+		EventEnum: _shared_eventHandlers__WEBPACK_IMPORTED_MODULE_6__.EventEnum,
+		fnWrap: _shared_eventHandlers__WEBPACK_IMPORTED_MODULE_6__.fnWrap,
+		eventEnumHandlers: _shared_eventHandlers__WEBPACK_IMPORTED_MODULE_6__.eventEnumHandlers,
 		treeDOM,
 		parentDOM,
 		rootID,
 		treeSource,
+		me,
 		tree,
+		handleAllEvents,
+		addTreeToForest,
 		faviconURL,
 		showUrl,
 		init_tree,
-		$loadedTrees
+		$loadedTrees,
+		$Forest
 	});
 
 	$$self.$inject_state = $$props => {
@@ -1678,6 +2098,7 @@ function instance($$self, $$props, $$invalidate) {
 		if ('parentDOM' in $$props) $$invalidate(1, parentDOM = $$props.parentDOM);
 		if ('rootID' in $$props) $$invalidate(2, rootID = $$props.rootID);
 		if ('treeSource' in $$props) $$invalidate(3, treeSource = $$props.treeSource);
+		if ('me' in $$props) me = $$props.me;
 		if ('tree' in $$props) tree = $$props.tree;
 		if ('showUrl' in $$props) showUrl = $$props.showUrl;
 	};
@@ -1989,7 +2410,7 @@ if (module && module.hot) {}
 /******/ 			return __webpack_require__.O(result);
 /******/ 		}
 /******/ 		
-/******/ 		var chunkLoadingGlobal = self["webpackChunkbookmark2"] = self["webpackChunkbookmark2"] || [];
+/******/ 		var chunkLoadingGlobal = self["webpackChunkunbounded_bookmarks"] = self["webpackChunkunbounded_bookmarks"] || [];
 /******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
 /******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
 /******/ 	})();
@@ -1999,6 +2420,7 @@ if (module && module.hot) {}
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	__webpack_require__.O(undefined, ["vendors.js"], () => (__webpack_require__("./src/shared/events.js")))
 /******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors.js"], () => (__webpack_require__("./src/popup/index.js")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	

@@ -132,6 +132,10 @@ html, body {
   font-size: var(--text-size);
   height: 100%;
 	color: var(--text-color);
+
+	display: flex;
+    flex-direction: column;
+	overflow: hidden;
 	/* background: #f9f9f9; */
 }
 
@@ -141,6 +145,7 @@ html, body {
 		padding: 10px;
 		width: 100%;
 		margin: 0 auto;
+		height: 100%;
 		box-sizing: border-box;
 		@apply bg-gray-900;
 	}
@@ -156,6 +161,26 @@ html, body {
 		}
 	}
 
+
+
+
+	div.wunderbaum div.wb-header {
+    border-bottom: 1px solid white !important;
+  }
+
+  div.wunderbaum {
+    border: none !important;
+  }
+  div.wb-header {
+    width: auto !important;
+  }
+
+  .main-content {
+	flex: 1;
+    display: flex;
+    flex-direction: column;
+	height: 100%;
+  }
 
 </style>
 

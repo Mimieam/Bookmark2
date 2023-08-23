@@ -25,8 +25,10 @@
 
 
   } from "./components/store";
-  import { getBookmarks } from "./popup";
+  import { filterFolders, getBookmarks } from "./popup";
   import { Wunderbaum } from "wunderbaum/dist/wunderbaum.esm";
+  import eventBus from "../shared/eventBus";
+  import { EventEnum } from "../shared/eventHandlers";
 
   //   import svelteTreeView from 'https://cdn.skypack.dev/svelte-tree-view';
 
@@ -64,10 +66,20 @@
   document.addEventListener("DOMContentLoaded", () => {
     console.log("DOMContentLoaded! App");
     Wunderbaum?.util.onEvent(document, "click", ".wb-row", (e)=>{
-      console.log({e})
       const info = Wunderbaum.getEventInfo(e);
       const node = info.node;
+      console.log({e}, info.node.tree.id)
       if (node.isExpandable()){
+        console.log('Clicked on Folder')
+
+        eventBus.emit({event: EventEnum.TreeNodeSelected, source: node})
+
+        // eventBus.emit(
+        //   EventEnum.TreeNodeSelected,
+        //   {src:node.tree, node_id: node.key, source_node: node},
+        //   node.tree.id
+        // )
+
         // there will be collisions if the folder names are the same...
         // const hash = await sha256(`${node.title}${node.data.id}`)
         const totally_not_a_hash = `${node.title}${node.data.id}`
@@ -89,10 +101,14 @@
 
 </script>
 
-<!-- <h2>Hello {name}!</h2> -->
-<p>Happy Bookmarking you wild one, it's gonna be ok!</p>
+<style>
+
+</style>
+
+<!-- <div class="nav bg-black"> Bm2</div> -->
+
 <nav class="flex row mb-5 justify-between">
-  <h3>{name} - {"{+"} Live Mode {"+}"}</h3>
+  <h3>{name} - {"{"} Live Mode {"}"}</h3>
   <button
     on:click={() => {
       console.log(themeSwitch.click(), isDarkMode);
@@ -114,16 +130,62 @@
     />
   </button>
 </nav>
-<div class="">
-  <!-- <Panel/> -->
 
-  {$loadedTrees}
-  <!-- {$source} -->
+<!-- <div class="panels bg-black"> -->
+    {#await getBookmarks() then data }
+    <SplitPanel leftPanelWidth="30%" rightPanelWidth="50%">
+      <div slot="left">
+        {#await  filterFolders(data) then filteredData}
+          <TreeView
+              treeSource={filteredData}
+              rootID="leftTree"
+              treeDOM="leftTreeDOM"
+              parentDOM="leftParentDOM"
+          />
+        {/await}
+    </div>
+    <div class="bg-black" slot="right">
+      <TreeView
+              treeSource={structuredClone(data)}
+              rootID="rightTree"
+              treeDOM="rightTreeDOM"
+              parentDOM="rightParentDOM"
+        />
+      </div>
+  </SplitPanel>
+  {/await}
+
+<!-- </div> -->
+
+<!-- <div class="main-content">
+<nav class="flex row mb-5 justify-between">
+  <h3>{name} - {"{"} Live Mode {"}"}</h3>
+  <button
+    on:click={() => {
+      console.log(themeSwitch.click(), isDarkMode);
+    }}
+    class="p-1"
+  >
+    <input
+      type="checkbox"
+      hidden
+      data-toggle-theme="dark,light"
+      data-act-class="ACTIVECLASS"
+      bind:checked={isDarkMode}
+      bind:this={themeSwitch}
+    />
+    <Icon
+      icon={isDarkMode
+        ? moonAltToSunnyOutlineLoopTransition
+        : moonFilledAltLoop}
+    />
+  </button>
+</nav>
+
 {#key refresh}
   {#await getBookmarks() then data }
-    <SplitPanel leftPanelWidth="50%" rightPanelWidth="50%">
+    <SplitPanel leftPanelWidth="20%" rightPanelWidth="50%">
       <div slot="left">
-            <!-- <div> -->
           <TreeView
               treeSource={data}
               rootID="leftTree"
@@ -132,10 +194,9 @@
               thisTree={leftTreeStore}
               otherTree={rightTreeStore}
           />
-        <!-- </div> -->
     </div>
     <div class="bg-black" slot="right">
-        <TreeView
+      <TreeView
               treeSource={structuredClone(data)}
               rootID="rightTree"
               treeDOM="rightTreeDOM"
@@ -145,5 +206,4 @@
   </SplitPanel>
   {/await}
 {/key}
-  <!-- {treeText} -->
-</div>
+</div> -->

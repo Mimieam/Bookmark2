@@ -237,7 +237,7 @@ webextension_polyfill__WEBPACK_IMPORTED_MODULE_0___default().windows.onRemoved.a
 /******/ 			return __webpack_require__.O(result);
 /******/ 		}
 /******/ 		
-/******/ 		var chunkLoadingGlobal = self["webpackChunkbookmark2"] = self["webpackChunkbookmark2"] || [];
+/******/ 		var chunkLoadingGlobal = self["webpackChunkunbounded_bookmarks"] = self["webpackChunkunbounded_bookmarks"] || [];
 /******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
 /******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
 /******/ 	})();

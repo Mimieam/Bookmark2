@@ -55,12 +55,23 @@
   height: 100%;
   scroll-behavior: smooth;
   overflow: scroll;
+  /* margin-bottom: 1.58em; */
+  /* padding-bottom: 3em; */
+  /* border: 2px solid var(--wb-border-color); */
+}
+
+.split-panel-left :global(div)::-webkit-scrollbar,
+.split-panel-right :global(div[slot='right'])::-webkit-scrollbar{
+  display: none;
 }
 
   .split-panel {
     display: flex;
-    height: 80vh;
+    height: 100%;
     width: 100%;
+    /* flex: 1; */
+    /* border: 2px solid var(--wb-border-color); */
+    /* border-radius: 5px; */
   }
 
   .split-panel-left,
@@ -71,18 +82,23 @@
     scroll-behavior: smooth;
     -ms-overflow-style: none;  /* Internet Explorer 10+ */
     scrollbar-width: none;  /* Firefox */
+    /* padding-bottom: 2.88em; */
   }
 
   .split-panel-left {
     display: block;
     min-width: 50px;
     width: 30%;
+    padding-bottom: 2.95em;
   }
 
   .split-panel-right {
     flex: 1;
     display: block;
     min-width: 50px;
+    border-radius: 6.5px;
+    /* padding-bottom: 2.88em; */
+    padding-bottom: 5.2em;
   }
 
   .split-panel-resize-handle {
@@ -95,6 +111,8 @@
     /* background: var(--primary-color); */
     /* background: hsl(0deg 0% 96% / 0%);  */
     position: relative;
-    height: calc(80vh - 6px);
+    /* height: calc(80vh - 6px); */
   }
+
+
 </style>

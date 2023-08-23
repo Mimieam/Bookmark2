@@ -16,6 +16,8 @@ const manifest_version = process.env.MANIFEST_VERSION || 3;
 const manifest_path = path.join(__dirname, 'src', (manifest_version == 2 ? 'manifest.mv2.json' : 'manifest.mv3.json'))
 
 console.log(`Using Mv${manifest_version}...`, manifest_path)
+console.log(`Running in env = ${mode}`)
+
 
 const PATHS = {
 	root: path.join(__dirname, ''),
@@ -25,9 +27,11 @@ const PATHS = {
 	dist: path.join(__dirname, 'dist'),
 };
 
+const popup_entry = prod? ['./src/popup/index.js']: ['./src/shared/events.js', './src/popup/index.js']
+
 module.exports = {
 	entry: {
-		'popup.js': './src/popup/index.js',
+		'popup.js': popup_entry,
 		'bg.js': ['./src/bg/index.js'],
 	},
 	output: {
@@ -40,6 +44,7 @@ module.exports = {
 			svelte: path.dirname(require.resolve('svelte/package.json')),
 			'@store': path.resolve('src/popup/components/store/'),
 			'@assets': path.resolve('src/assets/'),
+			'@shared': path.resolve('src/shared/'),
 		},
 		extensions: ['.mjs', '.js', '.svelte'],
 		mainFields: ['svelte', 'browser', 'module', 'main']
@@ -52,7 +57,7 @@ module.exports = {
 		concatenateModules: !prod,  // THIS CRAP MAKES PROD BUILD FAILED WHEN CHUNKING
 		minimizer: [
 			new ESBuildMinifyPlugin({
-				target: "es2015",
+				target: "es2022",
 			}),
 		],
 		sideEffects: true,
@@ -85,6 +90,7 @@ module.exports = {
 						preprocess: preprocess({
 							postcss: true,
 						}),
+						target: 'es2022',
 						hotReload: true
 					}
 				}
@@ -197,5 +203,6 @@ module.exports = {
 	watch: !prod,
 	watchOptions: {
 		ignored: "/node_modules/",
+		aggregateTimeout: 300,
 	},
 };

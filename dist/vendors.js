@@ -1,4 +1,4 @@
-(self["webpackChunkbookmark2"] = self["webpackChunkbookmark2"] || []).push([["vendors.js"],{
+(self["webpackChunkunbounded_bookmarks"] = self["webpackChunkunbounded_bookmarks"] || []).push([["vendors.js"],{
 
 /***/ "./node_modules/.pnpm/@iconify+icons-line-md@1.2.22/node_modules/@iconify/icons-line-md/moon-alt-to-sunny-outline-loop-transition.js":
 /*!*******************************************************************************************************************************************!*\
@@ -11961,7 +11961,6 @@ const sha512 = create('SHA-512');
 /* harmony export */   "assign": () => (/* binding */ assign),
 /* harmony export */   "attr_dev": () => (/* binding */ attr_dev),
 /* harmony export */   "binding_callbacks": () => (/* binding */ binding_callbacks),
-/* harmony export */   "check_outros": () => (/* binding */ check_outros),
 /* harmony export */   "component_subscribe": () => (/* binding */ component_subscribe),
 /* harmony export */   "createEventDispatcher": () => (/* binding */ createEventDispatcher),
 /* harmony export */   "create_component": () => (/* binding */ create_component),
@@ -11979,7 +11978,6 @@ const sha512 = create('SHA-512');
 /* harmony export */   "get_spread_update": () => (/* binding */ get_spread_update),
 /* harmony export */   "get_store_value": () => (/* binding */ get_store_value),
 /* harmony export */   "globals": () => (/* binding */ globals),
-/* harmony export */   "group_outros": () => (/* binding */ group_outros),
 /* harmony export */   "handle_promise": () => (/* binding */ handle_promise),
 /* harmony export */   "init": () => (/* binding */ init),
 /* harmony export */   "insert": () => (/* binding */ insert),
@@ -11996,6 +11994,7 @@ const sha512 = create('SHA-512');
 /* harmony export */   "set_attributes": () => (/* binding */ set_attributes),
 /* harmony export */   "set_current_component": () => (/* binding */ set_current_component),
 /* harmony export */   "set_data_dev": () => (/* binding */ set_data_dev),
+/* harmony export */   "set_store_value": () => (/* binding */ set_store_value),
 /* harmony export */   "set_style": () => (/* binding */ set_style),
 /* harmony export */   "set_svg_attributes": () => (/* binding */ set_svg_attributes),
 /* harmony export */   "space": () => (/* binding */ space),
@@ -12009,7 +12008,7 @@ const sha512 = create('SHA-512');
 /* harmony export */   "validate_slots": () => (/* binding */ validate_slots),
 /* harmony export */   "validate_store": () => (/* binding */ validate_store)
 /* harmony export */ });
-/* unused harmony exports HtmlTag, HtmlTagHydration, SvelteComponent, SvelteComponentTyped, SvelteElement, action_destroyer, add_attribute, add_classes, add_flush_callback, add_render_callback, add_resize_listener, add_styles, add_transform, afterUpdate, append, append_empty_stylesheet, append_hydration, append_hydration_dev, append_styles, attr, attribute_to_object, beforeUpdate, bind, blank_object, bubble, children, claim_component, claim_element, claim_html_tag, claim_space, claim_svg_element, claim_text, clear_loops, compute_rest_props, compute_slots, create_animation, create_bidirectional_transition, create_in_transition, create_out_transition, create_ssr_component, custom_event, dataset_dev, debug, destroy_block, destroy_each, detach, detach_after_dev, detach_before_dev, detach_between_dev, dirty_components, each, element_is, end_hydrating, escape, escape_attribute_value, escape_object, fix_and_destroy_block, fix_and_outro_and_destroy_block, fix_position, flush, getAllContexts, getContext, get_binding_group_value, get_custom_elements_slots, get_root_for_style, get_spread_object, hasContext, has_prop, identity, insert_hydration_dev, intros, invalid_attribute_name_character, is_client, is_crossorigin, is_empty, is_promise, is_void, listen, loop, loop_guard, merge_ssr_styles, missing_component, not_equal, now, null_to_empty, object_without_properties, once, outro_and_destroy_block, prevent_default, prop_dev, query_selector_all, raf, run, schedule_update, select_multiple_value, select_option, select_options, select_value, self, setContext, set_custom_element_data, set_data, set_input_type, set_input_value, set_now, set_raf, set_store_value, spread, src_url_equal, start_hydrating, stop_propagation, tick, time_ranges_to_array, to_number, toggle_class, trusted, update_keyed_each, update_slot, validate_component, validate_dynamic_element, validate_each_argument, validate_each_keys, validate_void_dynamic_element, xlink_attr */
+/* unused harmony exports HtmlTag, HtmlTagHydration, SvelteComponent, SvelteComponentTyped, SvelteElement, action_destroyer, add_attribute, add_classes, add_flush_callback, add_render_callback, add_resize_listener, add_styles, add_transform, afterUpdate, append, append_empty_stylesheet, append_hydration, append_hydration_dev, append_styles, attr, attribute_to_object, beforeUpdate, bind, blank_object, bubble, check_outros, children, claim_component, claim_element, claim_html_tag, claim_space, claim_svg_element, claim_text, clear_loops, compute_rest_props, compute_slots, create_animation, create_bidirectional_transition, create_in_transition, create_out_transition, create_ssr_component, custom_event, dataset_dev, debug, destroy_block, destroy_each, detach, detach_after_dev, detach_before_dev, detach_between_dev, dirty_components, each, element_is, end_hydrating, escape, escape_attribute_value, escape_object, fix_and_destroy_block, fix_and_outro_and_destroy_block, fix_position, flush, getAllContexts, getContext, get_binding_group_value, get_custom_elements_slots, get_root_for_style, get_spread_object, group_outros, hasContext, has_prop, identity, insert_hydration_dev, intros, invalid_attribute_name_character, is_client, is_crossorigin, is_empty, is_promise, is_void, listen, loop, loop_guard, merge_ssr_styles, missing_component, not_equal, now, null_to_empty, object_without_properties, once, outro_and_destroy_block, prevent_default, prop_dev, query_selector_all, raf, run, schedule_update, select_multiple_value, select_option, select_options, select_value, self, setContext, set_custom_element_data, set_data, set_input_type, set_input_value, set_now, set_raf, spread, src_url_equal, start_hydrating, stop_propagation, tick, time_ranges_to_array, to_number, toggle_class, trusted, update_keyed_each, update_slot, validate_component, validate_dynamic_element, validate_each_argument, validate_each_keys, validate_void_dynamic_element, xlink_attr */
 function noop() { }
 const identity = x => x;
 function assign(tar, src) {
