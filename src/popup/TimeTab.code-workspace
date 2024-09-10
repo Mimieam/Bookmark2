@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../../../extensions/TimeTab"
+		},
+		{
+			"path": "../../../extensions/Recorder"
+		},
+		{
+			"path": "../.."
+		}
+	],
+	"settings": {}
+}

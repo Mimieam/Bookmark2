@@ -37,7 +37,8 @@ module.exports = {
 	output: {
 		path: PATHS.dist,
 		filename: '[name]',
-		devtoolModuleFilenameTemplate: (info) => 'file://' + path.resolve(info.absoluteResourcePath)
+		devtoolModuleFilenameTemplate: (info) => 'file://' + path.resolve(info.absoluteResourcePath),
+		chunkLoadingGlobal: 'wpJsonpFlightsWidget2'
 	},
 	resolve: {
 		alias: {
@@ -46,8 +47,9 @@ module.exports = {
 			'@assets': path.resolve('src/assets/'),
 			'@shared': path.resolve('src/shared/'),
 		},
-		extensions: ['.mjs', '.js', '.svelte'],
-		mainFields: ['svelte', 'browser', 'module', 'main']
+		extensions: ['.mjs', '.js', '.svelte', '.jsx'],
+		mainFields: ['svelte', 'browser', 'module', 'main'],
+		conditionNames: ['require', 'svelte'],
 	},
 	experiments: {
 		topLevelAwait: true
@@ -62,6 +64,14 @@ module.exports = {
 		],
 		sideEffects: true,
 		usedExports: true,
+		// because this package has multiple apps (svelte/react) the splitchunks gets confused and produce an error
+		// so I'm disabling this for now because I don't care to fix it now. bellows are links to trace this back
+
+		// https://stackoverflow.com/a/70753302/623546
+		// https://v4.webpack.js.org/configuration/output/#outputjsonpfunction
+		// https://medium.com/@cliffers/how-to-run-multiple-webpack-instances-on-the-same-page-and-avoid-any-conflicts-4e2fe0f016d1
+		// https://webpack.js.org/plugins/split-chunks-plugin/
+
 		splitChunks: {
 			cacheGroups: {
 				vendor: {
@@ -110,19 +120,24 @@ module.exports = {
 				}
 			},
 			{
-				test: /\.js$/,
+				test: /\.(js|jsx|json)$/,
 				exclude: /(node_modules)/,
 				resolve: {
-					extensions: ['.mjs', '.js', '.json']
+					extensions: ['.mjs', '.js', '.json', '.jsx']
 				},
 				use: {
 					loader: 'esbuild-loader',
-
 					options: {
 						target: 'es2022',
+						loader: 'jsx',
+						jsx: 'automatic',
 					},
 				},
 			},
+			// {
+			// 	test: /\.jsx$/,
+			// 	use: 'jsx'
+			// },
 			{
 				test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
 				use: 'file-loader',

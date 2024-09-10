@@ -3,8 +3,8 @@ import { displayTree } from '../../utils';
 
 export const refresh_ui = writable(true)
 
-// export const leftTreeStore = writable(null)
-// export const rightTreeStore = writable(null)
+export const leftTreeStore = writable(null)
+export const rightTreeStore = writable(null)
 export const loadedTrees = writable(0)
 export const Trees = writable([])
 export const Forest = writable([])
