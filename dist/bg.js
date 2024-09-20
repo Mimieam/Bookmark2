@@ -9,7 +9,7 @@ self.importScripts("vendors.js");
 /***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
 "use strict";
-/* harmony import */ var webextension_polyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! webextension-polyfill */ "./node_modules/webextension-polyfill/dist/browser-polyfill.js");
+/* harmony import */ var webextension_polyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! webextension-polyfill */ "./node_modules/.pnpm/webextension-polyfill@0.10.0/node_modules/webextension-polyfill/dist/browser-polyfill.js");
 /* harmony import */ var webextension_polyfill__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(webextension_polyfill__WEBPACK_IMPORTED_MODULE_0__);
 
 (async () => {
@@ -68,14 +68,14 @@ webextension_polyfill__WEBPACK_IMPORTED_MODULE_0___default().windows.onRemoved.a
 
 /***/ }),
 
-/***/ "./node_modules/webpack/hot sync ^\\.\\/log$":
-/*!***************************************************************!*\
-  !*** ./node_modules/webpack/hot/ sync nonrecursive ^\.\/log$ ***!
-  \***************************************************************/
+/***/ "./node_modules/.pnpm/webpack-dev-server@3.11.3_webpack-cli@4.10.0_webpack@5.94.0/node_modules/webpack/hot ./node_modules/webpack/hot sync ^\\.\\/log$":
+/*!**************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/webpack-dev-server@3.11.3_webpack-cli@4.10.0_webpack@5.94.0/node_modules/webpack/hot/ ./node_modules/webpack/hot/ sync nonrecursive ^\.\/log$ ***!
+  \**************************************************************************************************************************************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var map = {
-	"./log": "./node_modules/webpack/hot/log.js"
+	"./log": "./node_modules/.pnpm/webpack@5.94.0_webpack-cli@4.10.0/node_modules/webpack/hot/log.js"
 };
 
 
@@ -96,11 +96,11 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = "./node_modules/webpack/hot sync ^\\.\\/log$";
+webpackContext.id = "./node_modules/.pnpm/webpack-dev-server@3.11.3_webpack-cli@4.10.0_webpack@5.94.0/node_modules/webpack/hot ./node_modules/webpack/hot sync ^\\.\\/log$";
 
 /***/ }),
 
-/***/ "?4f7e":
+/***/ "?ed16":
 /*!********************************!*\
   !*** ./util.inspect (ignored) ***!
   \********************************/
@@ -233,7 +233,7 @@ webpackContext.id = "./node_modules/webpack/hot sync ^\\.\\/log$";
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => ("fec168a13aafa5062f75")
+/******/ 		__webpack_require__.h = () => ("7a9861cee7ff290e0a37")
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/global */
@@ -246,21 +246,6 @@ webpackContext.id = "./node_modules/webpack/hot sync ^\\.\\/log$";
 /******/ 				if (typeof window === 'object') return window;
 /******/ 			}
 /******/ 		})();
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/harmony module decorator */
-/******/ 	(() => {
-/******/ 		__webpack_require__.hmd = (module) => {
-/******/ 			module = Object.create(module);
-/******/ 			if (!module.children) module.children = [];
-/******/ 			Object.defineProperty(module, 'exports', {
-/******/ 				enumerable: true,
-/******/ 				set: () => {
-/******/ 					throw new Error('ES Modules may not assign module.exports or exports.*, Use ESM export syntax, instead: ' + module.id);
-/******/ 				}
-/******/ 			});
-/******/ 			return module;
-/******/ 		};
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
@@ -515,7 +500,7 @@ webpackContext.id = "./node_modules/webpack/hot sync ^\\.\\/log$";
 /******/ 					if (idx >= 0) registeredStatusHandlers.splice(idx, 1);
 /******/ 				},
 /******/ 		
-/******/ 				//inherit from previous dispose call
+/******/ 				// inherit from previous dispose call
 /******/ 				data: currentModuleData[moduleId]
 /******/ 			};
 /******/ 			currentChildModule = undefined;
@@ -607,11 +592,10 @@ webpackContext.id = "./node_modules/webpack/hot sync ^\\.\\/log$";
 /******/ 							return waitForBlockingPromises(function () {
 /******/ 								if (applyOnUpdate) {
 /******/ 									return internalApply(applyOnUpdate);
-/******/ 								} else {
-/******/ 									return setStatus("ready").then(function () {
-/******/ 										return updatedModules;
-/******/ 									});
 /******/ 								}
+/******/ 								return setStatus("ready").then(function () {
+/******/ 									return updatedModules;
+/******/ 								});
 /******/ 							});
 /******/ 						});
 /******/ 					});
@@ -726,7 +710,7 @@ webpackContext.id = "./node_modules/webpack/hot sync ^\\.\\/log$";
 /******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
 /******/ 		var document = __webpack_require__.g.document;
 /******/ 		if (!scriptUrl && document) {
-/******/ 			if (document.currentScript)
+/******/ 			if (document.currentScript && document.currentScript.tagName.toUpperCase() === 'SCRIPT')
 /******/ 				scriptUrl = document.currentScript.src;
 /******/ 			if (!scriptUrl) {
 /******/ 				var scripts = document.getElementsByTagName("script");
@@ -987,15 +971,12 @@ webpackContext.id = "./node_modules/webpack/hot sync ^\\.\\/log$";
 /******/ 				if (__webpack_require__.o(currentUpdate, moduleId)) {
 /******/ 					var newModuleFactory = currentUpdate[moduleId];
 /******/ 					/** @type {TODO} */
-/******/ 					var result;
-/******/ 					if (newModuleFactory) {
-/******/ 						result = getAffectedModuleEffects(moduleId);
-/******/ 					} else {
-/******/ 						result = {
-/******/ 							type: "disposed",
-/******/ 							moduleId: moduleId
-/******/ 						};
-/******/ 					}
+/******/ 					var result = newModuleFactory
+/******/ 						? getAffectedModuleEffects(moduleId)
+/******/ 						: {
+/******/ 								type: "disposed",
+/******/ 								moduleId: moduleId
+/******/ 							};
 /******/ 					/** @type {Error|false} */
 /******/ 					var abortError = false;
 /******/ 					var doApply = false;
@@ -1246,17 +1227,17 @@ webpackContext.id = "./node_modules/webpack/hot sync ^\\.\\/log$";
 /******/ 										moduleId: moduleId,
 /******/ 										module: __webpack_require__.c[moduleId]
 /******/ 									});
-/******/ 								} catch (err2) {
+/******/ 								} catch (err1) {
 /******/ 									if (options.onErrored) {
 /******/ 										options.onErrored({
 /******/ 											type: "self-accept-error-handler-errored",
 /******/ 											moduleId: moduleId,
-/******/ 											error: err2,
+/******/ 											error: err1,
 /******/ 											originalError: err
 /******/ 										});
 /******/ 									}
 /******/ 									if (!options.ignoreErrored) {
-/******/ 										reportError(err2);
+/******/ 										reportError(err1);
 /******/ 										reportError(err);
 /******/ 									}
 /******/ 								}
@@ -1378,8 +1359,8 @@ webpackContext.id = "./node_modules/webpack/hot sync ^\\.\\/log$";
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	__webpack_require__.O(undefined, ["vendors.js"], () => (__webpack_require__("./src/bg/index.js")))
-/******/ 	__webpack_require__.O(undefined, ["vendors.js"], () => (__webpack_require__("./node_modules/webpack-dev-server/client/index.js?http://localhost:8080")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors.js"], () => (__webpack_require__("./node_modules/webpack/hot/dev-server.js")))
+/******/ 	__webpack_require__.O(undefined, ["vendors.js"], () => (__webpack_require__("./node_modules/.pnpm/webpack-dev-server@3.11.3_webpack-cli@4.10.0_webpack@5.94.0/node_modules/webpack-dev-server/client/index.js?http://localhost:8080")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors.js"], () => (__webpack_require__("./node_modules/.pnpm/webpack@5.94.0_webpack-cli@4.10.0/node_modules/webpack/hot/dev-server.js")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

@@ -1,149 +1,99 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/popup/components/store/index.js":
-/*!*********************************************!*\
-  !*** ./src/popup/components/store/index.js ***!
-  \*********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Forest: () => (/* binding */ Forest),
-/* harmony export */   bookmarksLoaded: () => (/* binding */ bookmarksLoaded),
-/* harmony export */   leftTreeStore: () => (/* binding */ leftTreeStore),
-/* harmony export */   loadedTrees: () => (/* binding */ loadedTrees),
-/* harmony export */   refresh_ui: () => (/* binding */ refresh_ui),
-/* harmony export */   rightTreeStore: () => (/* binding */ rightTreeStore),
-/* harmony export */   source: () => (/* binding */ source),
-/* harmony export */   stack: () => (/* binding */ stack)
-/* harmony export */ });
-/* unused harmony exports Trees, isSyncingTrees, source2 */
-/* harmony import */ var svelte_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/store */ "./node_modules/svelte/store/index.mjs");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils */ "./src/popup/utils.js");
-
-
-const refresh_ui = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.writable)(true);
-const leftTreeStore = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.writable)(null);
-const rightTreeStore = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.writable)(null);
-const loadedTrees = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.writable)(0);
-const Trees = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.writable)([]);
-const Forest = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.writable)([]);
-const bookmarksLoaded = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.writable)(false);
-const isSyncingTrees = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.writable)(false);
-const source = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.writable)([]);
-const source2 = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.writable)(
-  [
-    {
-      "children": [
-        {
-          "children": [],
-          "dateAdded": 1690465904942,
-          "id": "1",
-          "index": 0,
-          "parentId": "0",
-          "title": "Bookmarks Bar"
-        },
-        {
-          "children": [],
-          "dateAdded": 1690465904942,
-          "id": "2",
-          "index": 1,
-          "parentId": "0",
-          "title": "Other Bookmarks"
-        }
-      ],
-      "expanded": true,
-      "dateAdded": 1690465904942,
-      "id": "0",
-      "title": ""
-    }
-  ]
-);
-globalThis.get = svelte_store__WEBPACK_IMPORTED_MODULE_0__.get;
-function createEmptyStack(limit = 10) {
-  const _stack = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.writable)([]);
-  const { subscribe, set, update } = _stack;
-  return {
-    subscribe,
-    set,
-    update,
-    push: (state_obj) => update((_stack2) => {
-      _stack2.push(structuredClone(state_obj));
-      console.log("Pushed on top");
-      if (_stack2.length > 10) {
-        _stack2.shift();
-        console.log("removing > 10");
-      }
-      return _stack2;
-    }),
-    /**
-     * remove the latest element from the stack
-     * @returns the last inserted element
-     */
-    pop: () => {
-      const bottomObj = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.get)(_stack).pop();
-      return bottomObj;
-    },
-    peek: () => (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.get)(stack),
-    find: () => {
-    },
-    printAll: (cb = (n) => `${n.title} ${n?.children?.length || ""}`) => {
-      const myStack = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.get)(stack);
-      myStack.map((state, idx) => {
-        const [treeRoot] = state;
-        console.groupCollapsed("Tree #", idx);
-        console.info((0,_utils__WEBPACK_IMPORTED_MODULE_1__.displayTree)(treeRoot, cb));
-        console.groupEnd();
-      });
-    },
-    print: (idx, expanded = false, cb = (n) => n.title) => {
-      const myStack = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.get)(stack);
-      idx = idx && 0 < idx && idx < myStack.length ? idx : myStack.length - 1;
-      const state = myStack[idx];
-      const [treeRoot] = state;
-      expanded ? console.group("Tree #", idx) : console.groupCollapsed("Tree #", idx);
-      console.info((0,_utils__WEBPACK_IMPORTED_MODULE_1__.displayTree)(treeRoot, cb));
-      console.groupEnd();
-    },
-    updateButKeepExpanded: () => {
-    },
-    reset: () => set([])
-    // three: () => update((n) => {
-    // 	n = n+1
-    // 	return n
-    // })
-  };
-}
-const stack = createEmptyStack();
-
-
-/***/ }),
-
 /***/ "./src/popup/index.js":
 /*!****************************************!*\
-  !*** ./src/popup/index.js + 1 modules ***!
+  !*** ./src/popup/index.js + 2 modules ***!
   \****************************************/
 /***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
 "use strict";
 
-// UNUSED EXPORTS: default
+// EXTERNAL MODULE: ./node_modules/.pnpm/react@18.3.1/node_modules/react/jsx-runtime.js
+var jsx_runtime = __webpack_require__("./node_modules/.pnpm/react@18.3.1/node_modules/react/jsx-runtime.js");
+// EXTERNAL MODULE: ./node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/client.js
+var client = __webpack_require__("./node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/client.js");
+// EXTERNAL MODULE: ./node_modules/.pnpm/react@18.3.1/node_modules/react/index.js
+var react = __webpack_require__("./node_modules/.pnpm/react@18.3.1/node_modules/react/index.js");
+// EXTERNAL MODULE: ./node_modules/.pnpm/@douyinfe+semi-ui@2.66.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/@douyinfe/semi-ui/lib/es/index.js
+var es = __webpack_require__("./node_modules/.pnpm/@douyinfe+semi-ui@2.66.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/@douyinfe/semi-ui/lib/es/index.js");
+// EXTERNAL MODULE: ./node_modules/.pnpm/webextension-polyfill@0.10.0/node_modules/webextension-polyfill/dist/browser-polyfill.js
+var browser_polyfill = __webpack_require__("./node_modules/.pnpm/webextension-polyfill@0.10.0/node_modules/webextension-polyfill/dist/browser-polyfill.js");
+;// CONCATENATED MODULE: ./src/popup/utils.js
+const get_bm_node_parent = (tree, node) => {
+  node.parentId;
+};
+const addParentToEachNode = (node, parent = null) => {
+  node.parent = parent;
+  if (node.children) {
+    const _parent = node;
+    node.children.forEach((n) => {
+      return addParentToEachNode(n, _parent);
+    });
+  }
+  return node;
+};
+const flat_node_map = (node) => {
+  let children = node.children ? node.children.map((cn) => flat_node_map(cn)) : [];
+  let res = {
+    // ...Object.assign({}, ...children.map(o => ({[o.key]: o.value}))),
+    ...Object.assign({}, ...children),
+    [node.id]: node
+  };
+  return res;
+};
+globalThis.flat_node_map = flat_node_map;
+const myDynamicSymbolIterator = function* () {
+  const cl = this.children;
+  if (cl) {
+    for (let i = 0, l = cl.length; i < l; i++) {
+      const n = cl[i];
+      if (!n[Symbol.iterator]) {
+        n[Symbol.iterator] = myDynamicSymbolIterator;
+      }
+      yield n;
+      if (n.children) {
+        yield* n;
+      }
+    }
+  }
+};
+function* format_iter(_this, name_cb, connectors, fm) {
+  connectors !== null && connectors !== void 0 ? connectors : connectors = ["    ", " |  ", " \u2570\u2500 ", " \u251C\u2500 "];
+  name_cb !== null && name_cb !== void 0 ? name_cb : name_cb = (node) => "" + node;
+  function _is_last(node) {
+    const ca = node.parent.children;
+    return node === ca[ca.length - 1];
+  }
+  const _format_line = (node) => {
+    const parts = [name_cb(node)];
+    parts.unshift(connectors[_is_last(node) ? 2 : 3]);
+    let p = node.parent;
+    while (p && p.id !== "0") {
+      parts.unshift(connectors[_is_last(p) ? 0 : 1]);
+      p = p.parent;
+    }
+    return parts.join("");
+  };
+  yield name_cb(_this);
+  _this[Symbol.iterator] = myDynamicSymbolIterator;
+  for (let node of _this) {
+    yield _format_line(node);
+  }
+}
+function displayTree(_this, name_cb, connectors) {
+  _this = addParentToEachNode(_this, _this);
+  const fm = flat_node_map(_this);
+  const a = [];
+  for (let line of format_iter(_this, name_cb, connectors, fm)) {
+    a.push(line);
+  }
+  return a.join("\n");
+}
+const styleToString = (style) => {
+  return Object.keys(style).reduce((acc, key) => acc + key.split(/(?=[A-Z])/).join("-").toLowerCase() + ":" + style[key] + ";", "");
+};
 
-// EXTERNAL MODULE: ./node_modules/react/jsx-runtime.js
-var jsx_runtime = __webpack_require__("./node_modules/react/jsx-runtime.js");
-// EXTERNAL MODULE: ./src/popup/App.svelte
-var App_svelte = __webpack_require__("./src/popup/App.svelte");
-// EXTERNAL MODULE: ./node_modules/react-dom/client.js
-var client = __webpack_require__("./node_modules/react-dom/client.js");
-// EXTERNAL MODULE: ./node_modules/react/index.js
-var react = __webpack_require__("./node_modules/react/index.js");
-// EXTERNAL MODULE: ./node_modules/@douyinfe/semi-ui/lib/es/index.js
-var es = __webpack_require__("./node_modules/@douyinfe/semi-ui/lib/es/index.js");
-// EXTERNAL MODULE: ./node_modules/webextension-polyfill/dist/browser-polyfill.js
-var browser_polyfill = __webpack_require__("./node_modules/webextension-polyfill/dist/browser-polyfill.js");
-// EXTERNAL MODULE: ./src/popup/utils.js
-var utils = __webpack_require__("./src/popup/utils.js");
 ;// CONCATENATED MODULE: ./src/popup/App2.jsx
 
 
@@ -378,16 +328,6 @@ function App2() {
 ;// CONCATENATED MODULE: ./src/popup/index.js
 
 
-const app = new App_svelte["default"]({
-  target: document.body.querySelector("app1"),
-  props: {
-    name: "Bookmark 2"
-  }
-});
-/* harmony default export */ const popup = ({
-  app
-});
-
 
 const container = document.body.querySelector("app2");
 const root = (0,client.createRoot)(container);
@@ -396,226 +336,97 @@ root.render(/* @__PURE__ */ (0,jsx_runtime.jsx)(popup_App2, {}));
 
 /***/ }),
 
-/***/ "./src/popup/popup.js":
-/*!****************************!*\
-  !*** ./src/popup/popup.js ***!
-  \****************************/
+/***/ "./src/shared/events.js":
+/*!******************************************!*\
+  !*** ./src/shared/events.js + 2 modules ***!
+  \******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   filterFolders: () => (/* binding */ filterFolders),
-/* harmony export */   getBookmarks: () => (/* binding */ getBookmarks)
-/* harmony export */ });
-/* unused harmony exports moveAllBookmark, addParentToEachNode */
-/* harmony import */ var _shared_events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../shared/events */ "./src/shared/events.js");
-/* harmony import */ var _components_store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/store */ "./src/popup/components/store/index.js");
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, {
+  EventEnumReversed: () => (/* binding */ EventEnumReversed)
+});
 
-const moveAllBookmark = async (bookmarkIds, parentId) => {
-  const moves = bookmarkIds.map(async (bmId, idx) => {
-    try {
-      return await chrome.bookmarks.move(bmId, { index: idx, parentId });
-    } catch (error) {
-      console.log(`Error moving bookmark ${bmId}`, error);
+// UNUSED EXPORTS: EventBusTool, EventEnum, eventBus, eventEnumHandlers
+
+;// CONCATENATED MODULE: ./src/shared/eventHandlers.js
+
+const STATUS_ENUM = Object.freeze({
+  COMPLETED: "COMPLETED"
+});
+const EventEnum = Object.freeze({
+  TreeViewLoaded: Symbol(crypto.randomUUID()),
+  TreeViewUpdated: Symbol(crypto.randomUUID()),
+  BookmarkUpdated: Symbol(crypto.randomUUID()),
+  TreeNodeSelected: Symbol(crypto.randomUUID()),
+  Refresh: Symbol(crypto.randomUUID())
+  // helpModeBtn: Symbol(crypto.randomUUID()),
+});
+const find_clone = (source, target) => {
+  for (let x of target.keyMap.entries()) {
+    if (JSON.stringify(x[1].data) == JSON.stringify(source.data)) {
+      return x[1];
     }
-  });
-  return Promise.all(moves);
+  }
 };
-async function getBookmarks() {
-  const res = await chrome.bookmarks.getTree();
-  console.log({ res });
-  res[0].expanded = true;
-  _components_store__WEBPACK_IMPORTED_MODULE_1__.stack.push(res);
-  globalThis.stack = _components_store__WEBPACK_IMPORTED_MODULE_1__.stack;
-  return res;
-}
-async function filterFolders(bookmarkTree) {
-  function __filterFolder(node) {
-    if (!node.children || node.children.length === 0) {
-      return null;
-    }
-    const folderObject = {
-      title: node.title || "",
-      id: node.id,
-      parentId: node.parentId || "",
-      children: []
+const eventEnumHandlers = {
+  [EventEnum.TreeViewLoaded]: (event, src, dest) => {
+    console.log(`Rcvd::TreeViewLoaded - ${src}>>>${dest}`, event);
+    return {
+      status: STATUS_ENUM.COMPLETED
     };
-    for (const childNode of node.children) {
-      const childFolder = _filterFolder(childNode);
-      if (childFolder) {
-        folderObject.children.push(childFolder);
+  },
+  [EventEnum.TreeViewUpdated]: (event, src, dest) => {
+    console.log(`Rcvd::TreeViewUpdated - ${src}>>>${dest}`, event);
+  },
+  [EventEnum.BookmarkUpdated]: (event, src, dest) => {
+    console.log(`Rcvd::BookmarkUpdated - ${src}>>>${dest}`, event);
+  },
+  [EventEnum.Refresh]: (event, src, dest) => {
+    console.log(`Rcvd::Refresh - ${src}>>>${dest}`, event);
+  },
+  [EventEnum.TreeNodeSelected]: async ({ event, source, target, data }) => {
+    console.log(`Rcvd::TreeNodeSelected - ${source}>>>${target?.key}`, event, data);
+    const targetNode = find_clone(source, target);
+    targetNode.setExpanded(source.expanded);
+    return {
+      source,
+      target,
+      action: EventEnumReversed[EventEnum.TreeNodeSelected],
+      status: STATUS_ENUM.COMPLETED
+    };
+  }
+};
+let isBusy = false;
+const fnWrap = function fnWrap2(event_name, fn, fnargs = [], plugOpts = {}) {
+  return async () => {
+    try {
+      console.time(`${event_name} fn ${fnargs}`);
+      let fn_res;
+      if (!isBusy) {
+        isBusy = true;
+        try {
+          fn_res = await fn(...fnargs);
+          console.log({ fn_res });
+        } catch (error) {
+          fn_res = Promise.reject(error);
+        }
+        console.log(`%c${event_name} Completed`, "color: green;");
+        isBusy = false;
+      } else {
+        fn_res = Promise.reject(`DeBouncing... [${event_name}]`);
       }
+      console.timeEnd(`${event_name} fn ${fnargs}`);
+      return fn_res;
+    } catch (error) {
+      console.error(error);
     }
-    return folderObject;
-  }
-  function _filterFolder(node) {
-    if (!node.children || node.children.length === 0) {
-      return null;
-    }
-    const modifiedChildren = node.children.map((childNode) => _filterFolder(childNode)).filter((childNode) => childNode !== null);
-    return { ...node, children: modifiedChildren };
-  }
-  const [rootBookmarkNode] = bookmarkTree || await chrome.bookmarks.getTree();
-  let folders = _filterFolder(rootBookmarkNode);
-  console.log("ROOt = ", [folders]);
-  return [folders];
-}
-const addParentToEachNode = (node, parent = null) => {
-  node.parent = parent;
-  if (node.children) {
-    const _parent = node;
-    node.children.forEach((n) => {
-      return addParentToEachNode(n, _parent);
-    });
-  }
-  return node;
-};
-const refreshBookmarksUI = () => {
-  getBookmarks();
-  console.log("refreshing bookmarks UI");
-};
-globalThis.refreshBookmarksUI = refreshBookmarksUI;
-globalThis.refresh_ui = _components_store__WEBPACK_IMPORTED_MODULE_1__.refresh_ui;
-const saveToBookmarks = () => {
-  console.log("saving bookmarks");
-};
-chrome.bookmarks.onChanged.addListener(() => {
-  console.log("bookmarks.onChanged triggered");
-  refreshBookmarksUI();
-});
-chrome.bookmarks.onChildrenReordered.addListener(() => {
-  console.log("bookmarks.onChildrenReordered triggered");
-  refreshBookmarksUI();
-});
-chrome.bookmarks.onCreated.addListener(() => {
-  console.log("bookmarks.onCreated triggered");
-  refreshBookmarksUI();
-});
-chrome.bookmarks.onMoved.addListener(() => {
-  console.log("bookmarks.onMoved triggered");
-  refreshBookmarksUI();
-});
-chrome.bookmarks.onRemoved.addListener(() => {
-  console.log("bookmarks.onRemoved triggered");
-  refreshBookmarksUI();
-});
-const me = "popup";
-console.log("ME = ", me, _shared_events__WEBPACK_IMPORTED_MODULE_0__.EventEnum);
-const ignored_events = [_shared_events__WEBPACK_IMPORTED_MODULE_0__.EventEnum.TreeNodeSelected];
-for (const event_name in _shared_events__WEBPACK_IMPORTED_MODULE_0__.EventEnum) {
-  if (!ignored_events.includes(_shared_events__WEBPACK_IMPORTED_MODULE_0__.EventEnum[event_name])) {
-    _shared_events__WEBPACK_IMPORTED_MODULE_0__.eventBus.subscribe(_shared_events__WEBPACK_IMPORTED_MODULE_0__.EventEnum[event_name], "popup", (src, data) => {
-      console.log(`EVENT-[${event_name}] SENT FROM [${src}] TO [${me}] `, data);
-    });
-  }
-}
-
-
-/***/ }),
-
-/***/ "./src/popup/utils.js":
-/*!****************************!*\
-  !*** ./src/popup/utils.js ***!
-  \****************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   displayTree: () => (/* binding */ displayTree),
-/* harmony export */   styleToString: () => (/* binding */ styleToString)
-/* harmony export */ });
-const get_bm_node_parent = (tree, node) => {
-  node.parentId;
-};
-const addParentToEachNode = (node, parent = null) => {
-  node.parent = parent;
-  if (node.children) {
-    const _parent = node;
-    node.children.forEach((n) => {
-      return addParentToEachNode(n, _parent);
-    });
-  }
-  return node;
-};
-const flat_node_map = (node) => {
-  let children = node.children ? node.children.map((cn) => flat_node_map(cn)) : [];
-  let res = {
-    // ...Object.assign({}, ...children.map(o => ({[o.key]: o.value}))),
-    ...Object.assign({}, ...children),
-    [node.id]: node
   };
-  return res;
-};
-globalThis.flat_node_map = flat_node_map;
-const myDynamicSymbolIterator = function* () {
-  const cl = this.children;
-  if (cl) {
-    for (let i = 0, l = cl.length; i < l; i++) {
-      const n = cl[i];
-      if (!n[Symbol.iterator]) {
-        n[Symbol.iterator] = myDynamicSymbolIterator;
-      }
-      yield n;
-      if (n.children) {
-        yield* n;
-      }
-    }
-  }
-};
-function* format_iter(_this, name_cb, connectors, fm) {
-  connectors !== null && connectors !== void 0 ? connectors : connectors = ["    ", " |  ", " \u2570\u2500 ", " \u251C\u2500 "];
-  name_cb !== null && name_cb !== void 0 ? name_cb : name_cb = (node) => "" + node;
-  function _is_last(node) {
-    const ca = node.parent.children;
-    return node === ca[ca.length - 1];
-  }
-  const _format_line = (node) => {
-    const parts = [name_cb(node)];
-    parts.unshift(connectors[_is_last(node) ? 2 : 3]);
-    let p = node.parent;
-    while (p && p.id !== "0") {
-      parts.unshift(connectors[_is_last(p) ? 0 : 1]);
-      p = p.parent;
-    }
-    return parts.join("");
-  };
-  yield name_cb(_this);
-  _this[Symbol.iterator] = myDynamicSymbolIterator;
-  for (let node of _this) {
-    yield _format_line(node);
-  }
-}
-function displayTree(_this, name_cb, connectors) {
-  _this = addParentToEachNode(_this, _this);
-  const fm = flat_node_map(_this);
-  const a = [];
-  for (let line of format_iter(_this, name_cb, connectors, fm)) {
-    a.push(line);
-  }
-  return a.join("\n");
-}
-const styleToString = (style) => {
-  return Object.keys(style).reduce((acc, key) => acc + key.split(/(?=[A-Z])/).join("-").toLowerCase() + ":" + style[key] + ";", "");
 };
 
-
-/***/ }),
-
-/***/ "./src/shared/eventBus.js":
-/*!********************************!*\
-  !*** ./src/shared/eventBus.js ***!
-  \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   EventBusTool: () => (/* binding */ EventBusTool),
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
-/* harmony export */   eventBus: () => (/* binding */ eventBus)
-/* harmony export */ });
-/* unused harmony export EventBus */
-/* harmony import */ var _eventHandlers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./eventHandlers */ "./src/shared/eventHandlers.js");
+;// CONCATENATED MODULE: ./src/shared/eventBus.js
 
 class EventBus {
   constructor() {
@@ -636,7 +447,7 @@ class EventBus {
   // this.subscribers[listener][sym[0]]
   subscribe(topic, listener, cb) {
     this.subscribers[listener] = { ...this.subscribers[listener] || [], ...{ [topic]: cb } };
-    let reversed = Object.fromEntries(Object.entries(_eventHandlers__WEBPACK_IMPORTED_MODULE_0__.EventEnum).map(([key, value]) => [value, key]));
+    let reversed = Object.fromEntries(Object.entries(EventEnum).map(([key, value]) => [value, key]));
     console.log(`listener (${listener}) is subscribed to topics:`, this.subscribers[listener]);
     console.log(`listener (${listener}) is subscribed to topics:`, Object.getOwnPropertySymbols(this.subscribers[listener]).map((s) => reversed[s]));
     if (!this.events[topic]) {
@@ -711,1877 +522,25 @@ class EventBusTool {
 }
 const eventBus = EventBusTool.getEventBus();
 console.log({ eventBus });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (eventBus);
+/* harmony default export */ const shared_eventBus = (eventBus);
+
+;// CONCATENATED MODULE: ./src/shared/events.js
 
 
-/***/ }),
-
-/***/ "./src/shared/eventHandlers.js":
-/*!*************************************!*\
-  !*** ./src/shared/eventHandlers.js ***!
-  \*************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   EventEnum: () => (/* binding */ EventEnum),
-/* harmony export */   eventEnumHandlers: () => (/* binding */ eventEnumHandlers),
-/* harmony export */   fnWrap: () => (/* binding */ fnWrap)
-/* harmony export */ });
-/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./events */ "./src/shared/events.js");
-
-const STATUS_ENUM = Object.freeze({
-  COMPLETED: "COMPLETED"
-});
-const EventEnum = Object.freeze({
-  TreeViewLoaded: Symbol(crypto.randomUUID()),
-  TreeViewUpdated: Symbol(crypto.randomUUID()),
-  BookmarkUpdated: Symbol(crypto.randomUUID()),
-  TreeNodeSelected: Symbol(crypto.randomUUID()),
-  Refresh: Symbol(crypto.randomUUID())
-  // helpModeBtn: Symbol(crypto.randomUUID()),
-});
-const find_clone = (source, target) => {
-  for (let x of target.keyMap.entries()) {
-    if (JSON.stringify(x[1].data) == JSON.stringify(source.data)) {
-      return x[1];
-    }
-  }
-};
-const eventEnumHandlers = {
-  [EventEnum.TreeViewLoaded]: (event, src, dest) => {
-    console.log(`Rcvd::TreeViewLoaded - ${src}>>>${dest}`, event);
-    return {
-      status: STATUS_ENUM.COMPLETED
-    };
-  },
-  [EventEnum.TreeViewUpdated]: (event, src, dest) => {
-    console.log(`Rcvd::TreeViewUpdated - ${src}>>>${dest}`, event);
-  },
-  [EventEnum.BookmarkUpdated]: (event, src, dest) => {
-    console.log(`Rcvd::BookmarkUpdated - ${src}>>>${dest}`, event);
-  },
-  [EventEnum.Refresh]: (event, src, dest) => {
-    console.log(`Rcvd::Refresh - ${src}>>>${dest}`, event);
-  },
-  [EventEnum.TreeNodeSelected]: async ({ event, source, target, data }) => {
-    console.log(`Rcvd::TreeNodeSelected - ${source}>>>${target?.key}`, event, data);
-    const targetNode = find_clone(source, target);
-    targetNode.setExpanded(source.expanded);
-    return {
-      source,
-      target,
-      action: _events__WEBPACK_IMPORTED_MODULE_0__.EventEnumReversed[EventEnum.TreeNodeSelected],
-      status: STATUS_ENUM.COMPLETED
-    };
-  }
-};
-let isBusy = false;
-const fnWrap = function fnWrap2(event_name, fn, fnargs = [], plugOpts = {}) {
-  return async () => {
-    try {
-      console.time(`${event_name} fn ${fnargs}`);
-      let fn_res;
-      if (!isBusy) {
-        isBusy = true;
-        try {
-          fn_res = await fn(...fnargs);
-          console.log({ fn_res });
-        } catch (error) {
-          fn_res = Promise.reject(error);
-        }
-        console.log(`%c${event_name} Completed`, "color: green;");
-        isBusy = false;
-      } else {
-        fn_res = Promise.reject(`DeBouncing... [${event_name}]`);
-      }
-      console.timeEnd(`${event_name} fn ${fnargs}`);
-      return fn_res;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-};
-
-
-/***/ }),
-
-/***/ "./src/shared/events.js":
-/*!******************************!*\
-  !*** ./src/shared/events.js ***!
-  \******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   EventEnum: () => (/* reexport safe */ _eventHandlers__WEBPACK_IMPORTED_MODULE_1__.EventEnum),
-/* harmony export */   EventEnumReversed: () => (/* binding */ EventEnumReversed),
-/* harmony export */   eventBus: () => (/* reexport safe */ _eventBus__WEBPACK_IMPORTED_MODULE_0__["default"])
-/* harmony export */ });
-/* harmony import */ var _eventBus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./eventBus */ "./src/shared/eventBus.js");
-/* harmony import */ var _eventHandlers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./eventHandlers */ "./src/shared/eventHandlers.js");
-
-
-const EventEnumReversed = Object.fromEntries(Object.entries(_eventHandlers__WEBPACK_IMPORTED_MODULE_1__.EventEnum).map(([key, value]) => [value, key]));
+const EventEnumReversed = Object.fromEntries(Object.entries(EventEnum).map(([key, value]) => [value, key]));
 
 
 
 /***/ }),
 
-/***/ "./src/popup/components/fileSystem/SplitPanel.svelte.0.css!=!./node_modules/svelte-loader/index.js?cssPath=/Users/miezan/Desktop/Dev/Bookmark2/src/popup/components/fileSystem/SplitPanel.svelte.0.css!./src/popup/components/fileSystem/SplitPanel.svelte":
-/*!*****************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./src/popup/components/fileSystem/SplitPanel.svelte.0.css!=!./node_modules/svelte-loader/index.js?cssPath=/Users/miezan/Desktop/Dev/Bookmark2/src/popup/components/fileSystem/SplitPanel.svelte.0.css!./src/popup/components/fileSystem/SplitPanel.svelte ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __unused_webpack___webpack_exports__, __webpack_require__) => {
-
-"use strict";
-// extracted by mini-css-extract-plugin
-
-    if(true) {
-      // 1715661349895
-      var cssReload = __webpack_require__(/*! ./node_modules/mini-css-extract-plugin/dist/hmr/hotModuleReplacement.js */ "./node_modules/mini-css-extract-plugin/dist/hmr/hotModuleReplacement.js")(module.id, {"locals":false});
-      module.hot.dispose(cssReload);
-      module.hot.accept(undefined, cssReload);
-    }
-  
-
-/***/ }),
-
-/***/ "./src/popup/components/globals/Theme.svelte.1.css!=!./node_modules/svelte-loader/index.js?cssPath=/Users/miezan/Desktop/Dev/Bookmark2/src/popup/components/globals/Theme.svelte.1.css!./src/popup/components/globals/Theme.svelte":
-/*!*****************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./src/popup/components/globals/Theme.svelte.1.css!=!./node_modules/svelte-loader/index.js?cssPath=/Users/miezan/Desktop/Dev/Bookmark2/src/popup/components/globals/Theme.svelte.1.css!./src/popup/components/globals/Theme.svelte ***!
-  \*****************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __unused_webpack___webpack_exports__, __webpack_require__) => {
-
-"use strict";
-// extracted by mini-css-extract-plugin
-
-    if(true) {
-      // 1715661349889
-      var cssReload = __webpack_require__(/*! ./node_modules/mini-css-extract-plugin/dist/hmr/hotModuleReplacement.js */ "./node_modules/mini-css-extract-plugin/dist/hmr/hotModuleReplacement.js")(module.id, {"locals":false});
-      module.hot.dispose(cssReload);
-      module.hot.accept(undefined, cssReload);
-    }
-  
-
-/***/ }),
-
-/***/ "./src/popup/App.svelte":
-/*!******************************!*\
-  !*** ./src/popup/App.svelte ***!
-  \******************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var svelte_internal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/internal */ "./node_modules/svelte/internal/index.mjs");
-/* harmony import */ var _components_globals_Theme_svelte__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/globals/Theme.svelte */ "./src/popup/components/globals/Theme.svelte");
-/* harmony import */ var svelte__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! svelte */ "./node_modules/svelte/index.mjs");
-/* harmony import */ var crypto_hash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! crypto-hash */ "./node_modules/crypto-hash/browser.js");
-/* harmony import */ var theme_change__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! theme-change */ "./node_modules/theme-change/index.js");
-/* harmony import */ var theme_change__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(theme_change__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _components_fileSystem_SplitPanel_svelte__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/fileSystem/SplitPanel.svelte */ "./src/popup/components/fileSystem/SplitPanel.svelte");
-/* harmony import */ var _components_fileSystem_TreeView_svelte__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/fileSystem/TreeView.svelte */ "./src/popup/components/fileSystem/TreeView.svelte");
-/* harmony import */ var _iconify_svelte__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @iconify/svelte */ "./node_modules/@iconify/svelte/dist/Icon.svelte");
-/* harmony import */ var _iconify_icons_line_md_moon_filled_alt_loop__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @iconify/icons-line-md/moon-filled-alt-loop */ "./node_modules/@iconify/icons-line-md/moon-filled-alt-loop.js");
-/* harmony import */ var _iconify_icons_line_md_moon_alt_to_sunny_outline_loop_transition__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @iconify/icons-line-md/moon-alt-to-sunny-outline-loop-transition */ "./node_modules/@iconify/icons-line-md/moon-alt-to-sunny-outline-loop-transition.js");
-/* harmony import */ var _components_store__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/store */ "./src/popup/components/store/index.js");
-/* harmony import */ var _popup__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./popup */ "./src/popup/popup.js");
-/* harmony import */ var wunderbaum_dist_wunderbaum_esm__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! wunderbaum/dist/wunderbaum.esm */ "./node_modules/wunderbaum/dist/wunderbaum.esm.js");
-/* harmony import */ var _shared_eventBus__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../shared/eventBus */ "./src/shared/eventBus.js");
-/* harmony import */ var _shared_eventHandlers__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../shared/eventHandlers */ "./src/shared/eventHandlers.js");
-/* harmony import */ var _Users_miezan_Desktop_Dev_Bookmark2_node_modules_svelte_loader_lib_hot_api_js__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./node_modules/svelte-loader/lib/hot-api.js */ "./node_modules/svelte-loader/lib/hot-api.js");
-/* harmony import */ var _Users_miezan_Desktop_Dev_Bookmark2_node_modules_svelte_hmr_runtime_proxy_adapter_dom_js__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./node_modules/svelte-hmr/runtime/proxy-adapter-dom.js */ "./node_modules/svelte-hmr/runtime/proxy-adapter-dom.js");
-/* module decorator */ module = __webpack_require__.hmd(module);
-/* src/popup/App.svelte generated by Svelte v3.59.2 */
-
-
-const { console: console_1 } = svelte_internal__WEBPACK_IMPORTED_MODULE_0__.globals;
-
-
-// import "./popup"
-
-
-
-
-
-
-// import LogOverlay from './components/fileSystem/LogOverlay.svelte';
-
-
-// import Toolbar from "./components/fileSystem/Toolbar.svelte";
-
-
-
-
-
-
-
-
-
-
-
-const file = "src/popup/App.svelte";
-
-// (1:0) <script>   import "./components/globals/Theme.svelte";   // import "./popup"    import { onMount }
-function create_catch_block_1(ctx) {
-	const block = {
-		c: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		m: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		p: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		i: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		o: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		d: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop
-	};
-
-	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.dispatch_dev)("SvelteRegisterBlock", {
-		block,
-		id: create_catch_block_1.name,
-		type: "catch",
-		source: "(1:0) <script>   import \\\"./components/globals/Theme.svelte\\\";   // import \\\"./popup\\\"    import { onMount }",
-		ctx
-	});
-
-	return block;
-}
-
-// (133:38)      <SplitPanel leftPanelWidth="30%" rightPanelWidth="50%">       <div slot="left">         {#await  filterFolders(data) then filteredData}
-function create_then_block(ctx) {
-	let splitpanel;
-	let current;
-
-	splitpanel = new _components_fileSystem_SplitPanel_svelte__WEBPACK_IMPORTED_MODULE_5__["default"]({
-			props: {
-				leftPanelWidth: "30%",
-				rightPanelWidth: "50%",
-				$$slots: {
-					right: [create_right_slot],
-					left: [create_left_slot]
-				},
-				$$scope: { ctx }
-			},
-			$$inline: true
-		});
-
-	const block = {
-		c: function create() {
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.create_component)(splitpanel.$$.fragment);
-		},
-		m: function mount(target, anchor) {
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.mount_component)(splitpanel, target, anchor);
-			current = true;
-		},
-		p: function update(ctx, dirty) {
-			const splitpanel_changes = {};
-
-			if (dirty & /*$$scope*/ 2048) {
-				splitpanel_changes.$$scope = { dirty, ctx };
-			}
-
-			splitpanel.$set(splitpanel_changes);
-		},
-		i: function intro(local) {
-			if (current) return;
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.transition_in)(splitpanel.$$.fragment, local);
-			current = true;
-		},
-		o: function outro(local) {
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.transition_out)(splitpanel.$$.fragment, local);
-			current = false;
-		},
-		d: function destroy(detaching) {
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.destroy_component)(splitpanel, detaching);
-		}
-	};
-
-	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.dispatch_dev)("SvelteRegisterBlock", {
-		block,
-		id: create_then_block.name,
-		type: "then",
-		source: "(133:38)      <SplitPanel leftPanelWidth=\\\"30%\\\" rightPanelWidth=\\\"50%\\\">       <div slot=\\\"left\\\">         {#await  filterFolders(data) then filteredData}",
-		ctx
-	});
-
-	return block;
-}
-
-// (1:0) <script>   import "./components/globals/Theme.svelte";   // import "./popup"    import { onMount }
-function create_catch_block(ctx) {
-	const block = {
-		c: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		m: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		p: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		i: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		o: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		d: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop
-	};
-
-	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.dispatch_dev)("SvelteRegisterBlock", {
-		block,
-		id: create_catch_block.name,
-		type: "catch",
-		source: "(1:0) <script>   import \\\"./components/globals/Theme.svelte\\\";   // import \\\"./popup\\\"    import { onMount }",
-		ctx
-	});
-
-	return block;
-}
-
-// (136:55)            <TreeView               treeSource={filteredData}
-function create_then_block_1(ctx) {
-	let treeview;
-	let current;
-
-	treeview = new _components_fileSystem_TreeView_svelte__WEBPACK_IMPORTED_MODULE_6__["default"]({
-			props: {
-				treeSource: /*filteredData*/ ctx[10],
-				rootID: "leftTree",
-				treeDOM: "leftTreeDOM",
-				parentDOM: "leftParentDOM"
-			},
-			$$inline: true
-		});
-
-	const block = {
-		c: function create() {
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.create_component)(treeview.$$.fragment);
-		},
-		m: function mount(target, anchor) {
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.mount_component)(treeview, target, anchor);
-			current = true;
-		},
-		p: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		i: function intro(local) {
-			if (current) return;
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.transition_in)(treeview.$$.fragment, local);
-			current = true;
-		},
-		o: function outro(local) {
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.transition_out)(treeview.$$.fragment, local);
-			current = false;
-		},
-		d: function destroy(detaching) {
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.destroy_component)(treeview, detaching);
-		}
-	};
-
-	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.dispatch_dev)("SvelteRegisterBlock", {
-		block,
-		id: create_then_block_1.name,
-		type: "then",
-		source: "(136:55)            <TreeView               treeSource={filteredData}",
-		ctx
-	});
-
-	return block;
-}
-
-// (1:0) <script>   import "./components/globals/Theme.svelte";   // import "./popup"    import { onMount }
-function create_pending_block_1(ctx) {
-	const block = {
-		c: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		m: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		p: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		i: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		o: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		d: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop
-	};
-
-	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.dispatch_dev)("SvelteRegisterBlock", {
-		block,
-		id: create_pending_block_1.name,
-		type: "pending",
-		source: "(1:0) <script>   import \\\"./components/globals/Theme.svelte\\\";   // import \\\"./popup\\\"    import { onMount }",
-		ctx
-	});
-
-	return block;
-}
-
-// (135:6) 
-function create_left_slot(ctx) {
-	let div;
-	let promise;
-	let current;
-
-	let info = {
-		ctx,
-		current: null,
-		token: null,
-		hasCatch: false,
-		pending: create_pending_block_1,
-		then: create_then_block_1,
-		catch: create_catch_block,
-		value: 10,
-		blocks: [,,,]
-	};
-
-	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.handle_promise)(promise = (0,_popup__WEBPACK_IMPORTED_MODULE_11__.filterFolders)(/*data*/ ctx[9]), info);
-
-	const block = {
-		c: function create() {
-			div = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.element)("div");
-			info.block.c();
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(div, "slot", "left");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(div, file, 134, 6, 3856);
-		},
-		m: function mount(target, anchor) {
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.insert_dev)(target, div, anchor);
-			info.block.m(div, info.anchor = null);
-			info.mount = () => div;
-			info.anchor = null;
-			current = true;
-		},
-		p: function update(new_ctx, dirty) {
-			ctx = new_ctx;
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.update_await_block_branch)(info, ctx, dirty);
-		},
-		i: function intro(local) {
-			if (current) return;
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.transition_in)(info.block);
-			current = true;
-		},
-		o: function outro(local) {
-			for (let i = 0; i < 3; i += 1) {
-				const block = info.blocks[i];
-				(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.transition_out)(block);
-			}
-
-			current = false;
-		},
-		d: function destroy(detaching) {
-			if (detaching) (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.detach_dev)(div);
-			info.block.d();
-			info.token = null;
-			info = null;
-		}
-	};
-
-	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.dispatch_dev)("SvelteRegisterBlock", {
-		block,
-		id: create_left_slot.name,
-		type: "slot",
-		source: "(135:6) ",
-		ctx
-	});
-
-	return block;
-}
-
-// (145:4) 
-function create_right_slot(ctx) {
-	let div;
-	let treeview;
-	let current;
-
-	treeview = new _components_fileSystem_TreeView_svelte__WEBPACK_IMPORTED_MODULE_6__["default"]({
-			props: {
-				treeSource: structuredClone(/*data*/ ctx[9]),
-				rootID: "rightTree",
-				treeDOM: "rightTreeDOM",
-				parentDOM: "rightParentDOM"
-			},
-			$$inline: true
-		});
-
-	const block = {
-		c: function create() {
-			div = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.element)("div");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.create_component)(treeview.$$.fragment);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(div, "class", "bg-black");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(div, "slot", "right");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(div, file, 144, 4, 4143);
-		},
-		m: function mount(target, anchor) {
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.insert_dev)(target, div, anchor);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.mount_component)(treeview, div, null);
-			current = true;
-		},
-		p: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		i: function intro(local) {
-			if (current) return;
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.transition_in)(treeview.$$.fragment, local);
-			current = true;
-		},
-		o: function outro(local) {
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.transition_out)(treeview.$$.fragment, local);
-			current = false;
-		},
-		d: function destroy(detaching) {
-			if (detaching) (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.detach_dev)(div);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.destroy_component)(treeview);
-		}
-	};
-
-	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.dispatch_dev)("SvelteRegisterBlock", {
-		block,
-		id: create_right_slot.name,
-		type: "slot",
-		source: "(145:4) ",
-		ctx
-	});
-
-	return block;
-}
-
-// (1:0) <script>   import "./components/globals/Theme.svelte";   // import "./popup"    import { onMount }
-function create_pending_block(ctx) {
-	const block = {
-		c: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		m: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		p: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		i: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		o: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		d: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop
-	};
-
-	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.dispatch_dev)("SvelteRegisterBlock", {
-		block,
-		id: create_pending_block.name,
-		type: "pending",
-		source: "(1:0) <script>   import \\\"./components/globals/Theme.svelte\\\";   // import \\\"./popup\\\"    import { onMount }",
-		ctx
-	});
-
-	return block;
-}
-
-function create_fragment(ctx) {
-	let nav;
-	let h3;
-	let t0;
-	let t1;
-	let t2_value = "{" + "";
-	let t2;
-	let t3;
-	let t4_value = "}" + "";
-	let t4;
-	let t5;
-	let button;
-	let input;
-	let t6;
-	let icon;
-	let t7;
-	let await_block_anchor;
-	let promise;
-	let current;
-	let mounted;
-	let dispose;
-
-	icon = new _iconify_svelte__WEBPACK_IMPORTED_MODULE_7__["default"]({
-			props: {
-				icon: /*isDarkMode*/ ctx[1]
-				? _iconify_icons_line_md_moon_alt_to_sunny_outline_loop_transition__WEBPACK_IMPORTED_MODULE_9__["default"]
-				: _iconify_icons_line_md_moon_filled_alt_loop__WEBPACK_IMPORTED_MODULE_8__["default"]
-			},
-			$$inline: true
-		});
-
-	let info = {
-		ctx,
-		current: null,
-		token: null,
-		hasCatch: false,
-		pending: create_pending_block,
-		then: create_then_block,
-		catch: create_catch_block_1,
-		value: 9,
-		blocks: [,,,]
-	};
-
-	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.handle_promise)(promise = (0,_popup__WEBPACK_IMPORTED_MODULE_11__.getBookmarks)(), info);
-
-	const block = {
-		c: function create() {
-			nav = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.element)("nav");
-			h3 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.element)("h3");
-			t0 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.text)(/*name*/ ctx[0]);
-			t1 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.text)(" - ");
-			t2 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.text)(t2_value);
-			t3 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.text)(" Live Mode ");
-			t4 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.text)(t4_value);
-			t5 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.space)();
-			button = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.element)("button");
-			input = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.element)("input");
-			t6 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.space)();
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.create_component)(icon.$$.fragment);
-			t7 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.space)();
-			await_block_anchor = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.empty)();
-			info.block.c();
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(h3, file, 108, 2, 3239);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(input, "type", "checkbox");
-			input.hidden = true;
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(input, "data-toggle-theme", "dark,light");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(input, "data-act-class", "ACTIVECLASS");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(input, file, 115, 4, 3394);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(button, "class", "p-1");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(button, file, 109, 2, 3281);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(nav, "class", "flex row mb-5 justify-between");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(nav, file, 107, 0, 3193);
-		},
-		l: function claim(nodes) {
-			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
-		},
-		m: function mount(target, anchor) {
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.insert_dev)(target, nav, anchor);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(nav, h3);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(h3, t0);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(h3, t1);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(h3, t2);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(h3, t3);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(h3, t4);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(nav, t5);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(nav, button);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(button, input);
-			input.checked = /*isDarkMode*/ ctx[1];
-			/*input_binding*/ ctx[4](input);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(button, t6);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.mount_component)(icon, button, null);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.insert_dev)(target, t7, anchor);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.insert_dev)(target, await_block_anchor, anchor);
-			info.block.m(target, info.anchor = anchor);
-			info.mount = () => await_block_anchor.parentNode;
-			info.anchor = await_block_anchor;
-			current = true;
-
-			if (!mounted) {
-				dispose = [
-					(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.listen_dev)(input, "change", /*input_change_handler*/ ctx[3]),
-					(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.listen_dev)(button, "click", /*click_handler*/ ctx[5], false, false, false, false)
-				];
-
-				mounted = true;
-			}
-		},
-		p: function update(new_ctx, [dirty]) {
-			ctx = new_ctx;
-			if (!current || dirty & /*name*/ 1) (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.set_data_dev)(t0, /*name*/ ctx[0]);
-
-			if (dirty & /*isDarkMode*/ 2) {
-				input.checked = /*isDarkMode*/ ctx[1];
-			}
-
-			const icon_changes = {};
-
-			if (dirty & /*isDarkMode*/ 2) icon_changes.icon = /*isDarkMode*/ ctx[1]
-			? _iconify_icons_line_md_moon_alt_to_sunny_outline_loop_transition__WEBPACK_IMPORTED_MODULE_9__["default"]
-			: _iconify_icons_line_md_moon_filled_alt_loop__WEBPACK_IMPORTED_MODULE_8__["default"];
-
-			icon.$set(icon_changes);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.update_await_block_branch)(info, ctx, dirty);
-		},
-		i: function intro(local) {
-			if (current) return;
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.transition_in)(icon.$$.fragment, local);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.transition_in)(info.block);
-			current = true;
-		},
-		o: function outro(local) {
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.transition_out)(icon.$$.fragment, local);
-
-			for (let i = 0; i < 3; i += 1) {
-				const block = info.blocks[i];
-				(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.transition_out)(block);
-			}
-
-			current = false;
-		},
-		d: function destroy(detaching) {
-			if (detaching) (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.detach_dev)(nav);
-			/*input_binding*/ ctx[4](null);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.destroy_component)(icon);
-			if (detaching) (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.detach_dev)(t7);
-			if (detaching) (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.detach_dev)(await_block_anchor);
-			info.block.d(detaching);
-			info.token = null;
-			info = null;
-			mounted = false;
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.run_all)(dispose);
-		}
-	};
-
-	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.dispatch_dev)("SvelteRegisterBlock", {
-		block,
-		id: create_fragment.name,
-		type: "component",
-		source: "",
-		ctx
-	});
-
-	return block;
-}
-
-function instance($$self, $$props, $$invalidate) {
-	let { $$slots: slots = {}, $$scope } = $$props;
-	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.validate_slots)('App', slots, []);
-	let { name } = $$props;
-	let isDarkMode;
-	let themeSwitch = false;
-	let bmarks;
-
-	// NOTE: the element that is using one of the theme attributes must be in the DOM on mount
-	(0,svelte__WEBPACK_IMPORTED_MODULE_2__.onMount)(async () => {
-		// window.localStorage = chrome.storage.local
-		(0,theme_change__WEBPACK_IMPORTED_MODULE_4__.themeChange)(true);
-	}); // refresh_ui.set(true)
-	// bmarks = await chrome.bookmarks.getTree();
-	// console.log({ bmarks });
-	// source.set(bmarks)
-
-	// 👆 false parameter is required for svelte
-	let refresh;
-
-	_components_store__WEBPACK_IMPORTED_MODULE_10__.refresh_ui.subscribe(val => {
-		refresh = val;
-		console.log(`UI refreshing...`, refresh);
-	});
-
-	// import SplitPanel from "./SplitPanel.svelte";
-	//   let treeSource;
-	//   source.subscribe((val) => {
-	//     treeSource = val;
-	//     console.log(`Source Updated!`, treeSource);
-	//   });
-	let expanded = {};
-
-	document.addEventListener("DOMContentLoaded", () => {
-		console.log("DOMContentLoaded! App");
-
-		wunderbaum_dist_wunderbaum_esm__WEBPACK_IMPORTED_MODULE_12__.Wunderbaum?.util.onEvent(document, "click", ".wb-row", e => {
-			const info = wunderbaum_dist_wunderbaum_esm__WEBPACK_IMPORTED_MODULE_12__.Wunderbaum.getEventInfo(e);
-			const node = info.node;
-			console.log({ e }, info.node.tree.id);
-
-			if (node.isExpandable()) {
-				console.log('Clicked on Folder');
-
-				_shared_eventBus__WEBPACK_IMPORTED_MODULE_13__["default"].emit({
-					event: _shared_eventHandlers__WEBPACK_IMPORTED_MODULE_14__.EventEnum.TreeNodeSelected,
-					source: node
-				});
-
-				// eventBus.emit(
-				//   EventEnum.TreeNodeSelected,
-				//   {src:node.tree, node_id: node.key, source_node: node},
-				//   node.tree.id
-				// )
-				// there will be collisions if the folder names are the same...
-				// const hash = await sha256(`${node.title}${node.data.id}`)
-				const totally_not_a_hash = `${node.title}${node.data.id}`;
-
-				expanded[totally_not_a_hash] = node.expanded;
-				console.log({ expanded, node });
-			}
-		});
-	});
-
-	$$self.$$.on_mount.push(function () {
-		if (name === undefined && !('name' in $$props || $$self.$$.bound[$$self.$$.props['name']])) {
-			console_1.warn("<App> was created without expected prop 'name'");
-		}
-	});
-
-	const writable_props = ['name'];
-
-	Object.keys($$props).forEach(key => {
-		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1.warn(`<App> was created with unknown prop '${key}'`);
-	});
-
-	function input_change_handler() {
-		isDarkMode = this.checked;
-		$$invalidate(1, isDarkMode);
-	}
-
-	function input_binding($$value) {
-		svelte_internal__WEBPACK_IMPORTED_MODULE_0__.binding_callbacks[$$value ? 'unshift' : 'push'](() => {
-			themeSwitch = $$value;
-			$$invalidate(2, themeSwitch);
-		});
-	}
-
-	const click_handler = () => {
-		console.log(themeSwitch.click(), isDarkMode);
-	};
-
-	$$self.$$set = $$props => {
-		if ('name' in $$props) $$invalidate(0, name = $$props.name);
-	};
-
-	$$self.$capture_state = () => ({
-		onMount: svelte__WEBPACK_IMPORTED_MODULE_2__.onMount,
-		sha256: crypto_hash__WEBPACK_IMPORTED_MODULE_3__.sha256,
-		themeChange: theme_change__WEBPACK_IMPORTED_MODULE_4__.themeChange,
-		SplitPanel: _components_fileSystem_SplitPanel_svelte__WEBPACK_IMPORTED_MODULE_5__["default"],
-		TreeView: _components_fileSystem_TreeView_svelte__WEBPACK_IMPORTED_MODULE_6__["default"],
-		Icon: _iconify_svelte__WEBPACK_IMPORTED_MODULE_7__["default"],
-		moonFilledAltLoop: _iconify_icons_line_md_moon_filled_alt_loop__WEBPACK_IMPORTED_MODULE_8__["default"],
-		moonAltToSunnyOutlineLoopTransition: _iconify_icons_line_md_moon_alt_to_sunny_outline_loop_transition__WEBPACK_IMPORTED_MODULE_9__["default"],
-		leftTreeStore: _components_store__WEBPACK_IMPORTED_MODULE_10__.leftTreeStore,
-		loadedTrees: _components_store__WEBPACK_IMPORTED_MODULE_10__.loadedTrees,
-		rightTreeStore: _components_store__WEBPACK_IMPORTED_MODULE_10__.rightTreeStore,
-		source: _components_store__WEBPACK_IMPORTED_MODULE_10__.source,
-		bookmarksLoaded: _components_store__WEBPACK_IMPORTED_MODULE_10__.bookmarksLoaded,
-		refresh_ui: _components_store__WEBPACK_IMPORTED_MODULE_10__.refresh_ui,
-		stack: _components_store__WEBPACK_IMPORTED_MODULE_10__.stack,
-		filterFolders: _popup__WEBPACK_IMPORTED_MODULE_11__.filterFolders,
-		getBookmarks: _popup__WEBPACK_IMPORTED_MODULE_11__.getBookmarks,
-		Wunderbaum: wunderbaum_dist_wunderbaum_esm__WEBPACK_IMPORTED_MODULE_12__.Wunderbaum,
-		eventBus: _shared_eventBus__WEBPACK_IMPORTED_MODULE_13__["default"],
-		EventEnum: _shared_eventHandlers__WEBPACK_IMPORTED_MODULE_14__.EventEnum,
-		name,
-		isDarkMode,
-		themeSwitch,
-		bmarks,
-		refresh,
-		expanded
-	});
-
-	$$self.$inject_state = $$props => {
-		if ('name' in $$props) $$invalidate(0, name = $$props.name);
-		if ('isDarkMode' in $$props) $$invalidate(1, isDarkMode = $$props.isDarkMode);
-		if ('themeSwitch' in $$props) $$invalidate(2, themeSwitch = $$props.themeSwitch);
-		if ('bmarks' in $$props) bmarks = $$props.bmarks;
-		if ('refresh' in $$props) refresh = $$props.refresh;
-		if ('expanded' in $$props) expanded = $$props.expanded;
-	};
-
-	if ($$props && "$$inject" in $$props) {
-		$$self.$inject_state($$props.$$inject);
-	}
-
-	return [
-		name,
-		isDarkMode,
-		themeSwitch,
-		input_change_handler,
-		input_binding,
-		click_handler
-	];
-}
-
-class App extends svelte_internal__WEBPACK_IMPORTED_MODULE_0__.SvelteComponentDev {
-	constructor(options) {
-		super(options);
-		(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.init)(this, options, instance, create_fragment, svelte_internal__WEBPACK_IMPORTED_MODULE_0__.safe_not_equal, { name: 0 });
-
-		(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.dispatch_dev)("SvelteRegisterComponent", {
-			component: this,
-			tagName: "App",
-			options,
-			id: create_fragment.name
-		});
-	}
-
-	get name() {
-		throw new Error("<App>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-	}
-
-	set name(value) {
-		throw new Error("<App>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-	}
-}
-
-if (module && module.hot) { if (false) {}; App = _Users_miezan_Desktop_Dev_Bookmark2_node_modules_svelte_loader_lib_hot_api_js__WEBPACK_IMPORTED_MODULE_15__.applyHmr({ m: module, id: "\"src/popup/App.svelte\"", hotOptions: {"preserveLocalState":false,"noPreserveStateKey":["@hmr:reset","@!hmr"],"preserveAllLocalStateKey":"@hmr:keep-all","preserveLocalStateKey":"@hmr:keep","noReload":false,"optimistic":false,"acceptNamedExports":true,"acceptAccessors":true,"injectCss":false,"cssEjectDelay":100,"native":false,"importAdapterName":"___SVELTE_HMR_HOT_API_PROXY_ADAPTER","noOverlay":false,"allowLiveBinding":false}, Component: App, ProxyAdapter: _Users_miezan_Desktop_Dev_Bookmark2_node_modules_svelte_hmr_runtime_proxy_adapter_dom_js__WEBPACK_IMPORTED_MODULE_16__.adapter, acceptable: true, preserveLocalState: false, emitCss: true, }); }
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
-
-
-
-/***/ }),
-
-/***/ "./src/popup/components/fileSystem/SplitPanel.svelte":
-/*!***********************************************************!*\
-  !*** ./src/popup/components/fileSystem/SplitPanel.svelte ***!
-  \***********************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var svelte_internal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/internal */ "./node_modules/svelte/internal/index.mjs");
-/* harmony import */ var _Toolbar_svelte__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Toolbar.svelte */ "./src/popup/components/fileSystem/Toolbar.svelte");
-/* harmony import */ var _Users_miezan_Desktop_Dev_Bookmark2_node_modules_svelte_loader_lib_hot_api_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/svelte-loader/lib/hot-api.js */ "./node_modules/svelte-loader/lib/hot-api.js");
-/* harmony import */ var _Users_miezan_Desktop_Dev_Bookmark2_node_modules_svelte_hmr_runtime_proxy_adapter_dom_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/svelte-hmr/runtime/proxy-adapter-dom.js */ "./node_modules/svelte-hmr/runtime/proxy-adapter-dom.js");
-/* harmony import */ var _Users_miezan_Desktop_Dev_Bookmark2_src_popup_components_fileSystem_SplitPanel_svelte_0_css_svelte_loader_cssPath_Users_miezan_Desktop_Dev_Bookmark2_src_popup_components_fileSystem_SplitPanel_svelte_0_css_Users_miezan_Desktop_Dev_Bookmark2_src_popup_components_fileSystem_SplitPanel_svelte__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./src/popup/components/fileSystem/SplitPanel.svelte.0.css!=!svelte-loader?cssPath=/Users/miezan/Desktop/Dev/Bookmark2/src/popup/components/fileSystem/SplitPanel.svelte.0.css!./src/popup/components/fileSystem/SplitPanel.svelte */ "./src/popup/components/fileSystem/SplitPanel.svelte.0.css!=!./node_modules/svelte-loader/index.js?cssPath=/Users/miezan/Desktop/Dev/Bookmark2/src/popup/components/fileSystem/SplitPanel.svelte.0.css!./src/popup/components/fileSystem/SplitPanel.svelte");
-/* module decorator */ module = __webpack_require__.hmd(module);
-/* src/popup/components/fileSystem/SplitPanel.svelte generated by Svelte v3.59.2 */
-
-
-
-const file = "src/popup/components/fileSystem/SplitPanel.svelte";
-const get_right_slot_changes = dirty => ({});
-const get_right_slot_context = ctx => ({});
-const get_left_slot_changes = dirty => ({});
-const get_left_slot_context = ctx => ({});
-
-function create_fragment(ctx) {
-	let div3;
-	let div0;
-	let t0;
-	let div1;
-	let t1;
-	let div2;
-	let toolbar;
-	let t2;
-	let current;
-	let mounted;
-	let dispose;
-	const left_slot_template = /*#slots*/ ctx[5].left;
-	const left_slot = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.create_slot)(left_slot_template, ctx, /*$$scope*/ ctx[4], get_left_slot_context);
-	toolbar = new _Toolbar_svelte__WEBPACK_IMPORTED_MODULE_1__["default"]({ $$inline: true });
-	const right_slot_template = /*#slots*/ ctx[5].right;
-	const right_slot = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.create_slot)(right_slot_template, ctx, /*$$scope*/ ctx[4], get_right_slot_context);
-
-	const block = {
-		c: function create() {
-			div3 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.element)("div");
-			div0 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.element)("div");
-			if (left_slot) left_slot.c();
-			t0 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.space)();
-			div1 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.element)("div");
-			t1 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.space)();
-			div2 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.element)("div");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.create_component)(toolbar.$$.fragment);
-			t2 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.space)();
-			if (right_slot) right_slot.c();
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(div0, "class", "split-panel-left");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.set_style)(div0, "width", /*leftPanelWidth*/ ctx[0]);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(div0, file, 25, 2, 577);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(div1, "class", "split-panel-resize-handle");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(div1, file, 28, 2, 681);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(div2, "class", "split-panel-right");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(div2, file, 29, 2, 760);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(div3, "class", "split-panel");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(div3, file, 24, 0, 491);
-		},
-		l: function claim(nodes) {
-			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
-		},
-		m: function mount(target, anchor) {
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.insert_dev)(target, div3, anchor);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(div3, div0);
-
-			if (left_slot) {
-				left_slot.m(div0, null);
-			}
-
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(div3, t0);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(div3, div1);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(div3, t1);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(div3, div2);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.mount_component)(toolbar, div2, null);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(div2, t2);
-
-			if (right_slot) {
-				right_slot.m(div2, null);
-			}
-
-			current = true;
-
-			if (!mounted) {
-				dispose = [
-					(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.listen_dev)(div1, "mousedown", /*handleMouseDown*/ ctx[1], false, false, false, false),
-					(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.listen_dev)(div3, "mousemove", /*handleMouseMove*/ ctx[2], false, false, false, false),
-					(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.listen_dev)(div3, "mouseup", /*handleMouseUp*/ ctx[3], false, false, false, false)
-				];
-
-				mounted = true;
-			}
-		},
-		p: function update(ctx, [dirty]) {
-			if (left_slot) {
-				if (left_slot.p && (!current || dirty & /*$$scope*/ 16)) {
-					(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.update_slot_base)(
-						left_slot,
-						left_slot_template,
-						ctx,
-						/*$$scope*/ ctx[4],
-						!current
-						? (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.get_all_dirty_from_scope)(/*$$scope*/ ctx[4])
-						: (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.get_slot_changes)(left_slot_template, /*$$scope*/ ctx[4], dirty, get_left_slot_changes),
-						get_left_slot_context
-					);
-				}
-			}
-
-			if (!current || dirty & /*leftPanelWidth*/ 1) {
-				(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.set_style)(div0, "width", /*leftPanelWidth*/ ctx[0]);
-			}
-
-			if (right_slot) {
-				if (right_slot.p && (!current || dirty & /*$$scope*/ 16)) {
-					(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.update_slot_base)(
-						right_slot,
-						right_slot_template,
-						ctx,
-						/*$$scope*/ ctx[4],
-						!current
-						? (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.get_all_dirty_from_scope)(/*$$scope*/ ctx[4])
-						: (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.get_slot_changes)(right_slot_template, /*$$scope*/ ctx[4], dirty, get_right_slot_changes),
-						get_right_slot_context
-					);
-				}
-			}
-		},
-		i: function intro(local) {
-			if (current) return;
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.transition_in)(left_slot, local);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.transition_in)(toolbar.$$.fragment, local);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.transition_in)(right_slot, local);
-			current = true;
-		},
-		o: function outro(local) {
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.transition_out)(left_slot, local);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.transition_out)(toolbar.$$.fragment, local);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.transition_out)(right_slot, local);
-			current = false;
-		},
-		d: function destroy(detaching) {
-			if (detaching) (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.detach_dev)(div3);
-			if (left_slot) left_slot.d(detaching);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.destroy_component)(toolbar);
-			if (right_slot) right_slot.d(detaching);
-			mounted = false;
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.run_all)(dispose);
-		}
-	};
-
-	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.dispatch_dev)("SvelteRegisterBlock", {
-		block,
-		id: create_fragment.name,
-		type: "component",
-		source: "",
-		ctx
-	});
-
-	return block;
-}
-
-function instance($$self, $$props, $$invalidate) {
-	let { $$slots: slots = {}, $$scope } = $$props;
-	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.validate_slots)('SplitPanel', slots, ['left','right']);
-	let { leftPanelWidth = "30%" } = $$props;
-	let isResizing = false;
-	let startLeftPanelWidth = 0;
-
-	function handleMouseDown(event) {
-		isResizing = true;
-		startLeftPanelWidth = event.clientX;
-		;
-	}
-
-	function handleMouseMove(event) {
-		if (isResizing) {
-			const newLeftPanelWidth = event.clientX;
-			$$invalidate(0, leftPanelWidth = `${newLeftPanelWidth}px`);
-		}
-	}
-
-	function handleMouseUp(event) {
-		isResizing = false;
-	}
-
-	const writable_props = ['leftPanelWidth'];
-
-	Object.keys($$props).forEach(key => {
-		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<SplitPanel> was created with unknown prop '${key}'`);
-	});
-
-	$$self.$$set = $$props => {
-		if ('leftPanelWidth' in $$props) $$invalidate(0, leftPanelWidth = $$props.leftPanelWidth);
-		if ('$$scope' in $$props) $$invalidate(4, $$scope = $$props.$$scope);
-	};
-
-	$$self.$capture_state = () => ({
-		Toolbar: _Toolbar_svelte__WEBPACK_IMPORTED_MODULE_1__["default"],
-		leftPanelWidth,
-		isResizing,
-		startLeftPanelWidth,
-		handleMouseDown,
-		handleMouseMove,
-		handleMouseUp
-	});
-
-	$$self.$inject_state = $$props => {
-		if ('leftPanelWidth' in $$props) $$invalidate(0, leftPanelWidth = $$props.leftPanelWidth);
-		if ('isResizing' in $$props) isResizing = $$props.isResizing;
-		if ('startLeftPanelWidth' in $$props) startLeftPanelWidth = $$props.startLeftPanelWidth;
-	};
-
-	if ($$props && "$$inject" in $$props) {
-		$$self.$inject_state($$props.$$inject);
-	}
-
-	return [
-		leftPanelWidth,
-		handleMouseDown,
-		handleMouseMove,
-		handleMouseUp,
-		$$scope,
-		slots
-	];
-}
-
-class SplitPanel extends svelte_internal__WEBPACK_IMPORTED_MODULE_0__.SvelteComponentDev {
-	constructor(options) {
-		super(options);
-		(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.init)(this, options, instance, create_fragment, svelte_internal__WEBPACK_IMPORTED_MODULE_0__.safe_not_equal, { leftPanelWidth: 0 });
-
-		(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.dispatch_dev)("SvelteRegisterComponent", {
-			component: this,
-			tagName: "SplitPanel",
-			options,
-			id: create_fragment.name
-		});
-	}
-
-	get leftPanelWidth() {
-		throw new Error("<SplitPanel>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-	}
-
-	set leftPanelWidth(value) {
-		throw new Error("<SplitPanel>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-	}
-}
-
-if (module && module.hot) { if (false) {}; SplitPanel = _Users_miezan_Desktop_Dev_Bookmark2_node_modules_svelte_loader_lib_hot_api_js__WEBPACK_IMPORTED_MODULE_2__.applyHmr({ m: module, id: "\"src/popup/components/fileSystem/SplitPanel.svelte\"", hotOptions: {"preserveLocalState":false,"noPreserveStateKey":["@hmr:reset","@!hmr"],"preserveAllLocalStateKey":"@hmr:keep-all","preserveLocalStateKey":"@hmr:keep","noReload":false,"optimistic":false,"acceptNamedExports":true,"acceptAccessors":true,"injectCss":false,"cssEjectDelay":100,"native":false,"importAdapterName":"___SVELTE_HMR_HOT_API_PROXY_ADAPTER","noOverlay":false,"allowLiveBinding":false}, Component: SplitPanel, ProxyAdapter: _Users_miezan_Desktop_Dev_Bookmark2_node_modules_svelte_hmr_runtime_proxy_adapter_dom_js__WEBPACK_IMPORTED_MODULE_3__.adapter, acceptable: true, preserveLocalState: false, emitCss: true, }); }
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SplitPanel);
-
-
-
-
-/***/ }),
-
-/***/ "./src/popup/components/fileSystem/Toolbar.svelte":
-/*!********************************************************!*\
-  !*** ./src/popup/components/fileSystem/Toolbar.svelte ***!
-  \********************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var svelte_internal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/internal */ "./node_modules/svelte/internal/index.mjs");
-/* harmony import */ var _Users_miezan_Desktop_Dev_Bookmark2_node_modules_svelte_loader_lib_hot_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./node_modules/svelte-loader/lib/hot-api.js */ "./node_modules/svelte-loader/lib/hot-api.js");
-/* harmony import */ var _Users_miezan_Desktop_Dev_Bookmark2_node_modules_svelte_hmr_runtime_proxy_adapter_dom_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/svelte-hmr/runtime/proxy-adapter-dom.js */ "./node_modules/svelte-hmr/runtime/proxy-adapter-dom.js");
-/* module decorator */ module = __webpack_require__.hmd(module);
-/* src/popup/components/fileSystem/Toolbar.svelte generated by Svelte v3.59.2 */
-
-
-const file = "src/popup/components/fileSystem/Toolbar.svelte";
-
-function create_fragment(ctx) {
-	let div;
-	let ul;
-	let li0;
-	let a0;
-	let svg0;
-	let path0;
-	let t0;
-	let t1;
-	let li1;
-	let a1;
-	let svg1;
-	let path1;
-	let t2;
-	let t3;
-	let li2;
-	let svg2;
-	let path2;
-	let t4;
-
-	const block = {
-		c: function create() {
-			div = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.element)("div");
-			ul = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.element)("ul");
-			li0 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.element)("li");
-			a0 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.element)("a");
-			svg0 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.svg_element)("svg");
-			path0 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.svg_element)("path");
-			t0 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.text)("\n        Home");
-			t1 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.space)();
-			li1 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.element)("li");
-			a1 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.element)("a");
-			svg1 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.svg_element)("svg");
-			path1 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.svg_element)("path");
-			t2 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.text)("\n        Documents");
-			t3 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.space)();
-			li2 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.element)("li");
-			svg2 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.svg_element)("svg");
-			path2 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.svg_element)("path");
-			t4 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.text)("\n      Add Document");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(path0, "stroke-linecap", "round");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(path0, "stroke-linejoin", "round");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(path0, "stroke-width", "2");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(path0, "d", "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(path0, file, 5, 116, 229);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(svg0, "xmlns", "http://www.w3.org/2000/svg");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(svg0, "fill", "none");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(svg0, "viewBox", "0 0 24 24");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(svg0, "class", "w-4 h-4 mr-2 stroke-current");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(svg0, file, 5, 8, 121);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(a0, file, 4, 6, 108);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(li0, file, 2, 4, 45);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(path1, "stroke-linecap", "round");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(path1, "stroke-linejoin", "round");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(path1, "stroke-width", "2");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(path1, "d", "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(path1, file, 12, 116, 612);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(svg1, "xmlns", "http://www.w3.org/2000/svg");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(svg1, "fill", "none");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(svg1, "viewBox", "0 0 24 24");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(svg1, "class", "w-4 h-4 mr-2 stroke-current");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(svg1, file, 12, 8, 504);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(a1, file, 11, 6, 492);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(li1, file, 9, 4, 429);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(path2, "stroke-linecap", "round");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(path2, "stroke-linejoin", "round");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(path2, "stroke-width", "2");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(path2, "d", "M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(path2, file, 17, 114, 936);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(svg2, "xmlns", "http://www.w3.org/2000/svg");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(svg2, "fill", "none");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(svg2, "viewBox", "0 0 24 24");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(svg2, "class", "w-4 h-4 mr-2 stroke-current");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(svg2, file, 17, 6, 828);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(li2, file, 16, 4, 817);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(ul, file, 1, 2, 36);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(div, "class", "text-sm breadcrumbs");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(div, file, 0, 0, 0);
-		},
-		l: function claim(nodes) {
-			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
-		},
-		m: function mount(target, anchor) {
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.insert_dev)(target, div, anchor);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(div, ul);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(ul, li0);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(li0, a0);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(a0, svg0);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(svg0, path0);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(a0, t0);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(ul, t1);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(ul, li1);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(li1, a1);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(a1, svg1);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(svg1, path1);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(a1, t2);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(ul, t3);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(ul, li2);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(li2, svg2);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(svg2, path2);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(li2, t4);
-		},
-		p: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		i: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		o: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		d: function destroy(detaching) {
-			if (detaching) (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.detach_dev)(div);
-		}
-	};
-
-	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.dispatch_dev)("SvelteRegisterBlock", {
-		block,
-		id: create_fragment.name,
-		type: "component",
-		source: "",
-		ctx
-	});
-
-	return block;
-}
-
-function instance($$self, $$props) {
-	let { $$slots: slots = {}, $$scope } = $$props;
-	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.validate_slots)('Toolbar', slots, []);
-	const writable_props = [];
-
-	Object.keys($$props).forEach(key => {
-		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Toolbar> was created with unknown prop '${key}'`);
-	});
-
-	return [];
-}
-
-class Toolbar extends svelte_internal__WEBPACK_IMPORTED_MODULE_0__.SvelteComponentDev {
-	constructor(options) {
-		super(options);
-		(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.init)(this, options, instance, create_fragment, svelte_internal__WEBPACK_IMPORTED_MODULE_0__.safe_not_equal, {});
-
-		(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.dispatch_dev)("SvelteRegisterComponent", {
-			component: this,
-			tagName: "Toolbar",
-			options,
-			id: create_fragment.name
-		});
-	}
-}
-
-if (module && module.hot) { if (false) {}; Toolbar = _Users_miezan_Desktop_Dev_Bookmark2_node_modules_svelte_loader_lib_hot_api_js__WEBPACK_IMPORTED_MODULE_1__.applyHmr({ m: module, id: "\"src/popup/components/fileSystem/Toolbar.svelte\"", hotOptions: {"preserveLocalState":false,"noPreserveStateKey":["@hmr:reset","@!hmr"],"preserveAllLocalStateKey":"@hmr:keep-all","preserveLocalStateKey":"@hmr:keep","noReload":false,"optimistic":false,"acceptNamedExports":true,"acceptAccessors":true,"injectCss":false,"cssEjectDelay":100,"native":false,"importAdapterName":"___SVELTE_HMR_HOT_API_PROXY_ADAPTER","noOverlay":false,"allowLiveBinding":false}, Component: Toolbar, ProxyAdapter: _Users_miezan_Desktop_Dev_Bookmark2_node_modules_svelte_hmr_runtime_proxy_adapter_dom_js__WEBPACK_IMPORTED_MODULE_2__.adapter, acceptable: true, preserveLocalState: false, emitCss: true, }); }
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Toolbar);
-
-
-
-/***/ }),
-
-/***/ "./src/popup/components/fileSystem/TreeView.svelte":
-/*!*********************************************************!*\
-  !*** ./src/popup/components/fileSystem/TreeView.svelte ***!
-  \*********************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var svelte_internal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/internal */ "./node_modules/svelte/internal/index.mjs");
-/* harmony import */ var svelte__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! svelte */ "./node_modules/svelte/index.mjs");
-/* harmony import */ var wunderbaum__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! wunderbaum */ "./node_modules/wunderbaum/dist/wunderbaum.umd.js");
-/* harmony import */ var wunderbaum__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(wunderbaum__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _store_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../store/index */ "./src/popup/components/store/index.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utils */ "./src/popup/utils.js");
-/* harmony import */ var _shared_eventBus_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../shared/eventBus.js */ "./src/shared/eventBus.js");
-/* harmony import */ var _shared_eventHandlers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../shared/eventHandlers */ "./src/shared/eventHandlers.js");
-/* harmony import */ var _Users_miezan_Desktop_Dev_Bookmark2_node_modules_svelte_loader_lib_hot_api_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./node_modules/svelte-loader/lib/hot-api.js */ "./node_modules/svelte-loader/lib/hot-api.js");
-/* harmony import */ var _Users_miezan_Desktop_Dev_Bookmark2_node_modules_svelte_hmr_runtime_proxy_adapter_dom_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./node_modules/svelte-hmr/runtime/proxy-adapter-dom.js */ "./node_modules/svelte-hmr/runtime/proxy-adapter-dom.js");
-/* module decorator */ module = __webpack_require__.hmd(module);
-/* src/popup/components/fileSystem/TreeView.svelte generated by Svelte v3.59.2 */
-
-
-const { console: console_1, document: document_1 } = svelte_internal__WEBPACK_IMPORTED_MODULE_0__.globals;
-
-
-// import { Wunderbaum } from "wunderbaum/dist/wunderbaum.esm.min";
-
-
-
-
-
-// import EventBusTool, {event_bus} from '@shared/event_bus'
-
-
-
-
-const file = "src/popup/components/fileSystem/TreeView.svelte";
-
-function create_fragment(ctx) {
-	let link0;
-	let link1;
-	let t0;
-	let div1;
-	let output;
-	let t1;
-	let div0;
-	let h1;
-	let t3;
-	let p;
-
-	const block = {
-		c: function create() {
-			link0 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.element)("link");
-			link1 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.element)("link");
-			t0 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.space)();
-			div1 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.element)("div");
-			output = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.element)("output");
-			t1 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.space)();
-			div0 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.element)("div");
-			h1 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.element)("h1");
-			h1.textContent = "Bookmark";
-			t3 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.space)();
-			p = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.element)("p");
-			p.textContent = "Loading…";
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(link0, "rel", "stylesheet");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(link0, "href", "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(link0, file, 1, 2, 16);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(link1, "rel", "stylesheet");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(link1, "href", "https://cdn.jsdelivr.net/gh/mar10/wunderbaum@main/dist/wunderbaum.css");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(link1, file, 2, 2, 127);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(output, "id", /*parentDOM*/ ctx[1]);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(output, "class", "");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(output, file, 228, 2, 7177);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(h1, file, 231, 4, 7366);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(p, file, 232, 4, 7388);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(div0, "id", /*treeDOM*/ ctx[0]);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(div0, "class", "");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(div0, file, 229, 2, 7221);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.add_location)(div1, file, 226, 0, 7168);
-		},
-		l: function claim(nodes) {
-			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
-		},
-		m: function mount(target, anchor) {
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(document_1.head, link0);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(document_1.head, link1);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.insert_dev)(target, t0, anchor);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.insert_dev)(target, div1, anchor);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(div1, output);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(div1, t1);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(div1, div0);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(div0, h1);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(div0, t3);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append_dev)(div0, p);
-		},
-		p: function update(ctx, [dirty]) {
-			if (dirty & /*parentDOM*/ 2) {
-				(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(output, "id", /*parentDOM*/ ctx[1]);
-			}
-
-			if (dirty & /*treeDOM*/ 1) {
-				(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr_dev)(div0, "id", /*treeDOM*/ ctx[0]);
-			}
-		},
-		i: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		o: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		d: function destroy(detaching) {
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.detach_dev)(link0);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.detach_dev)(link1);
-			if (detaching) (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.detach_dev)(t0);
-			if (detaching) (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.detach_dev)(div1);
-		}
-	};
-
-	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.dispatch_dev)("SvelteRegisterBlock", {
-		block,
-		id: create_fragment.name,
-		type: "component",
-		source: "",
-		ctx
-	});
-
-	return block;
-}
-
-const _expansionState = {}; /* treeNodeId: expanded <boolean> */
-
-function faviconURL(u) {
-	const url = new URL(chrome.runtime.getURL("/_favicon/"));
-	url.searchParams.set("pageUrl", u);
-	url.searchParams.set("size", "64");
-	return url.toString();
-}
-
-function instance($$self, $$props, $$invalidate) {
-	let $loadedTrees;
-	let $Forest;
-	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.validate_store)(_store_index__WEBPACK_IMPORTED_MODULE_3__.loadedTrees, 'loadedTrees');
-	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.component_subscribe)($$self, _store_index__WEBPACK_IMPORTED_MODULE_3__.loadedTrees, $$value => $$invalidate(5, $loadedTrees = $$value));
-	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.validate_store)(_store_index__WEBPACK_IMPORTED_MODULE_3__.Forest, 'Forest');
-	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.component_subscribe)($$self, _store_index__WEBPACK_IMPORTED_MODULE_3__.Forest, $$value => $$invalidate(6, $Forest = $$value));
-	let { $$slots: slots = {}, $$scope } = $$props;
-	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.validate_slots)('TreeView', slots, []);
-	let { treeDOM = 'treeDOM_ID_1' } = $$props;
-	let { parentDOM = 'parentDOM_ID_1' } = $$props;
-	let { rootID } = $$props;
-	let { treeSource } = $$props;
-	let me = rootID;
-	let tree;
-
-	// console.log("loading treeview...", rootID, treeSource)
-	// globalThis.eventBus = eventBus
-	// globalThis.EventEnum = EventEnum
-	const handleAllEvents = data => {
-		console.log("handleAllEvents", data, me);
-
-		if (data.event.src !== me) {
-			console.log(`${treeDOM} received LOADED event:`, event);
-		}
-	};
-
-	// eventBus.subscribeToAll(handleAllEvents)
-	_shared_eventBus_js__WEBPACK_IMPORTED_MODULE_5__.eventBus.emit(_shared_eventHandlers__WEBPACK_IMPORTED_MODULE_6__.EventEnum.TreeViewLoaded, { src: treeDOM }, me);
-
-	const addTreeToForest = newTree => {
-		(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.set_store_value)(_store_index__WEBPACK_IMPORTED_MODULE_3__.Forest, $Forest = [...$Forest, newTree], $Forest);
-		console.log($Forest);
-	};
-
-	// const event_bus = EventBusTool.getEventBus();
-	let showUrl = true;
-
-	// _expansionState[label] = !expanded;
-	// https://mar10.github.io/wunderbaum/index.html#/tutorial/tutorial_events?id=common-event-handlers
-	const init_tree = () => {
-		const DOM = document.getElementById(treeDOM);
-		console.log(DOM);
-
-		// if (DOM){
-		// DOM.innerHTML=''
-		const _tree = new wunderbaum__WEBPACK_IMPORTED_MODULE_2__.Wunderbaum({
-				id: rootID,
-				element: document.getElementById(treeDOM),
-				debugLevel: 5,
-				// connectTopBreadcrumb: document.getElementById(parentDOM),
-				source: treeSource,
-				// header: "Bookmark",
-				// headerHeightPx: ROW_HEIGHT,
-				// rowHeightPx: ROW_HEIGHT,
-				columns: null,
-				types: null,
-				// escapeTitles: true,
-				enabled: true,
-				fixedCol: false,
-				showSpinner: false,
-				checkbox: false,
-				// minExpandLevel: 3,
-				emptyChildListExpandable: false,
-				updateThrottleWait: 100,
-				skeleton: false,
-				connectTopBreadcrumb: null,
-				// --- KeyNav ---
-				navigationModeOption: null,
-				quicksearch: true,
-				// --- Events ---
-				// change: noop,
-				enhanceTitle: e => {
-					if (showUrl) {
-						e.node.setTitle(e.node.data.url || e.node.title);
-					}
-				}, // console.log("updating... enhanceTitle", {e})
-				icon: e => {
-					if (e.node?.data?.url) {
-						const _style = {
-							marginRight: "8px",
-							backgroundImage: `url(${faviconURL(e.node.data.url)})`,
-							backgroundSize: "cover"
-						};
-
-						return `<i class='wb-icon' style=${(0,_utils__WEBPACK_IMPORTED_MODULE_4__.styleToString)(_style)}> </i>`;
-					}
-				}, // Exit without returning a value: continue with default processing.
-				// error: noop,
-				// receive: noop,
-				render(e) {
-					const node = e.node; // if (e.node.data?.url){
-					//   const newTitle = `<span class=wb-title><a href="${e.node.data.url}">${e.node.title}</a></span>`
-
-					const util = e.util;
-				}, // if (e.node.data?.url){
-				//   const titleSpan = e.node
-				//     .getColElem(0)
-				//     .querySelector(".wb-title");
-				//   titleSpan.innerHTML = newTitle;
-				// }
-				// load: function(e){
-				//   console.log({loading: true})
-				// },
-				edit: {
-					trigger: ["clickActive", "F2", "macEnter"],
-					select: true,
-					beforeEdit(e) {
-						
-					}, // console.log(e.type, e);
-					// return e.node.type === "person";
-					// console.log(e.type, e);
-					edit(e) {
-						console.log(e.type, e);
-					},
-					apply(e) {
-						console.log(e.type, e);
-
-						// Simulate async storage that also validates:
-						return e.util.setTimeoutPromise(
-							() => {
-								e.inputElem.setCustomValidity("");
-
-								if (e.newValue.match(/.*\d.*/)) {
-									e.inputElem.setCustomValidity("No numbers please.");
-									return false;
-								}
-							},
-							1000
-						);
-					}
-				},
-				// lazyLoad: (e) => {
-				//   return { url: `https://fakestoreapi.com/products/category/${e.node.refKey}` }
-				// },
-				receive: e => {
-					return e.response.map(elem => {
-						console.log("receive", { elem });
-
-						return {
-							title: elem.title,
-							children: elem.children,
-							refKey: elem.id
-						};
-					});
-				},
-				/** ------- drag and drop --------*/
-				dnd: {
-					dragStart: e => {
-						if (e.node.type === "folder") {
-							return false;
-						}
-
-						e.event.dataTransfer.effectAllowed = "all";
-						return true;
-					},
-					dragEnter: e => {
-						if (e.node.type === "folder") {
-							e.event.dataTransfer.dropEffect = "copy";
-							return "over";
-						}
-
-						return ["before", "after"];
-					},
-					drop: e => {
-						console.log("Drop " + e.sourceNode + " => " + e.region + " " + e.node, e);
-						e.sourceNode.moveTo(e.node, e.defaultDropMode);
-					}
-				}
-			});
-
-		addTreeToForest(_tree);
-		_store_index__WEBPACK_IMPORTED_MODULE_3__.loadedTrees.set($loadedTrees + 1);
-
-		// globalThis._tree = _tree
-		//  console.info(_tree.format(n=>n.key))
-		tree = _tree;
-
-		return _tree;
-	}; // }
-
-	(0,svelte__WEBPACK_IMPORTED_MODULE_1__.onMount)(() => {
-		const myTree = init_tree();
-
-		for (const event_name in _shared_eventHandlers__WEBPACK_IMPORTED_MODULE_6__.EventEnum) {
-			// eventBus.subscribe(EventEnum[event_name], me, (src, data)=>{
-			//   console.log(`EVENT-[${event_name}] SENT FROM [${src}] TO [${me}] `, data)
-			//   const destinationNode = myTree
-			//   fnWrap(event_name, eventEnumHandlers[EventEnum[event_name]], [data, src, destinationNode])()
-			// })
-			_shared_eventBus_js__WEBPACK_IMPORTED_MODULE_5__.eventBus.subscribe(_shared_eventHandlers__WEBPACK_IMPORTED_MODULE_6__.EventEnum[event_name], me, (src, data) => {
-				console.log(`EVENT-[${event_name}] SENT FROM [${src}] TO [${me}] `, data);
-				const destinationNode = myTree;
-
-				(0,_shared_eventHandlers__WEBPACK_IMPORTED_MODULE_6__.fnWrap)(event_name, _shared_eventHandlers__WEBPACK_IMPORTED_MODULE_6__.eventEnumHandlers[_shared_eventHandlers__WEBPACK_IMPORTED_MODULE_6__.EventEnum[event_name]], [
-					{
-						event: event_name,
-						source: src,
-						target: myTree,
-						data
-					}
-				])();
-			});
-		}
-	}); // window.addEventListener('OnMount::DOMContentLoaded')
-	// return () => window.removeEventListener('DOMContentLoaded');
-
-	globalThis._init_tree = init_tree;
-
-	$$self.$$.on_mount.push(function () {
-		if (rootID === undefined && !('rootID' in $$props || $$self.$$.bound[$$self.$$.props['rootID']])) {
-			console_1.warn("<TreeView> was created without expected prop 'rootID'");
-		}
-
-		if (treeSource === undefined && !('treeSource' in $$props || $$self.$$.bound[$$self.$$.props['treeSource']])) {
-			console_1.warn("<TreeView> was created without expected prop 'treeSource'");
-		}
-	});
-
-	const writable_props = ['treeDOM', 'parentDOM', 'rootID', 'treeSource'];
-
-	Object.keys($$props).forEach(key => {
-		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1.warn(`<TreeView> was created with unknown prop '${key}'`);
-	});
-
-	$$self.$$set = $$props => {
-		if ('treeDOM' in $$props) $$invalidate(0, treeDOM = $$props.treeDOM);
-		if ('parentDOM' in $$props) $$invalidate(1, parentDOM = $$props.parentDOM);
-		if ('rootID' in $$props) $$invalidate(2, rootID = $$props.rootID);
-		if ('treeSource' in $$props) $$invalidate(3, treeSource = $$props.treeSource);
-	};
-
-	$$self.$capture_state = () => ({
-		_expansionState,
-		onMount: svelte__WEBPACK_IMPORTED_MODULE_1__.onMount,
-		Wunderbaum: wunderbaum__WEBPACK_IMPORTED_MODULE_2__.Wunderbaum,
-		loadedTrees: _store_index__WEBPACK_IMPORTED_MODULE_3__.loadedTrees,
-		source: _store_index__WEBPACK_IMPORTED_MODULE_3__.source,
-		Forest: _store_index__WEBPACK_IMPORTED_MODULE_3__.Forest,
-		styleToString: _utils__WEBPACK_IMPORTED_MODULE_4__.styleToString,
-		EventBusTool: _shared_eventBus_js__WEBPACK_IMPORTED_MODULE_5__.EventBusTool,
-		eventBus: _shared_eventBus_js__WEBPACK_IMPORTED_MODULE_5__.eventBus,
-		EventEnum: _shared_eventHandlers__WEBPACK_IMPORTED_MODULE_6__.EventEnum,
-		fnWrap: _shared_eventHandlers__WEBPACK_IMPORTED_MODULE_6__.fnWrap,
-		eventEnumHandlers: _shared_eventHandlers__WEBPACK_IMPORTED_MODULE_6__.eventEnumHandlers,
-		treeDOM,
-		parentDOM,
-		rootID,
-		treeSource,
-		me,
-		tree,
-		handleAllEvents,
-		addTreeToForest,
-		faviconURL,
-		showUrl,
-		init_tree,
-		$loadedTrees,
-		$Forest
-	});
-
-	$$self.$inject_state = $$props => {
-		if ('treeDOM' in $$props) $$invalidate(0, treeDOM = $$props.treeDOM);
-		if ('parentDOM' in $$props) $$invalidate(1, parentDOM = $$props.parentDOM);
-		if ('rootID' in $$props) $$invalidate(2, rootID = $$props.rootID);
-		if ('treeSource' in $$props) $$invalidate(3, treeSource = $$props.treeSource);
-		if ('me' in $$props) me = $$props.me;
-		if ('tree' in $$props) tree = $$props.tree;
-		if ('showUrl' in $$props) showUrl = $$props.showUrl;
-	};
-
-	if ($$props && "$$inject" in $$props) {
-		$$self.$inject_state($$props.$$inject);
-	}
-
-	return [treeDOM, parentDOM, rootID, treeSource];
-}
-
-class TreeView extends svelte_internal__WEBPACK_IMPORTED_MODULE_0__.SvelteComponentDev {
-	constructor(options) {
-		super(options);
-
-		(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.init)(this, options, instance, create_fragment, svelte_internal__WEBPACK_IMPORTED_MODULE_0__.safe_not_equal, {
-			treeDOM: 0,
-			parentDOM: 1,
-			rootID: 2,
-			treeSource: 3
-		});
-
-		(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.dispatch_dev)("SvelteRegisterComponent", {
-			component: this,
-			tagName: "TreeView",
-			options,
-			id: create_fragment.name
-		});
-	}
-
-	get treeDOM() {
-		throw new Error("<TreeView>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-	}
-
-	set treeDOM(value) {
-		throw new Error("<TreeView>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-	}
-
-	get parentDOM() {
-		throw new Error("<TreeView>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-	}
-
-	set parentDOM(value) {
-		throw new Error("<TreeView>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-	}
-
-	get rootID() {
-		throw new Error("<TreeView>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-	}
-
-	set rootID(value) {
-		throw new Error("<TreeView>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-	}
-
-	get treeSource() {
-		throw new Error("<TreeView>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-	}
-
-	set treeSource(value) {
-		throw new Error("<TreeView>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-	}
-}
-
-if (module && module.hot) { if (false) {}; TreeView = _Users_miezan_Desktop_Dev_Bookmark2_node_modules_svelte_loader_lib_hot_api_js__WEBPACK_IMPORTED_MODULE_7__.applyHmr({ m: module, id: "\"src/popup/components/fileSystem/TreeView.svelte\"", hotOptions: {"preserveLocalState":false,"noPreserveStateKey":["@hmr:reset","@!hmr"],"preserveAllLocalStateKey":"@hmr:keep-all","preserveLocalStateKey":"@hmr:keep","noReload":false,"optimistic":false,"acceptNamedExports":true,"acceptAccessors":true,"injectCss":false,"cssEjectDelay":100,"native":false,"importAdapterName":"___SVELTE_HMR_HOT_API_PROXY_ADAPTER","noOverlay":false,"allowLiveBinding":false}, Component: TreeView, ProxyAdapter: _Users_miezan_Desktop_Dev_Bookmark2_node_modules_svelte_hmr_runtime_proxy_adapter_dom_js__WEBPACK_IMPORTED_MODULE_8__.adapter, acceptable: true, preserveLocalState: false, emitCss: true, }); }
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TreeView);
-
-
-
-/***/ }),
-
-/***/ "./src/popup/components/globals/Theme.svelte":
-/*!***************************************************!*\
-  !*** ./src/popup/components/globals/Theme.svelte ***!
-  \***************************************************/
-/***/ ((module, __unused_webpack___webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony import */ var svelte_internal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/internal */ "./node_modules/svelte/internal/index.mjs");
-/* harmony import */ var _Users_miezan_Desktop_Dev_Bookmark2_node_modules_svelte_loader_lib_hot_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./node_modules/svelte-loader/lib/hot-api.js */ "./node_modules/svelte-loader/lib/hot-api.js");
-/* harmony import */ var _Users_miezan_Desktop_Dev_Bookmark2_node_modules_svelte_hmr_runtime_proxy_adapter_dom_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/svelte-hmr/runtime/proxy-adapter-dom.js */ "./node_modules/svelte-hmr/runtime/proxy-adapter-dom.js");
-/* harmony import */ var _Users_miezan_Desktop_Dev_Bookmark2_src_popup_components_globals_Theme_svelte_1_css_svelte_loader_cssPath_Users_miezan_Desktop_Dev_Bookmark2_src_popup_components_globals_Theme_svelte_1_css_Users_miezan_Desktop_Dev_Bookmark2_src_popup_components_globals_Theme_svelte__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./src/popup/components/globals/Theme.svelte.1.css!=!svelte-loader?cssPath=/Users/miezan/Desktop/Dev/Bookmark2/src/popup/components/globals/Theme.svelte.1.css!./src/popup/components/globals/Theme.svelte */ "./src/popup/components/globals/Theme.svelte.1.css!=!./node_modules/svelte-loader/index.js?cssPath=/Users/miezan/Desktop/Dev/Bookmark2/src/popup/components/globals/Theme.svelte.1.css!./src/popup/components/globals/Theme.svelte");
-/* module decorator */ module = __webpack_require__.hmd(module);
-/* src/popup/components/globals/Theme.svelte generated by Svelte v3.59.2 */
-
-
-const file = "src/popup/components/globals/Theme.svelte";
-
-function create_fragment(ctx) {
-	const block = {
-		c: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		l: function claim(nodes) {
-			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
-		},
-		m: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		p: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		i: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		o: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop,
-		d: svelte_internal__WEBPACK_IMPORTED_MODULE_0__.noop
-	};
-
-	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.dispatch_dev)("SvelteRegisterBlock", {
-		block,
-		id: create_fragment.name,
-		type: "component",
-		source: "",
-		ctx
-	});
-
-	return block;
-}
-
-function instance($$self, $$props) {
-	let { $$slots: slots = {}, $$scope } = $$props;
-	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.validate_slots)('Theme', slots, []);
-	const writable_props = [];
-
-	Object.keys($$props).forEach(key => {
-		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Theme> was created with unknown prop '${key}'`);
-	});
-
-	return [];
-}
-
-class Theme extends svelte_internal__WEBPACK_IMPORTED_MODULE_0__.SvelteComponentDev {
-	constructor(options) {
-		super(options);
-		(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.init)(this, options, instance, create_fragment, svelte_internal__WEBPACK_IMPORTED_MODULE_0__.safe_not_equal, {});
-
-		(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.dispatch_dev)("SvelteRegisterComponent", {
-			component: this,
-			tagName: "Theme",
-			options,
-			id: create_fragment.name
-		});
-	}
-}
-
-if (module && module.hot) { if (false) {}; Theme = _Users_miezan_Desktop_Dev_Bookmark2_node_modules_svelte_loader_lib_hot_api_js__WEBPACK_IMPORTED_MODULE_1__.applyHmr({ m: module, id: "\"src/popup/components/globals/Theme.svelte\"", hotOptions: {"preserveLocalState":false,"noPreserveStateKey":["@hmr:reset","@!hmr"],"preserveAllLocalStateKey":"@hmr:keep-all","preserveLocalStateKey":"@hmr:keep","noReload":false,"optimistic":false,"acceptNamedExports":true,"acceptAccessors":true,"injectCss":false,"cssEjectDelay":100,"native":false,"importAdapterName":"___SVELTE_HMR_HOT_API_PROXY_ADAPTER","noOverlay":false,"allowLiveBinding":false}, Component: Theme, ProxyAdapter: _Users_miezan_Desktop_Dev_Bookmark2_node_modules_svelte_hmr_runtime_proxy_adapter_dom_js__WEBPACK_IMPORTED_MODULE_2__.adapter, acceptable: true, preserveLocalState: false, emitCss: true, }); }
-/* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = (Theme);
-
-
-
-
-/***/ }),
-
-/***/ "./node_modules/webpack/hot sync ^\\.\\/log$":
-/*!***************************************************************!*\
-  !*** ./node_modules/webpack/hot/ sync nonrecursive ^\.\/log$ ***!
-  \***************************************************************/
+/***/ "./node_modules/.pnpm/webpack-dev-server@3.11.3_webpack-cli@4.10.0_webpack@5.94.0/node_modules/webpack/hot ./node_modules/webpack/hot sync ^\\.\\/log$":
+/*!**************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/webpack-dev-server@3.11.3_webpack-cli@4.10.0_webpack@5.94.0/node_modules/webpack/hot/ ./node_modules/webpack/hot/ sync nonrecursive ^\.\/log$ ***!
+  \**************************************************************************************************************************************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var map = {
-	"./log": "./node_modules/webpack/hot/log.js"
+	"./log": "./node_modules/.pnpm/webpack@5.94.0_webpack-cli@4.10.0/node_modules/webpack/hot/log.js"
 };
 
 
@@ -2602,11 +561,11 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = "./node_modules/webpack/hot sync ^\\.\\/log$";
+webpackContext.id = "./node_modules/.pnpm/webpack-dev-server@3.11.3_webpack-cli@4.10.0_webpack@5.94.0/node_modules/webpack/hot ./node_modules/webpack/hot sync ^\\.\\/log$";
 
 /***/ }),
 
-/***/ "?4f7e":
+/***/ "?ed16":
 /*!********************************!*\
   !*** ./util.inspect (ignored) ***!
   \********************************/
@@ -2739,7 +698,7 @@ webpackContext.id = "./node_modules/webpack/hot sync ^\\.\\/log$";
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => ("fec168a13aafa5062f75")
+/******/ 		__webpack_require__.h = () => ("7a9861cee7ff290e0a37")
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/global */
@@ -2752,21 +711,6 @@ webpackContext.id = "./node_modules/webpack/hot sync ^\\.\\/log$";
 /******/ 				if (typeof window === 'object') return window;
 /******/ 			}
 /******/ 		})();
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/harmony module decorator */
-/******/ 	(() => {
-/******/ 		__webpack_require__.hmd = (module) => {
-/******/ 			module = Object.create(module);
-/******/ 			if (!module.children) module.children = [];
-/******/ 			Object.defineProperty(module, 'exports', {
-/******/ 				enumerable: true,
-/******/ 				set: () => {
-/******/ 					throw new Error('ES Modules may not assign module.exports or exports.*, Use ESM export syntax, instead: ' + module.id);
-/******/ 				}
-/******/ 			});
-/******/ 			return module;
-/******/ 		};
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
@@ -3021,7 +965,7 @@ webpackContext.id = "./node_modules/webpack/hot sync ^\\.\\/log$";
 /******/ 					if (idx >= 0) registeredStatusHandlers.splice(idx, 1);
 /******/ 				},
 /******/ 		
-/******/ 				//inherit from previous dispose call
+/******/ 				// inherit from previous dispose call
 /******/ 				data: currentModuleData[moduleId]
 /******/ 			};
 /******/ 			currentChildModule = undefined;
@@ -3113,11 +1057,10 @@ webpackContext.id = "./node_modules/webpack/hot sync ^\\.\\/log$";
 /******/ 							return waitForBlockingPromises(function () {
 /******/ 								if (applyOnUpdate) {
 /******/ 									return internalApply(applyOnUpdate);
-/******/ 								} else {
-/******/ 									return setStatus("ready").then(function () {
-/******/ 										return updatedModules;
-/******/ 									});
 /******/ 								}
+/******/ 								return setStatus("ready").then(function () {
+/******/ 									return updatedModules;
+/******/ 								});
 /******/ 							});
 /******/ 						});
 /******/ 					});
@@ -3232,7 +1175,7 @@ webpackContext.id = "./node_modules/webpack/hot sync ^\\.\\/log$";
 /******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
 /******/ 		var document = __webpack_require__.g.document;
 /******/ 		if (!scriptUrl && document) {
-/******/ 			if (document.currentScript)
+/******/ 			if (document.currentScript && document.currentScript.tagName.toUpperCase() === 'SCRIPT')
 /******/ 				scriptUrl = document.currentScript.src;
 /******/ 			if (!scriptUrl) {
 /******/ 				var scripts = document.getElementsByTagName("script");
@@ -3493,15 +1436,12 @@ webpackContext.id = "./node_modules/webpack/hot sync ^\\.\\/log$";
 /******/ 				if (__webpack_require__.o(currentUpdate, moduleId)) {
 /******/ 					var newModuleFactory = currentUpdate[moduleId];
 /******/ 					/** @type {TODO} */
-/******/ 					var result;
-/******/ 					if (newModuleFactory) {
-/******/ 						result = getAffectedModuleEffects(moduleId);
-/******/ 					} else {
-/******/ 						result = {
-/******/ 							type: "disposed",
-/******/ 							moduleId: moduleId
-/******/ 						};
-/******/ 					}
+/******/ 					var result = newModuleFactory
+/******/ 						? getAffectedModuleEffects(moduleId)
+/******/ 						: {
+/******/ 								type: "disposed",
+/******/ 								moduleId: moduleId
+/******/ 							};
 /******/ 					/** @type {Error|false} */
 /******/ 					var abortError = false;
 /******/ 					var doApply = false;
@@ -3752,17 +1692,17 @@ webpackContext.id = "./node_modules/webpack/hot sync ^\\.\\/log$";
 /******/ 										moduleId: moduleId,
 /******/ 										module: __webpack_require__.c[moduleId]
 /******/ 									});
-/******/ 								} catch (err2) {
+/******/ 								} catch (err1) {
 /******/ 									if (options.onErrored) {
 /******/ 										options.onErrored({
 /******/ 											type: "self-accept-error-handler-errored",
 /******/ 											moduleId: moduleId,
-/******/ 											error: err2,
+/******/ 											error: err1,
 /******/ 											originalError: err
 /******/ 										});
 /******/ 									}
 /******/ 									if (!options.ignoreErrored) {
-/******/ 										reportError(err2);
+/******/ 										reportError(err1);
 /******/ 										reportError(err);
 /******/ 									}
 /******/ 								}
@@ -3885,8 +1825,8 @@ webpackContext.id = "./node_modules/webpack/hot sync ^\\.\\/log$";
 /******/ 	// Load entry module and return exports
 /******/ 	__webpack_require__.O(undefined, ["vendors.js"], () => (__webpack_require__("./src/shared/events.js")))
 /******/ 	__webpack_require__.O(undefined, ["vendors.js"], () => (__webpack_require__("./src/popup/index.js")))
-/******/ 	__webpack_require__.O(undefined, ["vendors.js"], () => (__webpack_require__("./node_modules/webpack-dev-server/client/index.js?http://localhost:8080")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors.js"], () => (__webpack_require__("./node_modules/webpack/hot/dev-server.js")))
+/******/ 	__webpack_require__.O(undefined, ["vendors.js"], () => (__webpack_require__("./node_modules/.pnpm/webpack-dev-server@3.11.3_webpack-cli@4.10.0_webpack@5.94.0/node_modules/webpack-dev-server/client/index.js?http://localhost:8080")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors.js"], () => (__webpack_require__("./node_modules/.pnpm/webpack@5.94.0_webpack-cli@4.10.0/node_modules/webpack/hot/dev-server.js")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

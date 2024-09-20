@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Tree } from '@douyinfe/semi-ui';
-// import { Tree, TagInput, TagGroup, Tag} from '@douyinfe/semi-ui';
+// import { Tree } from '@douyinfe/semi-ui';
+import { Tree, TagInput, TagGroup, Tag} from '@douyinfe/semi-ui';
 // import { Toast, Button } from '@douyinfe/semi-ui';
 
 // import Form from './react-components/Form';
