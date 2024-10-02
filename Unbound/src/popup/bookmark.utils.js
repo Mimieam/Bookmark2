@@ -31,52 +31,10 @@ export function getURLTags(u) {
     return ['Semi', 'Hotsoon', 'Pipixia']
 }
 
-/**
- * converts chrome native bookmarks to semi-ui data
- * 
- * @param {*} initialData data from chrome.bookmark.getTree()
- * @param {*} parentKey semi-ui parent node key representation
- * @param {*} parentId chrome browser parent node key representation
- * @returns 
- */
-export function remapData(initialData, parentKey = null) {
-    const remapped = [];
-
-    const traverse = (data, parentKey) => {
-        return data.map((item, index) => {
-            const key = parentKey ? `${parentKey}-${index}` : `${index}`;
-            const newItem = {
-                // browser 
-                raw_data: item,  // chrome bookmwark NodeTree object
-                index: item.index,  // origin index in the the bookmark
-                parentId: item.parentId,  // chrome ids
-                parentKey: parentKey,  // tree depth
-
-                // semi-ui elements
-                label: renderBookmark(item.title),
-                value: item.title,
-                key: key,
-                // disabled: "disabled",
-                // children: "children",
-                isLeaf: !item?.children,
-                icon: getFaviconFromURL(item.url),
-                tags: getURLTags(item.url)
-            };
-
-            if (item.children && item.children.length > 0) {
-                newItem.children = traverse(item.children, key);
-            }
-
-            return newItem;
-        });
-    };
-
-    return traverse(initialData.children, parentKey);
-}
-
 export async function moveBookmark(dragNode, dropNode, dropInfo) {
-    console.log({ dragNode, dropNode, dropInfo })
+    // console.log({ dragNode, dropNode, dropInfo })
     // // Get the IDs of the bookmark nodes being dragged and dropped
+    const isFolder = !dropNode.isLeaf;
     const dragBookmarkId = dragNode.raw_data.id;
 
     // found in the last position of semi-ui dropNode info 
@@ -84,28 +42,118 @@ export async function moveBookmark(dragNode, dropNode, dropInfo) {
     const dropPosition = dropInfo.dropPosition - Number(dropPos[dropPos.length - 1]);
 
     const correctDropNode = dropNode.raw_data?.children ? dropNode : (await chrome.bookmarks.getSubTree(dropNode.raw_data.parentId)).pop()
-    const dropId = correctDropNode?.raw_data?.id || correctDropNode.id,
-
+    let dropId = correctDropNode?.raw_data?.id || correctDropNode.id,
         dropIndex = Number(dropInfo.node.pos.split('-').pop()) + dropInfo.dropPosition
-
-    console.log({ correctDropNode, dropIndex })
-    console.log(correctDropNode.index, dropNode.index, dropPosition, dropNode.index + dropPosition)
-    console.log(`dropPosition`, dropPosition)
-    console.log(`dropNode.index`, dropNode.index)
-    console.log(`dropNode.pos`, dropNode.pos.split('-').pop())
-    // console.log(`correctDropNode.index`, correctDropNode.index)
-    console.log(`dropIndex`, dropIndex)
+        
     // Move the bookmark in the browser's bookmark tree
-    try {
+    // dropId = dropNode.parentId
+
+    dropIndex = +dropNode.pos.split('-').pop()
+    console.log(`isFolder=${isFolder}, dropPosition=${dropPosition}, dropIndex=${dropIndex}`)
+    
+    if (isFolder){
+        if (dropPosition === -1) {
+            // drop in parent
+            dropId = dropNode.parentId
+            // console.log(`Drop in parent`, dropId)
+        } else if (dropPosition === 1) {
+            dropId = dropNode.raw_data.id
+            dropIndex = 0
+            // console.log(`Drop in itself at top`, dropId, dropPosition)
+        } else {
+            dropId = dropNode.raw_data.id
+            dropIndex = dropPosition
+            // console.log(`Drop in itself`, dropId, dropPosition)
+        }
+
+    } else {
+        if (dropPosition === -1) {
+            dropId = dropNode.parentId
+            dropIndex = +dropNode.pos.split('-').pop()
+            // console.log(`Drop in itself at top`, dropId, dropPosition)
+        } else {
+            // dropId = dropNode.raw_data.id
+            dropIndex = +dropNode.pos.split('-').pop()+1
+            // console.log(`Drop in itself keep index`, dropId, dropPosition)
+        }
+    }
+    
+    
+    // try {
+        console.log(`Trying to move bookmark [${dragBookmarkId}] to ${dropNode.parentId} at index ${dropIndex}.`);
         await chrome.bookmarks.move(dragBookmarkId, {
             parentId: dropId,
-            index: dropPosition > 0 ? Number(dropNode.pos.split('-').pop()) + 1 : Number(dropNode.pos.split('-').pop())
-            // index: dropPosition > 0 ? dropNode.index + 1 : dropNode.index
+            // index: dropPosition < 0 ? Number(dropNode.pos.split('-').pop()) + 1 : Number(dropNode.pos.split('-').pop())
+            index: dropIndex
         });
+        // TODO: After a bookmark is moved... its data need to be remapped to stay in sync with the UI... otherwise the UI tree parentKeys will be messed up
+        
         console.log(`Moved bookmark ${dragBookmarkId} to parent ${dropId} at index ${dropIndex}.`);
-    } catch (error) {
-        console.info(`Error Moving bookmark ${dragBookmarkId} to parent ${dropId} at index ${dropIndex} - ${error}`)        
-    }
+    // } catch (error) {
+    //     console.info(`Error Moving bookmark ${dragBookmarkId} to parent ${dropId} at index ${dropIndex} - ${error}`)        
+    // }
 
     // Optionally, update the state or perform any necessary post-processing
+}
+
+export function searchAndUpdate(tree, searchKey, searchValue, updateData) {
+    function traverse(node) {
+        console.log(searchKey, node[searchKey], searchValue)
+        if (node[searchKey] === searchValue) {
+            node = {
+                ...node,
+                ...updateData,
+            };
+            console.log("searchAndUpdate", node)
+            return true; // Found and updated
+        }
+
+        if (node.children) {
+            for (const child of node.children) {
+                if (traverse(child)) {
+                    return true; // Found and updated in child
+                }
+            }
+        }
+
+        return false; // Not found in this subtree
+    }
+
+    return [traverse(tree), tree];
+}
+
+export function reindexChildren(tree) {
+    const _tree = {...tree}
+
+    if (_tree.children) {
+        _tree.children.forEach((child, index) => {
+            console.log(child.key, child.isLeaf ? "🍃" : '🟡', child.count, child.label)
+            child.index = index;
+            child.parentId = _tree.id;
+            child.parentKey = _tree.key;
+            child.key = _tree.key ? `${_tree.key }-${index}` : `${index}`;
+            child.label = child.label
+
+            // child.pos = _tree.key ? `${_tree.key }-${index}` : `${index}`;
+            // // child.count = _tree?.children.length;
+            // console.log(child.key, child.value, child.label)
+            // child.icon = getFaviconFromURL(child.value)
+            reindexChildren(child);
+            // child.count = child.isLeaf ? 1 : 0
+
+            if (child.children) {
+                child.count = child.children?.map(c => c?.count | 0).reduce((a, b) => a + b, 0)
+                // newItem.children = await traverse(item.children, key);
+            } else {
+                console.log('')
+                child.count = child.isLeaf ? 1 : 0
+            }
+
+
+        });
+        _tree.count = _tree.children.map(child => child.count | 0).reduce((a, b) => a + b, 0)
+        console.log(_tree.key, _tree.count)
+    }
+
+    return _tree;
 }

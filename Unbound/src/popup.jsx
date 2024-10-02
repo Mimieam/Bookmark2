@@ -7,8 +7,8 @@ import { LocaleProvider } from '@douyinfe/semi-ui';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <LocaleProvider locale={en_GB}>
-    <React.StrictMode>
+    {/* <React.StrictMode> */}
       <App />
-    </React.StrictMode>
+    {/* </React.StrictMode> */}
   </LocaleProvider>
 )

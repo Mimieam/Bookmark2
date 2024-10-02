@@ -67,6 +67,10 @@ const EditableInput = ({ bookmarkId, initialValue }) => {
     };
 
     useEffect(() => {
+        setValue(initialValue);
+    }, [initialValue]);
+
+    useEffect(() => {
         if (isEditing) {
             document.addEventListener('mousedown', handleClickOutside);
         } else {
@@ -75,8 +79,9 @@ const EditableInput = ({ bookmarkId, initialValue }) => {
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [isEditing]);
+    }, [isEditing, initialValue]);
 
+    // console.log('EditableInput::', { bookmarkId, initialValue })
     return (
         <div onDoubleClick={handleDoubleClick} style={{ width: '100%' }}>
             {isEditing ? (
