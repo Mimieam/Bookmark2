@@ -1,8 +1,27 @@
-#root {
-  max-width: 1280px;
+
+body {
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  display: flex;
+  place-items: center;
+  min-width: 100vw;
+  min-height: 100vh;
+  flex-direction: column;
+  /* overflow: hidden; */
+}
+
+.App {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-direction: column;
+}
+#root {
+    /* max-width: 1280px; */
+    margin: 0 auto;
+    /* padding: 2rem; */
+    text-align: center;
+    display: flex;
+    /* width: 100%; */
 }
 
 .logo {
@@ -17,7 +36,7 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-@keyframes logo-spin {
+/* @keyframes logo-spin {
   from {
     transform: rotate(0deg);
   }
@@ -30,12 +49,4 @@
   a > .logo {
     animation: logo-spin infinite 20s linear;
   }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
+} */

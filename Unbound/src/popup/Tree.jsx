@@ -8,6 +8,28 @@ import EditableInput from './components/editable';
 import MainButtonGroup, { checkLinksFromSelectedNodes } from './mainGroupBtns';
 import Icon, { IconBreadcrumb, IconIntro, IconRating } from '@douyinfe/semi-icons-lab';
 import { IconFolderOpened, IconFolderClosed }  from './components/IconFolderOpened';
+import { applyCustomConsoleLog, customLogOptions } from './log';
+import { LinkButtonGroup } from './components/buttonGroup';
+
+// const blueishGray = '#9ba6d1'
+// const kindaNicePink = '#fb8990'
+
+// const logStyle = [
+//     `background: ${blueishGray}`,
+//     'border-radius: 3px',
+//     'color: white',
+//     'font-weight: bold',
+//     'padding: 2px 5px',
+//     'margin: 1px'
+// ].join(';')
+
+// console.log(`%c❱❱ Hello World!`, logStyle)
+
+
+// Call the function to apply the custom console log
+const original = console.log;
+// console.log = Function.prototype.bind.call(original, console, `%c❱❱ %c%s`, 'background:#fb8990;color:white;padding:2px;border-radius:3px;', 'background:#9ba6d1;color:white;padding:2px;border-radius:3px;');
+console.log = Function.prototype.bind.call(...customLogOptions);
 
 /**
  * converts chrome native bookmarks to semi-ui data
@@ -56,13 +78,13 @@ export function remapData(initialData, parentKey = null) {
                 count: 0
             };
 
-            if (newItem.isLeaf) {
-                const response = await chrome.runtime.sendMessage({ action: "checkLinks", urls: [item.url] })
-                newItem.isLiveLink = response.ok 
-                newItem.icon = newItem.isLiveLink ?
-                    <Badge dot theme='solid' type='success' position='leftTop'> {newItem.icon} </Badge>:
-                    <Badge dot theme='solid' type='warning' position='leftTop'> {newItem.icon} </Badge>
-            }
+            // if (newItem.isLeaf) {
+            //     const response = await chrome.runtime.sendMessage({ action: "checkLinks", urls: [item.url] })
+            //     newItem.isLiveLink = response.ok 
+            //     newItem.icon = newItem.isLiveLink ?
+            //         <Badge dot theme='solid' type='success' position='leftTop'> {newItem.icon} </Badge>:
+            //         <Badge dot theme='solid' type='warning' position='leftTop'> {newItem.icon} </Badge>
+            // }
 
             if (item.children && item.children.length > 0) {
                 newItem.children = await traverse(item.children, key);
@@ -138,22 +160,6 @@ export function BookTree() {
         loadData();
     }, [memoizedTreeData]);
 
-    // useEffect(() => {
-    //     console.log('UseEffect Called')
-    //     async function fetchData() {
-    //         const bookmarks = await chrome.bookmarks.getTree()
-    //         const [root] = bookmarks
-    //         const initialData = await remapData(root);
-    //         // console.log({ initialData })
-    //         setTreeData(initialData)
-    //     }
-    //     if (chrome.bookmarks){
-    //         fetchData();
-    //     } else {
-    //         console.log('No chrome.bookmarks')
-    //         // setTreeData(initialDatax)
-    //     }   
-    // }, []);
 
     const loop = (data, key, callback) => {
         data.forEach((item, ind, arr) => {
@@ -176,10 +182,6 @@ export function BookTree() {
             Toast.warning("Sorry, You can't drop outside of the default root folders")
             return; // Do not allow dropping to root nodes
         } 
-        // else if (!node.parentId && dropPosition === -1){
-        //     Toast.warning("Sorry, You can't drop on top of the default root folders")
-        //     return; // Do not allow dropping to root nodes
-        // }
 
         let dragObj;
         loop(data, dragKey, (item, ind, arr) => {
@@ -255,19 +257,14 @@ export function BookTree() {
         console.log('====================================================================================')
         
         globalThis.data = data
-        console.log('before reIndexing ---', data)
-
-        await moveBookmark(dragNode, node, info)
+        // console.log('c%moving to new pos', 'style', data)
         
+        await moveBookmark(dragNode, node, info)
         const root = Object.assign({}, reIndexTree({children: data}))
-        // root.children
         console.log('After reIndexing --- ', root.children)
 
         console.log("------------------------------------------------------------------------------------------------")
         setTreeData(root.children);
-        // setTreeData(root.children);
-        // setTreeData(data);
-
     };
 
     /**
@@ -281,9 +278,10 @@ export function BookTree() {
         data,
     ) => {
         if (!data.isLeaf){
-            label = `[key=${data.key}, idx=${data.index}, pKey=${data.parentKey}] ${label} - (${data?.count})`
+            // label = `[key=${data.key}, idx=${data.index}, pKey=${data.parentKey}] ${label} - (${data?.count})`
+            label = `${label} - (${data?.count})`
         } else {
-            label = `[key=${data.key}, idx=${data.index}, pKey=${data.parentKey}] ${label}`
+            // label = `[key=${data.key}, idx=${data.index}, pKey=${data.parentKey}] ${label}`
         }
         // label = `[node_id=${data.key},  bk_id=${data?.id}, bk_raw_id=${data?.raw_data?.id}, idx=${data.index}] ${label}`
         // console.log('renderLabel called', label)
@@ -295,14 +293,17 @@ export function BookTree() {
                 }}
             >
                 <span style={{ 
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
-                        textOverflow: "ellipsis"
+                        overflow: "hidden",
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis",
+                        display: "flex",
+                        justifyContent: "space-between"
                     }}
                 >
                     <EditableInput initialValue={label} bookmarkId={data.raw_data.id} />
                     {/* {label} */}
-                    </span>
+                    <LinkButtonGroup node={data} label={label} />
+                </span>
 
                 {visibleTags? <TagInput
                     clearIcon='false'
@@ -316,9 +317,23 @@ export function BookTree() {
             </span>
         );
     };
+
+    const onHoverHandler = (event) => {
+        console.info(event.target)
+    }
+
+    const renderLabel2 = (label, data) => {
+        <span data-node={data}>
+            {label}
+        </span>
+    }
+
+
     // console.log('Render called')
     return (
-        <div>
+        <div
+            onMouseOver={onHoverHandler}
+            >
             {/* <RadioGroup type='button' defaultValue={0} onChange={e => toggleVisibleTags(e.target.value)}>
                 <Radio value={1}>Show Tags</Radio>
                 <Radio value={0}>Hide</Radio>
@@ -328,12 +343,6 @@ export function BookTree() {
                 <Radio value={0}>Hide</Radio>
             </RadioGroup> */}
 
-             <>
-                 <Switch
-                     checked={true}
-                    //  onChange={this.onChange}
-                     size="small"
-                 />
                  <br />
                 <MainButtonGroup
                     treeData={treeData}
@@ -341,7 +350,12 @@ export function BookTree() {
                     selectedNodes={selectedNodes}
                 />
                  <Tree
-                    showLine
+                    style = {{
+                        margin:"0 auto",
+                        border: '1px solid var(--semi-color-border)',
+                        width: '85vw',
+                    }}
+                    // showLine
                     icon={(data)=>{
                         // this is for the ROOT icon...
                         // return <IconBookmark />
@@ -352,19 +366,22 @@ export function BookTree() {
                     // treeDataSimpleJson={}
                     multiple={isSelecting}
                     labelEllipsis
-                    filterTreeNode
+                    // filterTreeNode
                     // leafOnly
                     emptyContent={<Empty>No bookmark</Empty>}
                     expandAll
-                    renderLabel={renderLabel}
+                    renderLabel={renderLabel2}
                     // renderFullLabel={fullRenderLabel}
                     showFilteredOnly={true}
                     draggable
                     directory={true}
-                    blockNode={false}
+                    // blockNode={false}
                     hideDraggingNode
                     // onDrop={onDrop}
                     onDrop={onDrop}
+                    virtualize
+                    
+                    
                     // onChange={(value) => {
                     //     setSelectedNodes(value)
                     //     console.log('All selected values: ', value)
@@ -373,7 +390,6 @@ export function BookTree() {
                     //     console.log('Current item: ', k,v,n)}
                     // }
                  />
-             </>
         </div>
     );
 };

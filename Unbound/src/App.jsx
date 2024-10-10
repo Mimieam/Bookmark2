@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import { useState } from "react";
 import reactLogo from "./assets/folder-closed.svg";
 import { Button, Form } from '@douyinfe/semi-ui';
+import { pipeline } from '@xenova/transformers';
 
 import "./App.css";
 import { Toast } from "@douyinfe/semi-ui";
@@ -73,11 +74,40 @@ function getAllBookmarks() {
 
 function App() {
 	const [count, setCount] = useState(0);
-	
+	// const [pipe, setPipe] = useState(null);
+	// // useEffect(() => {
+
+	// // 	let pipe = await pipeline('sentiment-analysis', 'Xenova/bert-base-multilingual-uncased-sentiment');
+	// // 	let out = await pipe('I love transformers!');
+	// // 	console.log(out);
+	// // }, []);
+
+	// const loadPipeline = useCallback(async () => {
+	// 	const _pipe = await pipeline('sentiment-analysis', 'Xenova/bert-base-multilingual-uncased-sentiment');
+	// 	return _pipe;
+	// }, []);
+
+	// const memoizedPipeline = useMemo(() => loadPipeline(), [loadPipeline]);
+
+	// useEffect(() => {
+	// 	async function loadData() {
+	// 		const _pipe = await memoizedPipeline;
+	// 		if (_pipe) {
+	// 			globalThis.pipeline = pipeline
+	// 			globalThis.pipe = _pipe
+	// 			console.log('Setting up pipeline', _pipe);
+	// 			// setPipe(_pipe);
+	// 			console.log(await _pipe('I love transformers!'));
+	// 		}
+	// 	}
+	// 	loadData();
+	// }, [memoizedPipeline]);
+
+
 	return (
 		<div className="App">
 			<h1>Unbound + Me </h1>
-			<div style={{ textAlign: 'initial', width: '100vh' }}>
+			<div style={{ textAlign: 'initial'}}>
 				<BookTree />
 			</div>
 			<div>

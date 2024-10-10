@@ -127,32 +127,25 @@ export function reindexChildren(tree) {
 
     if (_tree.children) {
         _tree.children.forEach((child, index) => {
-            console.log(child.key, child.isLeaf ? "🍃" : '🟡', child.count, child.label)
+            // console.log(child.key, child.isLeaf ? "🍃" : '🟡', child.count, child.label)
             child.index = index;
             child.parentId = _tree.id;
             child.parentKey = _tree.key;
             child.key = _tree.key ? `${_tree.key }-${index}` : `${index}`;
-            child.label = child.label
-
-            // child.pos = _tree.key ? `${_tree.key }-${index}` : `${index}`;
-            // // child.count = _tree?.children.length;
-            // console.log(child.key, child.value, child.label)
-            // child.icon = getFaviconFromURL(child.value)
+            
             reindexChildren(child);
             // child.count = child.isLeaf ? 1 : 0
 
             if (child.children) {
                 child.count = child.children?.map(c => c?.count | 0).reduce((a, b) => a + b, 0)
-                // newItem.children = await traverse(item.children, key);
             } else {
-                console.log('')
                 child.count = child.isLeaf ? 1 : 0
             }
 
 
         });
         _tree.count = _tree.children.map(child => child.count | 0).reduce((a, b) => a + b, 0)
-        console.log(_tree.key, _tree.count)
+        // console.log(_tree.key, _tree.count)
     }
 
     return _tree;

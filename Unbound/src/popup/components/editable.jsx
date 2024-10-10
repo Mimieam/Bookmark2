@@ -94,7 +94,7 @@ const EditableInput = ({ bookmarkId, initialValue }) => {
                     style={{ width: '100%' }}
                 />
             ) : (
-                <span style={{ width: '100%', display: 'block' }}>{value}</span>
+                <span>{value}</span>
             )}
         </div>
     );
